@@ -9,8 +9,9 @@ CREATE TABLE "user" (
     username VARCHAR(50) NOT NULL UNIQUE,
     picture VARCHAR(255),
     app_role INTEGER NOT NULL DEFAULT 0,
+    verified BOOLEAN NOT NULL DEFAULT false,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-	updated_at TIMESTAMPTZ
+    updated_at TIMESTAMPTZ
 );
 
 CREATE TABLE "box" (
@@ -35,7 +36,7 @@ CREATE TABLE "box" (
     parent_box_id INTEGER REFERENCES "box"(id),
     on_store INTEGER NOT NULL DEFAULT 0,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-	updated_at TIMESTAMPTZ
+    updated_at TIMESTAMPTZ
 );
 
 CREATE TABLE "card" (
