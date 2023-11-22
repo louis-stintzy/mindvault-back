@@ -15,7 +15,7 @@ Logs the user to the application
 ```json
 {
     "email": "user email",
-    "password": "user password"
+    "pwd": "user password"
 }
 ```
 
@@ -27,6 +27,7 @@ A token is returned for successful authentication
 
 ```json
 {
+    "username": "user name",
     "token": "token JWT",
 }
 ```
@@ -37,8 +38,17 @@ An error is returned if the email address or password is incorrect
 
 ```json
 {
-    "errCode":1,
-    "err":"bad login"
+    "errCode":11,
+    "errMessage":"Bad login"
+} 
+```
+
+An error is returned if the password comparison fails
+
+```json
+{
+    "errCode":12,
+    "errMessage":"Another connection error"
 } 
 ```
 
@@ -52,9 +62,10 @@ Create a user account
 
 ```json
 {
-    "email": "user email",
     "username": "user name",
-    "pwd": "user password"
+    "email": "user email",
+    "password": "user password",
+    "confirmPassword": "retyped password"
 }
 ```
 
@@ -66,7 +77,7 @@ a success message is returned
 
 ```json
 {
-    "message":"account created successfully",
+    "message":"Registration successful",
     "username": "username"
 } 
 ```
@@ -77,17 +88,44 @@ An error message is returned if a field is missing
 
 ```json
 {
-    "errCode":2,
-    "errMessage":"missing field"
+    "errCode":13,
+    "errMessage":"Missing field"
 } 
 ```
 
-An error message is returned if the elements sent are invalid
+An error message is returned if the password and password confirmation are not equivalent
 
 ```json
 {
-    "errCode":3,
-    "errMessage":"invalid elements"
+    "errCode":14,
+    "errMessage":"Passwords do not match"
+} 
+```
+
+An error message is returned if the string is not an email
+
+```json
+{
+    "errCode":15,
+    "errMessage":"Invalid email"
+} 
+```
+
+An error message is returned if the string cannot be considered a strong password
+
+```json
+{
+    "errCode":16,
+    "errMessage":"Invalid password"
+} 
+```
+
+An error message is returned if the username is less than 3 characters or more than 49
+
+```json
+{
+    "errCode":17,
+    "errMessage":"Invalid username"
 } 
 ```
 
@@ -95,7 +133,7 @@ An error message is returned if the user already exists. The message is delibera
 
 ```json
 {
-    "errCode":4,
-    "errMessage":"account creation fails."
+    "errCode":18,
+    "errMessage":"Account creation fails."
 } 
 ```
