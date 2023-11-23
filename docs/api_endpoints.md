@@ -15,7 +15,7 @@ Logs the user to the application
 ```json
 {
     "email": "user email",
-    "pwd": "user password"
+    "password": "user password"
 }
 ```
 
@@ -40,6 +40,17 @@ An error is returned if the email address or password is incorrect
 {
     "errCode":11,
     "errMessage":"Bad login"
+} 
+```
+
+##### 500 Internal Server Error <!-- {#login-section} -->
+
+An error is returned if an unexpected server error occurs during the login process.
+
+```json
+{
+    "errCode":0,
+    "errMessage":"A server error occurred during login"
 } 
 ```
 
@@ -126,5 +137,25 @@ An error message is returned if the user already exists (email or username). The
 {
     "errCode":18,
     "errMessage":"Email address or username already used"
+} 
+```
+
+##### 500 Internal Server Error <!-- {#register-section} -->
+
+An error is returned if an unexpected server error occurs during the registration process.
+
+```json
+{
+    "errCode":1,
+    "errMessage":"A server error occurred during registration"
+} 
+```
+
+An error is returned if an unexpected server error occurs during the user verification process (check if the user already exists).
+
+```json
+{
+    "errCode":2,
+    "errMessage":"A server error occurred during user verification"
 } 
 ```

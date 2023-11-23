@@ -2,33 +2,40 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userDataMapper = require('../dataMappers/userDataMapper');
 
-
-// Import the data mapper (replace DataMapper with the actual name of your data mapper)
-// const DataMapper = require('../dataMapper');
+const checkIfUserExists = async (username, email) => {
+  try {
+    const userExistsByUsername = await userDataMapper.getUserViaField('username', username);
+    const userExistsByEmail = await userDataMapper.getUserViaField('email', email);
+    return userExistsByUsername || userExistsByEmail;
+  } catch (error) {
+    console.error('Error during user verification:', error);
+    res.status(500).json({ errCode: 2, errMessage: 'An server error occurred during user verification' });
+  }
+};
 
 // Login controller
 const login = async (req, res) => {
   try {
-    // Get the email and password from the request body and
+    // Get the email and password from the request body
     // Call the login method of the data mapper to retrieve the user
-    const { email, pwd } = req.body;
+    const { email, password } = req.body;
     const user = await userDataMapper.getUserViaField('email', email);
     // If the user is not found, return an error response
     // If the user is found, compare the password with the stored (hashed) password
     if (!user) {
-      res.status(401).json({ errCode: 11, errMessage: 'bad login' });
+      return res.status(401).json({ errCode: 11, errMessage: 'bad login' });
     }
-    const match = await bcrypt.compare(pwd, user.pwd);
+    const match = await bcrypt.compare(password, user.pwd);
     // If the password is incorrect, return an error response
     // If the password is correct, return a success response with a JWT token
     if (!match) {
-      res.status(401).json({ errCode: 11, errMessage: 'bad login' });
+      return res.status(401).json({ errCode: 11, errMessage: 'bad login' });
     }
     const token = jwt.sign({ username: user.username }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-    res.status(200).json({ username: user.username, token });
+    return res.status(200).json({ username: user.username, token });
   } catch (error) {
-    console.log({ loginError: error });
-    res.status(500).json({ errCode: 0, errMessage: 'An server error occurred during login' });
+    console.error({ loginError: error });
+    return res.status(500).json({ errCode: 0, errMessage: 'An server error occurred during login' });
   }
 };
 
@@ -37,16 +44,22 @@ const register = async (req, res) => {
   try {
     // Get the username, email and password from the request body
     // Data validation was done in the upstream middelware
+    // Checks if the user already exists
     // Hash the password
     // Call the createAccount method of the data mapper to create the user
     const { username, email, password } = req.body;
+    const userExist = await checkIfUserExists(username, email);
+    if (userExist) {
+      return res.status(400).json({ errCode: 18, errMessage: 'Email address or username already used' });
+    }
     const hash = await bcrypt.hash(password, 10);
     const newUser = await userDataMapper.createAccount(username, email, hash);
     // Return a success response with the newly created username
-    res.status(201).json({ message: 'Registration successful', username: newUser.username });
+    return res.status(201).json({ message: 'Registration successful', username: newUser.username });
   } catch (error) {
     // If there's an error, return an error response
-    res.status(500).json({ errCode: 1, errMessage: 'An server error occurred during registration' });
+    console.error({ registerError: error });
+    return res.status(500).json({ errCode: 1, errMessage: 'An server error occurred during registration' });
   }
 };
 

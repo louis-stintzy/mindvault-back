@@ -1,5 +1,4 @@
 const validator = require('validator');
-const userDataMapper = require('../dataMappers/userDataMapper');
 
 const checkEmail = (email) => {
   if (!email) {
@@ -40,16 +39,6 @@ const checkUsername = (username) => {
   return null;
 };
 
-const checkIfUserExists = async(username, email) => {
-  try {
-    const userExistsByUsername = await userDataMapper.getUserViaField('username', username);
-    const userExistsByEmail = await userDataMapper.getUserViaField('email', email);
-    return userExistsByUsername || userExistsByEmail;
-  } catch (error) {
-    res.status(500).json({ errCode: 2, errMessage: 'An server error occurred during user verification' });
-  }
-}
-
 const checkLoginForm = (req, res, next) => {
   const { email, password } = req.body;
   const errors = [];
@@ -70,14 +59,12 @@ const checkRegistrationForm = (req, res, next) => {
   const usernameError = checkUsername(username);
   const emailError = checkEmail(email);
   const passwordError = checkPassword2(password, confirmPassword);
-  const userExist = checkIfUserExists(username, email);
+  // const userExist = checkIfUserExists(username, email);
   if (usernameError) errors.push(usernameError);
   if (emailError) errors.push(emailError);
   if (passwordError) errors.push(passwordError);
   if (errors.length > 0) {
     res.status(400).json({ errorsArray: errors });
-  } else if (userExist) {
-    res.status(400).json({ errCode: 18, errMessage: 'Email address or username already used' });
   } else {
     next();
   }
