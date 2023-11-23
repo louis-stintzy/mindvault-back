@@ -59,7 +59,6 @@ const checkRegistrationForm = (req, res, next) => {
   const usernameError = checkUsername(username);
   const emailError = checkEmail(email);
   const passwordError = checkPassword2(password, confirmPassword);
-  // const userExist = checkIfUserExists(username, email);
   if (usernameError) errors.push(usernameError);
   if (emailError) errors.push(emailError);
   if (passwordError) errors.push(passwordError);

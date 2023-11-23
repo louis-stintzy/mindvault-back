@@ -32,6 +32,17 @@ A token is returned for successful authentication
 }
 ```
 
+##### 400 Bad request <!-- {#login-section} -->
+
+An error message is returned if a field is missing
+
+```json
+{
+    "errCode":13,
+    "errMessage":"Missing field"
+} 
+```
+
 ##### 401 Unauthorized <!-- {#login-section} -->
 
 An error is returned if the email address or password is incorrect
