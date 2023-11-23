@@ -1,0 +1,22 @@
+{
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2022
+    },
+    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "plugins": ["prettier"],
+    "rules": {
+      "indent": ["error", 2],
+      "semi": ["error", "always"],
+      "no-multi-spaces": "error",
+      "no-trailing-spaces": "error",
+      "eol-last": "error",
+      "no-extra-semi": "error",
+      "no-multiple-empty-lines": ["error", { "max": 2 }],
+      "prefer-const": "error",
+      "no-var": "error"
+    }
+  }

@@ -6,10 +6,11 @@
 | :------------ |:---------------| :------------------------|:--------------- |
 | id            | int            | PRIMARY KEY              | Identifiant unique de l'utilisateur |
 | email         | VARCHAR(255)   | NOT NULL UNIQUE          | Adresse email unique de l'utilisateur pouvant servir à s'identifier |
-| password      | CHAR(60)       | NOT NULL                 | Mot de passe (hashé) |
+| pwd           | CHAR(60)       | NOT NULL                 | Mot de passe (hashé) |
 | username      | VARCHAR(50)    | NOT NULL UNIQUE          | Nom d'utilisateur, unique |
 | user_picture  | VARCHAR(255)   |                          | Chemin vers la photo de profil   |
-| app_role      | int            | NOT NULL DEFAULT 0            | Indique le rôle de l'utilisateur (0: pas de rôle, rôle à déterminer pour l'administrateur) |
+| app_role      | int            | NOT NULL DEFAULT 0       | Indique le rôle de l'utilisateur (0: pas de rôle, rôle à déterminer pour l'administrateur) |
+| verified      | BOOLEAN        | NOT NULL DEFAULT false   | Indique si l'adresse mail a été vérifiée |
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
 
