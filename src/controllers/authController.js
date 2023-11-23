@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const userDataMapper = require('../dataMappers/userDataMapper');
 
+
 // Import the data mapper (replace DataMapper with the actual name of your data mapper)
 // const DataMapper = require('../dataMapper');
 
@@ -11,29 +12,20 @@ const login = async (req, res) => {
     // Get the email and password from the request body and
     // Call the login method of the data mapper to retrieve the user
     const { email, pwd } = req.body;
-    const user = await userDataMapper.getUserViaHisEmail(email);
-
+    const user = await userDataMapper.getUserViaField('email', email);
     // If the user is not found, return an error response
     // If the user is found, compare the password with the stored (hashed) password
     if (!user) {
       res.status(401).json({ errCode: 11, errMessage: 'bad login' });
-    } else {
-      await bcrypt.compare(pwd, user.pwd, function (err, result) {
-        if (err) {
-          console.log({ bcryptError: err });
-          res.status(401).json({ errCode: 12, errMessage: 'another connection error' });
-        } else {
-          // If the password is incorrect, return an error response
-          // If the password is correct, return a success response with a JWT token
-          if (result === false) {
-            res.status(401).json({ errCode: 11, errMessage: 'bad login' });
-          } else {
-            const token = jwt.sign({ username: user.username }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
-            res.status(200).json({ username: user.username, token: token });
-          }
-        }
-      });
     }
+    const match = await bcrypt.compare(pwd, user.pwd);
+    // If the password is incorrect, return an error response
+    // If the password is correct, return a success response with a JWT token
+    if (!match) {
+      res.status(401).json({ errCode: 11, errMessage: 'bad login' });
+    }
+    const token = jwt.sign({ username: user.username }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+    res.status(200).json({ username: user.username, token });
   } catch (error) {
     console.log({ loginError: error });
     res.status(500).json({ errCode: 0, errMessage: 'An server error occurred during login' });
@@ -49,7 +41,7 @@ const register = async (req, res) => {
     // Call the createAccount method of the data mapper to create the user
     const { username, email, password } = req.body;
     const hash = await bcrypt.hash(password, 10);
-    const newUser = await userDataMapper.createAccount(email, username, hash);
+    const newUser = await userDataMapper.createAccount(username, email, hash);
     // Return a success response with the newly created username
     res.status(201).json({ message: 'Registration successful', username: newUser.username });
   } catch (error) {
@@ -63,4 +55,4 @@ const authController = {
   register,
 };
 
-export default authController;
+module.exports = authController;

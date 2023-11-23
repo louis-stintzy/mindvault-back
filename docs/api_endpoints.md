@@ -43,15 +43,6 @@ An error is returned if the email address or password is incorrect
 } 
 ```
 
-An error is returned if the password comparison fails
-
-```json
-{
-    "errCode":12,
-    "errMessage":"Another connection error"
-} 
-```
-
 ### Register
 
 Create a user account
@@ -129,11 +120,11 @@ An error message is returned if the username is less than 3 characters or more t
 } 
 ```
 
-An error message is returned if the user already exists. The message is deliberately not explicit for security reasons (not revealing information about existing accounts)
+An error message is returned if the user already exists (email or username). The message is deliberately not explicit for security reasons (not revealing information about existing accounts)
 
 ```json
 {
     "errCode":18,
-    "errMessage":"Account creation fails."
+    "errMessage":"Email address or username already used"
 } 
 ```
