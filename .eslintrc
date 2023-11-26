@@ -1,12 +1,15 @@
 {
     "env": {
-      "es6": true,
+      "es2021": true,
       "node": true
     },
     "parserOptions": {
       "ecmaVersion": 2022
     },
-    "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+    "extends": [
+      "airbnb-base",
+      "prettier"
+    ],
     "plugins": ["prettier"],
     "rules": {
       "indent": ["error", 2],

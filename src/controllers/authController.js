@@ -9,7 +9,12 @@ const checkIfUserExists = async (username, email) => {
     return userExistsByUsername || userExistsByEmail;
   } catch (error) {
     console.error('Error during user verification:', error);
-    res.status(500).json({ errCode: 2, errMessage: 'An server error occurred during user verification' });
+    const checkError = new Error('Error during user verification');
+    checkError.status = 500;
+    checkError.errCode = 2;
+    checkError.errMessage = 'An server error occurred during user verification';
+    throw checkError;
+    // res.status(500).json({ errCode: 2, errMessage: 'An server error occurred during user verification' });
   }
 };
 

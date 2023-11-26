@@ -14,6 +14,7 @@ const checkPassword1 = (password) => {
   if (!password) {
     return { errCode: 13, errMessage: 'missing field' };
   }
+  return null;
 };
 
 const checkPassword2 = (password, confirmPassword) => {
