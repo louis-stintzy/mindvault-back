@@ -48,7 +48,7 @@ const checkLoginForm = (req, res, next) => {
   if (passwordError) errors.push(passwordError);
   if (emailError) errors.push(emailError);
   if (errors.length > 0) {
-    res.status(400).json({ errorsArray: errors });
+    res.status(400).json(errors);
   } else {
     next();
   }
@@ -64,7 +64,7 @@ const checkRegistrationForm = (req, res, next) => {
   if (emailError) errors.push(emailError);
   if (passwordError) errors.push(passwordError);
   if (errors.length > 0) {
-    res.status(400).json({ errorsArray: errors });
+    res.status(400).json(errors);
   } else {
     next();
   }

@@ -28,19 +28,19 @@ const login = async (req, res) => {
     // If the user is not found, return an error response
     // If the user is found, compare the password with the stored (hashed) password
     if (!user) {
-      return res.status(401).json({ errCode: 11, errMessage: 'bad login' });
+      return res.status(401).json([{ errCode: 11, errMessage: 'bad login' }]);
     }
     const match = await bcrypt.compare(password, user.pwd);
     // If the password is incorrect, return an error response
     // If the password is correct, return a success response with a JWT token
     if (!match) {
-      return res.status(401).json({ errCode: 11, errMessage: 'bad login' });
+      return res.status(401).json([{ errCode: 11, errMessage: 'bad login' }]);
     }
     const token = jwt.sign({ username: user.username }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
     return res.status(200).json({ username: user.username, token });
   } catch (error) {
     console.error({ loginError: error });
-    return res.status(500).json({ errCode: 0, errMessage: 'An server error occurred during login' });
+    return res.status(500).json([{ errCode: 0, errMessage: 'An server error occurred during login' }]);
   }
 };
 
@@ -55,7 +55,7 @@ const register = async (req, res) => {
     const { username, email, password } = req.body;
     const userExist = await checkIfUserExists(username, email);
     if (userExist) {
-      return res.status(400).json({ errCode: 18, errMessage: 'Email address or username already used' });
+      return res.status(400).json([{ errCode: 18, errMessage: 'Email address or username already used' }]);
     }
     const hash = await bcrypt.hash(password, 10);
     const newUser = await userDataMapper.createAccount(username, email, hash);
@@ -64,7 +64,7 @@ const register = async (req, res) => {
   } catch (error) {
     // If there's an error, return an error response
     console.error({ registerError: error });
-    return res.status(500).json({ errCode: 1, errMessage: 'An server error occurred during registration' });
+    return res.status(500).json([{ errCode: 1, errMessage: 'An server error occurred during registration' }]);
   }
 };
 
