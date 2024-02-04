@@ -68,9 +68,14 @@ const register = async (req, res) => {
   }
 };
 
+const validateToken = (req, res) => {
+  res.status(200).json({ message: 'Token is valid' });
+};
+
 const authController = {
   login,
   register,
+  validateToken,
 };
 
 module.exports = authController;

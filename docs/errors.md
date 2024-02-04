@@ -11,4 +11,6 @@
 | 15      | Invalid email                         | Email format is invalid                |
 | 16      | Invalid password                      | Password does not meet requirements    |
 | 17      | Invalid username                      | Username length is invalid             |
-| 18      | Email address or username already used | User already exists (email or username) |
+| 18      | Email address or username already used | User already exists (email or username)                             |
+| 21      | Missing token                          | No token is provided or the token is missing in the request headers |
+| 22      | Bad token                              | The token is invalid or expired                                     |
