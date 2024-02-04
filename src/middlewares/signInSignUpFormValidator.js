@@ -90,3 +90,5 @@ module.exports = {
 //   pointsForContainingNumber: 10,
 //   pointsForContainingSymbol: 10
 // }
+
+// TODO: verif que le username n'est pas dans le password (+gestion d'erreur associé)

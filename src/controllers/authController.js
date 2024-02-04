@@ -36,7 +36,7 @@ const login = async (req, res) => {
     if (!match) {
       return res.status(401).json([{ errCode: 11, errMessage: 'bad login' }]);
     }
-    const token = jwt.sign({ username: user.username }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ username: user.id }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
     return res.status(200).json({ username: user.username, token });
   } catch (error) {
     console.error({ loginError: error });
@@ -60,7 +60,7 @@ const register = async (req, res) => {
     const hash = await bcrypt.hash(password, 10);
     const newUser = await userDataMapper.createAccount(username, email, hash);
     // Return a success response with the newly created username
-    return res.status(201).json({ message: 'Registration successful', username: newUser.username });
+    return res.status(201).json({ message: 'Successful registration ! You can log in.', username: newUser.username });
   } catch (error) {
     // If there's an error, return an error response
     console.error({ registerError: error });
