@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { checkLoginForm, checkRegistrationForm } = require('./middlewares/signInSignUpFormValidator');
-const { authenticateToken } = require('./middlewares/authenticateToken');
+const authenticateToken = require('./middlewares/authenticateToken');
 const authController = require('./controllers/authController');
 
 const router = Router();

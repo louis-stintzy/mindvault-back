@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
 
+// TODO: vérifier que le token envoyé n'est pas blacklisté
+
 // eslint-disable-next-line consistent-return
 const authenticateToken = (req, res, next) => {
   // Récupère la valeur du header Authorization de la requête HTTP
