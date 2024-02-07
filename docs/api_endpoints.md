@@ -170,3 +170,49 @@ An error is returned if an unexpected server error occurs during the user verifi
     "errMessage":"A server error occurred during user verification"
 } 
 ```
+
+### Validate Token
+
+Validates the user's JWT to confirm they are authenticated.
+
+``` GET /api/user/validateToken ```
+
+#### Headers  <!-- {#validateToken-section} -->
+
+```plaintext
+Authorization: Bearer <your_token_here>
+```
+
+#### Responses <!-- {#validateToken-section} -->
+
+##### 200 OK <!-- {#validateToken-section} -->
+
+Indicates the token is valid.
+
+```json
+{
+    "message": "Token is valid",
+}
+```
+
+##### 401 Unauthorized <!-- {#validateToken-section} -->
+
+An error is returned if no token is provided or the token is missing in the request headers.
+
+```json
+{
+    "errCode":21,
+    "errMessage":"Missing token"
+} 
+```
+
+##### 403 Forbidden  <!-- {#validateToken-section} -->
+
+An error is returned if the token is invalid or expired.
+
+```json
+{
+    "errCode":21,
+    "errMessage":"Bad token"
+} 
+```

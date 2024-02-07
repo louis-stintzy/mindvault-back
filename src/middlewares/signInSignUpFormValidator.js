@@ -14,6 +14,7 @@ const checkPassword1 = (password) => {
   if (!password) {
     return { errCode: 13, errMessage: 'missing field' };
   }
+  return null;
 };
 
 const checkPassword2 = (password, confirmPassword) => {
@@ -47,7 +48,7 @@ const checkLoginForm = (req, res, next) => {
   if (passwordError) errors.push(passwordError);
   if (emailError) errors.push(emailError);
   if (errors.length > 0) {
-    res.status(400).json({ errorsArray: errors });
+    res.status(400).json(errors);
   } else {
     next();
   }
@@ -63,7 +64,7 @@ const checkRegistrationForm = (req, res, next) => {
   if (emailError) errors.push(emailError);
   if (passwordError) errors.push(passwordError);
   if (errors.length > 0) {
-    res.status(400).json({ errorsArray: errors });
+    res.status(400).json(errors);
   } else {
     next();
   }
@@ -89,3 +90,5 @@ module.exports = {
 //   pointsForContainingNumber: 10,
 //   pointsForContainingSymbol: 10
 // }
+
+// TODO: verif que le username n'est pas dans le password (+gestion d'erreur associé)
