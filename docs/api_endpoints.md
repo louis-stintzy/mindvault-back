@@ -216,3 +216,103 @@ An error is returned if the token is invalid or expired.
     "errMessage":"Bad token"
 } 
 ```
+
+## Box
+
+Operations about boxes
+
+### Get Boxes
+
+Lists the user's boxes.
+
+``` GET /api/box/getBoxes ```
+
+#### Responses <!-- {#getBoxes-section} -->
+
+##### 200 OK <!-- {#getBoxes-section} -->
+
+A list of boxes is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 500 Internal Server Error <!-- {#getBoxes-section} -->
+
+An error is returned if an unexpected server error occurs during the retrieval of the user's boxes.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":31,
+    "errMessage":"A server error occurred when retrieving the boxes"
+} 
+```
+
+### Create Box
+
+Create a new box.
+
+``` POST /api/box/createBox ```
+
+#### Request body <!-- {#createBox-section} -->
+
+```json
+{
+    "name": "Box name",
+    "description": "Description",
+    "boxPicture": "Path to the box illustration",
+    "color":"Colour associated with the box",
+    "label": "Label (theme) of the box",
+    "level":"Level of difficulty of questions",
+    "learnIt": "Box in training ?",
+    "type":"Type of box, see data_dictionary"
+}
+```
+
+#### Responses <!-- {#createBox-section} -->
+
+##### 200 OK <!-- {#createBox-section} -->
+
+The new box is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#createBox-section} -->
+
+An error message is returned if a field is missing (name, learnIt, type)
+
+```json
+{
+    "errCode":33,
+    "errMessage":"Missing required fields"
+} 
+```
+
+An error is returned if the box type entered is incorrect (is not 1, 2 or 3)
+
+```json
+{
+    "errCode":34,
+    "errMessage":"Invalid box type"
+} 
+```
+
+An error is returned if the box type entered is 1 or 3
+
+```json
+{
+    "errCode":35,
+    "errMessage":"Box type not yet implemented"
+} 
+```
+
+##### 500 Internal Server Error <!-- {#createBox-section} -->
+
+An error is returned if an unexpected server error occurs when creating a box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":32,
+    "errMessage":"A server error occurred when creating the box"
+} 
+```

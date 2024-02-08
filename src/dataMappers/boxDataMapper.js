@@ -3,6 +3,7 @@ const { pool } = require('../database');
 
 async function getBoxes(userId) {
   try {
+    // TODO : SELECT * ou SELECT qu'une partie des champs
     const query = `SELECT * FROM "box" WHERE owner_id = $1`;
     const boxesList = await pool.query(query, [userId]);
     return boxesList.rows;
@@ -41,7 +42,7 @@ async function createBox(userId, name, description, boxPicture, color, label, le
         const updateResult = await client.query(updateQuery, updateValues);
         // Valide la transaction si tout est ok et retourne le résultat
         await client.query('COMMIT');
-        // TODO: Selectionner les infos retournées
+        // TODO: Selectionner les infos retournées, voir dans le RETURNING
         return updateResult.rows[0];
       }
 
