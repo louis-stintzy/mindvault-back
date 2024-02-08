@@ -1,9 +1,10 @@
-const client = require('../database');
+// const client = require('../database');
+const { pool } = require('../database');
 
 async function getBoxes(userId) {
   try {
     const query = `SELECT * FROM "box" WHERE owner_id = $1`;
-    const boxesList = await client.query(query, [userId]);
+    const boxesList = await pool.query(query, [userId]);
     return boxesList.rows;
   } catch (error) {
     console.error('Error during box retrieval:', error);
@@ -12,6 +13,8 @@ async function getBoxes(userId) {
 }
 
 async function createBox(userId, name, description, boxPicture, color, label, level, learnIt, type) {
+  const client = await pool.connect();
+
   try {
     // On commence une transaction
     await client.query('BEGIN');
@@ -36,7 +39,7 @@ async function createBox(userId, name, description, boxPicture, color, label, le
           'UPDATE "box" SET original_box_id = $1, original_box_created_at = $2 WHERE id=$3 RETURNING *';
         const updateValues = [newBoxId, newBoxCreatedAt, newBoxId];
         const updateResult = await client.query(updateQuery, updateValues);
-        // On commit la transaction et on retourne le résultat
+        // Valide la transaction si tout est ok et retourne le résultat
         await client.query('COMMIT');
         // TODO: Selectionner les infos retournées
         return updateResult.rows[0];
