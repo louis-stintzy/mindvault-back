@@ -305,6 +305,15 @@ An error is returned if the box type entered is 1 or 3
 } 
 ```
 
+An error is returned if the learnIt value is not Boolean
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid learnIt value"
+} 
+```
+
 ##### 500 Internal Server Error <!-- {#createBox-section} -->
 
 An error is returned if an unexpected server error occurs when creating a box.

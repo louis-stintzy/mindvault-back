@@ -20,11 +20,14 @@ const createBox = async (req, res) => {
     if (!name || !learnIt || !type) {
       return res.status(400).json([{ errCode: 33, errMessage: 'Missing required fields' }]);
     }
-    if (type !== '1' && type !== '2' && type !== '3') {
+    if (type !== 1 && type !== 2 && type !== 3) {
       return res.status(400).json([{ errCode: 34, errMessage: 'Invalid box type' }]);
     }
-    if (type === '1' || type === '3') {
+    if (type === 1 || type === 3) {
       return res.status(400).json([{ errCode: 35, errMessage: 'Box type not yet implemented' }]);
+    }
+    if (typeof learnIt !== 'boolean') {
+      return res.status(400).json([{ errCode: 36, errMessage: 'Invalid learnIt value' }]);
     }
     const createdBox = await boxDataMapper.createBox(
       userId,

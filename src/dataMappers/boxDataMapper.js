@@ -22,16 +22,18 @@ async function createBox(userId, name, description, boxPicture, color, label, le
 
     switch (type) {
       // 1: Box contenant d'autres box
-      case '1':
+      case 1:
         console.log('BoxDataMapper : Type 1 not yet implemented');
         throw new Error('BoxDataMapper : Type 1 not yet implemented');
 
       // 2: Box ne contenant pas d'autres box, contenant seulement des cards
-      case '2': {
+      case 2: {
+        // TODO: -- Augmenter la position des boxes existantes de 1
+        // UPDATE box SET position = position + 1 WHERE owner_id = $1;
         // 1ere requête : Création de la box
         const insertQuery =
-          'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
-        const insertValues = [userId, userId, name, description, boxPicture, color, label, level, learnIt, type];
+          'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, position, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
+        const insertValues = [userId, userId, name, description, boxPicture, color, label, level, 1, learnIt, type];
         const insertResult = await client.query(insertQuery, insertValues);
         const newBoxId = insertResult.rows[0].id;
         const newBoxCreatedAt = insertResult.rows[0].created_at;
@@ -47,7 +49,7 @@ async function createBox(userId, name, description, boxPicture, color, label, le
       }
 
       // 3: Box contenue dans une autre box et contenant des cards
-      case '3':
+      case 3:
         console.log('BoxDataMapper : Type 3 not yet implemented');
         throw new Error('BoxDataMapper : Type 3 not yet implemented');
 

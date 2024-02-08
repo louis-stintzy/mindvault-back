@@ -36,7 +36,7 @@ const login = async (req, res) => {
     if (!match) {
       return res.status(401).json([{ errCode: 11, errMessage: 'bad login' }]);
     }
-    const token = jwt.sign({ username: user.id }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, { expiresIn: '24h' });
     return res.status(200).json({ username: user.username, token });
   } catch (error) {
     console.error({ loginError: error });

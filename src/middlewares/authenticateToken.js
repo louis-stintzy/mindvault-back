@@ -23,7 +23,7 @@ const authenticateToken = (req, res, next) => {
       return res.status(403).json([{ errCode: 22, errMessage: 'Bad token' }]);
     }
     // Si le token est valide, on ajoute les infos utilisateur à l'objet req pour un usage ultérieur
-    req.user = user;
+    req.user = user.id;
     // Passer au prochain middleware ou contrôleur
     next();
   });
