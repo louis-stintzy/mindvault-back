@@ -12,7 +12,7 @@ const checkIfUserExists = async (username, email) => {
     const checkError = new Error('Error during user verification');
     checkError.status = 500;
     checkError.errCode = 2;
-    checkError.errMessage = 'An server error occurred during user verification';
+    checkError.errMessage = 'A server error occurred during user verification';
     throw checkError;
     // res.status(500).json({ errCode: 2, errMessage: 'An server error occurred during user verification' });
   }
@@ -40,7 +40,7 @@ const login = async (req, res) => {
     return res.status(200).json({ username: user.username, token });
   } catch (error) {
     console.error({ loginError: error });
-    return res.status(500).json([{ errCode: 0, errMessage: 'An server error occurred during login' }]);
+    return res.status(500).json([{ errCode: 0, errMessage: 'A server error occurred during login' }]);
   }
 };
 
@@ -64,7 +64,7 @@ const register = async (req, res) => {
   } catch (error) {
     // If there's an error, return an error response
     console.error({ registerError: error });
-    return res.status(500).json([{ errCode: 1, errMessage: 'An server error occurred during registration' }]);
+    return res.status(500).json([{ errCode: 1, errMessage: 'A server error occurred during registration' }]);
   }
 };
 
