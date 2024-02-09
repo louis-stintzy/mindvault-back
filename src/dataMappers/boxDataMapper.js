@@ -4,7 +4,7 @@ const { pool } = require('../database');
 async function getBoxes(userId) {
   try {
     // TODO : SELECT * ou SELECT qu'une partie des champs
-    const query = `SELECT * FROM "box" WHERE owner_id = $1`;
+    const query = `SELECT * FROM "box" WHERE owner_id = $1 ORDER BY position ASC`;
     const boxesList = await pool.query(query, [userId]);
     return boxesList.rows;
   } catch (error) {
@@ -28,16 +28,18 @@ async function createBox(userId, name, description, boxPicture, color, label, le
 
       // 2: Box ne contenant pas d'autres box, contenant seulement des cards
       case 2: {
-        // TODO: -- Augmenter la position des boxes existantes de 1
-        // UPDATE box SET position = position + 1 WHERE owner_id = $1;
-        // 1ere requête : Création de la box
+        // ----- 1ere requête : Augmentation de la position des boxes existantes
+        const updatePositionQuery = 'UPDATE "box" SET position = position + 1 WHERE owner_id = $1';
+        const updatePositionValues = [userId];
+        await client.query(updatePositionQuery, updatePositionValues);
+        // ----- 2eme requête : Création de la box
         const insertQuery =
           'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, position, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
         const insertValues = [userId, userId, name, description, boxPicture, color, label, level, 1, learnIt, type];
         const insertResult = await client.query(insertQuery, insertValues);
         const newBoxId = insertResult.rows[0].id;
         const newBoxCreatedAt = insertResult.rows[0].created_at;
-        // 2eme requête : Enregistrement des infos résultant de la création de la box
+        // ----- 3eme requête : Enregistrement des infos résultant de la création de la box
         const updateQuery =
           'UPDATE "box" SET original_box_id = $1, original_box_created_at = $2 WHERE id=$3 RETURNING *';
         const updateValues = [newBoxId, newBoxCreatedAt, newBoxId];
