@@ -1,3 +1,4 @@
+const validator = require('validator');
 const cardDataMapper = require('../dataMappers/cardDataMapper');
 
 const getCards = async (req, res) => {
@@ -19,7 +20,12 @@ const createCard = async (req, res) => {
     if (!question || !answer) {
       return res.status(400).json([{ errCode: 53, errMessage: 'Missing required fields' }]);
     }
-    const createdCard = await cardDataMapper.createCard(boxId, userId, question, answer, attachment);
+
+    // Sanitize user inputs
+    const sanitizedQuestion = validator.escape(question);
+    const sanitizedAnswer = validator.escape(answer);
+
+    const createdCard = await cardDataMapper.createCard(boxId, userId, sanitizedQuestion, sanitizedAnswer, attachment);
     return res.status(201).json(createdCard);
   } catch (error) {
     console.log({ createCardError: error });

@@ -1,3 +1,4 @@
+const validator = require('validator');
 const boxDataMapper = require('../dataMappers/boxDataMapper');
 
 // const getBoxById = async (id) => {
@@ -39,14 +40,21 @@ const createBox = async (req, res) => {
     // if (typeof learnIt !== 'boolean') {
     //   return res.status(400).json([{ errCode: 36, errMessage: 'Invalid learnIt value' }]);
     // }
+
+    // Sanitize user inputs
+    const sanitizedName = validator.escape(name);
+    const sanitizedDescription = validator.escape(description);
+    const sanitizedLabel = validator.escape(label);
+    const sanitizedLevel = validator.escape(level);
+
     const createdBox = await boxDataMapper.createBox(
       userId,
-      name,
-      description,
+      sanitizedName,
+      sanitizedDescription,
       boxPicture,
       color,
-      label,
-      level,
+      sanitizedLabel,
+      sanitizedLevel,
       learnIt,
       type
     );
