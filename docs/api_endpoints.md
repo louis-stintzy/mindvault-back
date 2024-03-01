@@ -305,14 +305,14 @@ An error is returned if the box type entered is 1 or 3
 } 
 ```
 
-An error is returned if the learnIt value is not Boolean
+<!-- An error is returned if the learnIt value is not Boolean
 
 ```json
 {
     "errCode":36,
     "errMessage":"Invalid learnIt value"
 } 
-```
+``` -->
 
 ##### 500 Internal Server Error <!-- {#createBox-section} -->
 
@@ -328,3 +328,94 @@ Remember to look at the backend console for more information.
 
 ## Card
 
+Operations about cards
+
+### Get Cards
+
+Lists the cards in a box.
+
+``` GET /api/box/:id/getCards/ ```
+
+#### Responses <!-- {#getCards-section} -->
+
+##### 200 OK <!-- {#getCards-section} -->
+
+A list of cards is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 403 Forbidden  <!-- {#getCards-section} -->
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":37,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":38,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
+
+##### 500 Internal Server Error <!-- {#getCards-section} -->
+
+An error is returned if an unexpected server error occurs during the retrieval of the list of cards.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":36,
+    "errMessage":"A server error occurred when verifying the box owner"
+} 
+```
+
+### Create Card
+
+Create a new card.
+
+``` POST /api/box/:id/createCard ```
+
+#### Request body <!-- {#createCard-section} -->
+
+```json
+{
+    "question": "Box name",
+    "answer": "Description",
+    "attachment": "Path to the box illustration",
+}
+```
+
+#### Responses <!-- {#createCard-section} -->
+
+##### 200 OK <!-- {#createCard-section} -->
+
+The new card is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#createCard-section} -->
+
+<!-- TODO : à compléter -->
+An error message is returned if ... 
+
+##### 500 Internal Server Error <!-- {#createCard-section} -->
+
+An error is returned if an unexpected server error occurs when creating a card.
+Remember to look at the backend console for more information.
+
+<!-- TODO : à compléter -->
+```json
+{
+    "errCode":,
+    "errMessage":""
+} 
+```
