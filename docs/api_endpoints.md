@@ -325,3 +325,6 @@ Remember to look at the backend console for more information.
     "errMessage":"A server error occurred when creating the box"
 } 
 ```
+
+## Card
+

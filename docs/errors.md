@@ -19,4 +19,6 @@
 | 33      | Missing required fields                                  | A field is missing (name, learnIt, type)             |
 | 34      | Invalid box type                                         | The box type entered is incorrect (is not 1, 2 or 3) |
 | 35      | Box type not yet implemented                             | The box type entered is 1 or 3 , enter 2             |
-| 36      | Invalid learnIt value                                    | Must be true or false                                |
+| 36      | A server error occurred when verifying the box owner     | A server error occurred when verifying the box owner |
+| 37      | Unauthorised users                                       | The box does not exist or is not owned by the user   |
+| 38      | Unauthorised users                                       | The box does not exist or is not owned by the user   |

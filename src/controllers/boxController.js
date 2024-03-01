@@ -1,5 +1,15 @@
 const boxDataMapper = require('../dataMappers/boxDataMapper');
 
+// const getBoxById = async (id) => {
+//   try {
+//     const box = await boxDataMapper.getBoxById(id);
+//     return box;
+//   } catch (error) {
+//     console.error({ getBoxByIdError: error });
+//     throw error;
+//   }
+// };
+
 const getBoxes = async (req, res) => {
   try {
     // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
@@ -17,7 +27,8 @@ const createBox = async (req, res) => {
     // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
     const userId = req.user;
     const { name, description, boxPicture, color, label, level, learnIt, type } = req.body;
-    if (!name || !learnIt || !type) {
+    if (!name || typeof learnIt !== 'boolean' || !type) {
+      console.log({ name, learnIt, type });
       return res.status(400).json([{ errCode: 33, errMessage: 'Missing required fields' }]);
     }
     if (type !== 1 && type !== 2 && type !== 3) {
@@ -26,9 +37,9 @@ const createBox = async (req, res) => {
     if (type === 1 || type === 3) {
       return res.status(400).json([{ errCode: 35, errMessage: 'Box type not yet implemented' }]);
     }
-    if (typeof learnIt !== 'boolean') {
-      return res.status(400).json([{ errCode: 36, errMessage: 'Invalid learnIt value' }]);
-    }
+    // if (typeof learnIt !== 'boolean') {
+    //   return res.status(400).json([{ errCode: 36, errMessage: 'Invalid learnIt value' }]);
+    // }
     const createdBox = await boxDataMapper.createBox(
       userId,
       name,
@@ -48,6 +59,7 @@ const createBox = async (req, res) => {
 };
 
 const boxController = {
+  // getBoxById,
   getBoxes,
   createBox,
 };

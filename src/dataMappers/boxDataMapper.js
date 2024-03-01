@@ -1,6 +1,17 @@
 // const client = require('../database');
 const { pool } = require('../database');
 
+async function getBoxById(id) {
+  try {
+    const query = `SELECT * FROM "box" WHERE id = $1`;
+    const box = await pool.query(query, [id]);
+    return box.rows[0];
+  } catch (error) {
+    console.error('Error during box retrieval:', error);
+    throw error;
+  }
+}
+
 async function getBoxes(userId) {
   try {
     // TODO : SELECT * ou SELECT qu'une partie des champs
@@ -8,7 +19,7 @@ async function getBoxes(userId) {
     const boxesList = await pool.query(query, [userId]);
     return boxesList.rows;
   } catch (error) {
-    console.error('Error during box retrieval:', error);
+    console.error('Error during boxes retrieval:', error);
     throw error;
   }
 }
@@ -72,6 +83,7 @@ async function createBox(userId, name, description, boxPicture, color, label, le
 }
 
 module.exports = {
+  getBoxById,
   getBoxes,
   createBox,
 };
