@@ -270,7 +270,7 @@ Create a new box.
 
 #### Responses <!-- {#createBox-section} -->
 
-##### 200 OK <!-- {#createBox-section} -->
+##### 201 Created <!-- {#createBox-section} -->
 
 The new box is returned
 
@@ -368,7 +368,7 @@ An error message is returned if the box does not exist or is not owned by the us
 
 ##### 500 Internal Server Error <!-- {#getCards-section} -->
 
-An error is returned if an unexpected server error occurs during the retrieval of the list of cards.
+An error is returned if an unexpected server error occurs when checking the owner of the box.
 Remember to look at the backend console for more information.
 
 ```json
@@ -377,6 +377,17 @@ Remember to look at the backend console for more information.
     "errMessage":"A server error occurred when verifying the box owner"
 } 
 ```
+
+An error is returned if an unexpected server error occurs during the retrieval of the list of cards.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":51,
+    "errMessage":"A server error occurred when retrieving the cards"
+} 
+```
+
 
 ### Create Card
 
@@ -388,15 +399,15 @@ Create a new card.
 
 ```json
 {
-    "question": "Box name",
-    "answer": "Description",
-    "attachment": "Path to the box illustration",
+    "question": "Question",
+    "answer": "Answer",
+    "attachment": "Illustration of the question",
 }
 ```
 
 #### Responses <!-- {#createCard-section} -->
 
-##### 200 OK <!-- {#createCard-section} -->
+##### 201 OK <!-- {#createCard-section} -->
 
 The new card is returned
 
@@ -404,18 +415,55 @@ The new card is returned
 
 ##### 400 Bad request <!-- {#createCard-section} -->
 
-<!-- TODO : à compléter -->
-An error message is returned if ... 
+An error message is returned if a field is missing (question, answer)
+
+```json
+{
+    "errCode":53,
+    "errMessage":"Missing required fields"
+} 
+```
+
+##### 403 Forbidden  <!-- {#createCard-section} -->
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":37,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":38,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
 
 ##### 500 Internal Server Error <!-- {#createCard-section} -->
+
+An error is returned if an unexpected server error occurs when checking the owner of the box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":36,
+    "errMessage":"A server error occurred when verifying the box owner"
+} 
+```
 
 An error is returned if an unexpected server error occurs when creating a card.
 Remember to look at the backend console for more information.
 
-<!-- TODO : à compléter -->
 ```json
 {
-    "errCode":,
-    "errMessage":""
+    "errCode":52,
+    "errMessage":"A server error occurred when creating the card"
 } 
 ```

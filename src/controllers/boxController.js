@@ -28,7 +28,6 @@ const createBox = async (req, res) => {
     const userId = req.user;
     const { name, description, boxPicture, color, label, level, learnIt, type } = req.body;
     if (!name || typeof learnIt !== 'boolean' || !type) {
-      console.log({ name, learnIt, type });
       return res.status(400).json([{ errCode: 33, errMessage: 'Missing required fields' }]);
     }
     if (type !== 1 && type !== 2 && type !== 3) {
