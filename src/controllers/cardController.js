@@ -33,9 +33,21 @@ const createCard = async (req, res) => {
   }
 };
 
+const deleteCard = async (req, res) => {
+  try {
+    const { cardId } = req.params;
+    await cardDataMapper.deleteCard(cardId);
+    return res.status(204).json('Card deleted');
+  } catch (error) {
+    console.error({ deleteCardError: error });
+    return res.status(500).json([{ errCode: 54, errMessage: 'A server error occurred when deleting the card' }]);
+  }
+};
+
 const cardController = {
   getCards,
   createCard,
+  deleteCard,
 };
 
 module.exports = cardController;

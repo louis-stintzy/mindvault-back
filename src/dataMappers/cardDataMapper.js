@@ -1,8 +1,19 @@
 const { pool } = require('../database');
 
+async function getCardById(id) {
+  try {
+    const query = 'SELECT * FROM "card" WHERE id = $1';
+    const card = await pool.query(query, [id]);
+    return card.rows[0];
+  } catch (error) {
+    console.error('Error during card retrieval:', error);
+    throw error;
+  }
+}
+
 async function getCards(boxId) {
   try {
-    const query = 'SELECT * FROM "card" WHERE box_id = $1';
+    const query = 'SELECT * FROM "card" WHERE box_id = $1 ORDER BY position ASC';
     const cards = await pool.query(query, [boxId]);
     return cards.rows;
   } catch (error) {
@@ -34,7 +45,19 @@ async function createCard(boxId, userId, question, answer, attachment) {
   }
 }
 
+async function deleteCard(cardId) {
+  try {
+    const query = 'DELETE FROM "card" WHERE id = $1';
+    await pool.query(query, [cardId]);
+  } catch (error) {
+    console.error('Error during card deletion:', error);
+    throw error;
+  }
+}
+
 module.exports = {
+  getCardById,
   getCards,
   createCard,
+  deleteCard,
 };

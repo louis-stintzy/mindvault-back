@@ -4,7 +4,13 @@ const { getBoxById } = require('../dataMappers/boxDataMapper');
 const verifyBoxOwner = async (req, res, next) => {
   try {
     const userId = req.user;
-    const boxId = req.params.id;
+    const boxId = parseInt(req.params.id, 10);
+
+    // Vérifier que l'id de la box soit bien un nombre
+    if (Number.isNaN(boxId)) {
+      return res.status(400).json([{ errCode: 36, errMessage: 'Invalid box id' }]);
+    }
+
     const box = await getBoxById(boxId);
 
     // Vérifier que la box soit bien possédée par l'utilisateur
@@ -23,7 +29,7 @@ const verifyBoxOwner = async (req, res, next) => {
     next();
   } catch (error) {
     console.error({ verifyBoxOwnerError: error });
-    return res.status(500).json([{ errCode: 36, errMessage: 'A server error occurred when verifying the box owner' }]);
+    return res.status(500).json([{ errCode: 39, errMessage: 'A server error occurred when verifying the box owner' }]);
   }
 };
 

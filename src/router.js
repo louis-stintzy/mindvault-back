@@ -5,6 +5,7 @@ const authController = require('./controllers/authController');
 const boxController = require('./controllers/boxController');
 const cardController = require('./controllers/cardController');
 const verifyBoxOwner = require('./middlewares/verifyBoxOwner');
+const verifyCardOwner = require('./middlewares/verifyCardOwner');
 
 const router = Router();
 
@@ -21,5 +22,13 @@ router.post('/api/box/createBox/', authenticateToken, boxController.createBox);
 
 router.get('/api/box/:id/getCards/', authenticateToken, verifyBoxOwner, cardController.getCards);
 router.post('/api/box/:id/createCard/', authenticateToken, verifyBoxOwner, cardController.createCard);
+
+router.delete(
+  '/api/box/:boxId/card/:cardId',
+  authenticateToken,
+  verifyBoxOwner,
+  verifyCardOwner,
+  cardController.deleteCard
+);
 
 module.exports = router;
