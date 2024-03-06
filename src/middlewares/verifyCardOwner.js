@@ -4,7 +4,7 @@ const { getCardById } = require('../dataMappers/cardDataMapper');
 const verifyCardOwner = async (req, res, next) => {
   try {
     const userId = req.user;
-    const cardId = parseInt(req.params.id, 10);
+    const cardId = parseInt(req.params.cardId, 10);
     if (Number.isNaN(cardId)) {
       return res.status(400).json([{ errCode: 56, errMessage: 'Invalid card id' }]);
     }

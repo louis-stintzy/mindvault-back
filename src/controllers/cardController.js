@@ -33,20 +33,24 @@ const createCard = async (req, res) => {
   }
 };
 
+// TODO Update Card
+const updateCard = async () => {};
+
 const deleteCard = async (req, res) => {
   try {
     const { cardId } = req.params;
     await cardDataMapper.deleteCard(cardId);
-    return res.status(204).json('Card deleted');
+    return res.status(204).end();
   } catch (error) {
     console.error({ deleteCardError: error });
-    return res.status(500).json([{ errCode: 54, errMessage: 'A server error occurred when deleting the card' }]);
+    return res.status(500).json([{ errCode: 55, errMessage: 'A server error occurred when deleting the card' }]);
   }
 };
 
 const cardController = {
   getCards,
   createCard,
+  updateCard,
   deleteCard,
 };
 

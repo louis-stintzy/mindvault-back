@@ -45,6 +45,11 @@ async function createCard(boxId, userId, question, answer, attachment) {
   }
 }
 
+// TODO Update Card
+async function updateCard() {
+  console.log('TODO Update Card');
+}
+
 async function deleteCard(cardId) {
   try {
     const query = 'DELETE FROM "card" WHERE id = $1';
@@ -59,5 +64,6 @@ module.exports = {
   getCardById,
   getCards,
   createCard,
+  updateCard,
   deleteCard,
 };

@@ -4,7 +4,7 @@ const { getBoxById } = require('../dataMappers/boxDataMapper');
 const verifyBoxOwner = async (req, res, next) => {
   try {
     const userId = req.user;
-    const boxId = parseInt(req.params.id, 10);
+    const boxId = parseInt(req.params.boxId, 10);
 
     // Vérifier que l'id de la box soit bien un nombre
     if (Number.isNaN(boxId)) {

@@ -20,9 +20,16 @@ router.get('/api/user/validateToken', authenticateToken, authController.validate
 router.get('/api/box/getBoxes/', authenticateToken, boxController.getBoxes);
 router.post('/api/box/createBox/', authenticateToken, boxController.createBox);
 
-router.get('/api/box/:id/getCards/', authenticateToken, verifyBoxOwner, cardController.getCards);
-router.post('/api/box/:id/createCard/', authenticateToken, verifyBoxOwner, cardController.createCard);
-
+// ------------------- CARDS -------------------
+router.get('/api/box/:boxId/cards', authenticateToken, verifyBoxOwner, cardController.getCards);
+router.post('/api/box/:boxId/cards/', authenticateToken, verifyBoxOwner, cardController.createCard);
+router.put(
+  '/api/box/:boxId/card/:cardId',
+  authenticateToken,
+  verifyBoxOwner,
+  verifyCardOwner,
+  cardController.updateCard
+);
 router.delete(
   '/api/box/:boxId/card/:cardId',
   authenticateToken,

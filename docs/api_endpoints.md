@@ -334,7 +334,7 @@ Operations about cards
 
 Lists the cards in a box.
 
-``` GET /api/box/:id/getCards/ ```
+``` GET /api/box/:boxId/cards ```
 
 #### Responses <!-- {#getCards-section} -->
 
@@ -343,6 +343,17 @@ Lists the cards in a box.
 A list of cards is returned
 
 <!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#getCards-section} -->
+
+An error message is returned if the box id is not a number
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid box id"
+} 
+```
 
 ##### 403 Forbidden  <!-- {#getCards-section} -->
 
@@ -373,7 +384,7 @@ Remember to look at the backend console for more information.
 
 ```json
 {
-    "errCode":36,
+    "errCode":39,
     "errMessage":"A server error occurred when verifying the box owner"
 } 
 ```
@@ -393,7 +404,7 @@ Remember to look at the backend console for more information.
 
 Create a new card.
 
-``` POST /api/box/:id/createCard ```
+``` POST /api/box/:boxId/cards ```
 
 #### Request body <!-- {#createCard-section} -->
 
@@ -411,9 +422,27 @@ Create a new card.
 
 The new card is returned
 
-<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné dans la card -->
 
 ##### 400 Bad request <!-- {#createCard-section} -->
+
+An error message is returned if the box id is not a number
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid box id"
+} 
+```
+
+An error message is returned if the card id is not a number
+
+```json
+{
+    "errCode":56,
+    "errMessage":"Invalid card id"
+} 
+```
 
 An error message is returned if a field is missing (question, answer)
 
@@ -446,6 +475,26 @@ An error message is returned if the box does not exist or is not owned by the us
 
 > **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
 
+An error message is returned if the card does not exist or is not owned by the user
+
+```json
+{
+    "errCode":57,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the card does not exist or is not owned by the user
+
+```json
+{
+    "errCode":58,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no card, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the card (only the error code differs)
+
 ##### 500 Internal Server Error <!-- {#createCard-section} -->
 
 An error is returned if an unexpected server error occurs when checking the owner of the box.
@@ -453,8 +502,18 @@ Remember to look at the backend console for more information.
 
 ```json
 {
-    "errCode":36,
+    "errCode":39,
     "errMessage":"A server error occurred when verifying the box owner"
+} 
+```
+
+An error is returned if an unexpected server error occurs when checking the owner of the card.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":59,
+    "errMessage":"A server error occurred when verifying the card owner"
 } 
 ```
 
@@ -465,5 +524,37 @@ Remember to look at the backend console for more information.
 {
     "errCode":52,
     "errMessage":"A server error occurred when creating the card"
+} 
+```
+
+### Update Card
+
+Update a card.
+
+``` PUT /api/box/:boxId/card/:cardId ```
+
+<!-- TODO Update Card -->
+
+### Delete Card
+
+Delete a card.
+
+``` DELETE /api/box/:boxId/card/:cardId ```
+
+#### Responses <!-- {#deleteCard-section} -->
+
+##### 204 No Content <!-- {#deleteCard-section} -->
+
+Nothing is returned when a card is successfully deleted
+
+##### 500 Internal Server Error <!-- {#deleteCard-section} -->
+
+An error is returned if an unexpected server error occurs when deleting a card.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":55,
+    "errMessage":"A server error occurred when deleting a card"
 } 
 ```

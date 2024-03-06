@@ -22,10 +22,11 @@
 | 36      | Invalid box id                                           | Id format is invalid                                 |
 | 37      | Unauthorised users                                       | The box does not exist or is not owned by the user   |
 | 38      | Unauthorised users                                       | The box does not exist or is not owned by the user   |
-| 39      | A server error occurred when verifying the card owner    | A server error occurred when verifying the box owner |
+| 39      | A server error occurred when verifying the box owner     | A server error occurred when verifying the box owner |
 | 51      | A server error occurred when retrieving the cards        | A server error occurred when retrieving the cards    |
 | 52      | A server error occurred when creating the card           | A server error occurred when creating the card       |
 | 53      | Missing required fields                                  | A field is missing (question, answer)                |
+| 55      | A server error occurred when deleting a card             | A server error occurred when deleting a card         |
 | 56      | Invalid card id                                          | Id format is invalid                                 |
 | 57      | Unauthorised users                                       | The card does not exist or is not owned by the user  |
 | 58      | Unauthorised users                                       | The card does not exist or is not owned by the user  |
