@@ -68,8 +68,16 @@ const createBox = async (req, res) => {
 // TODO Update Box
 const updateBox = async () => {};
 
-// TODO Delete Box
-const deleteBox = async () => {};
+const deleteBox = async (req, res) => {
+  try {
+    const { boxId } = req.params;
+    await boxDataMapper.deleteBox(boxId);
+    return res.status(204).end();
+  } catch (error) {
+    console.error({ deleteBoxError: error });
+    return res.status(500).json([{ errCode: 40, errMessage: 'A server error occurred when deleting the box' }]);
+  }
+};
 
 const boxController = {
   // getBoxById,

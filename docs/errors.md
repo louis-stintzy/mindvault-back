@@ -23,6 +23,7 @@
 | 37      | Unauthorised users                                       | The box does not exist or is not owned by the user   |
 | 38      | Unauthorised users                                       | The box does not exist or is not owned by the user   |
 | 39      | A server error occurred when verifying the box owner     | A server error occurred when verifying the box owner |
+| 40      | A server error occurred when deleting a box              | A server error occurred when deleting a box         |
 | 51      | A server error occurred when retrieving the cards        | A server error occurred when retrieving the cards    |
 | 52      | A server error occurred when creating the card           | A server error occurred when creating the card       |
 | 53      | Missing required fields                                  | A field is missing (question, answer)                |

@@ -87,9 +87,14 @@ async function updateBox() {
   console.log('TODO Update Box');
 }
 
-// TODO Delete Box
-async function deleteBox() {
-  console.log('TODO Delete Box');
+async function deleteBox(boxId) {
+  try {
+    const query = 'DELETE FROM "box" WHERE id = $1';
+    await pool.query(query, [boxId]);
+  } catch (error) {
+    console.error('Error during box deletion:', error);
+    throw error;
+  }
 }
 
 module.exports = {
