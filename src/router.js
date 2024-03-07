@@ -17,8 +17,11 @@ router.post('/api/user/login', checkLoginForm, authController.login);
 router.post('/api/user/register', checkRegistrationForm, authController.register);
 router.get('/api/user/validateToken', authenticateToken, authController.validateToken);
 
-router.get('/api/box/getBoxes/', authenticateToken, boxController.getBoxes);
-router.post('/api/box/createBox/', authenticateToken, boxController.createBox);
+// ------------------- BOXES -------------------
+router.get('/api/boxes/', authenticateToken, boxController.getBoxes);
+router.post('/api/boxes/', authenticateToken, boxController.createBox);
+router.put('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.updateBox);
+router.delete('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.deleteBox);
 
 // ------------------- CARDS -------------------
 router.get('/api/box/:boxId/cards', authenticateToken, verifyBoxOwner, cardController.getCards);

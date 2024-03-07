@@ -65,10 +65,18 @@ const createBox = async (req, res) => {
   }
 };
 
+// TODO Update Box
+const updateBox = async () => {};
+
+// TODO Delete Box
+const deleteBox = async () => {};
+
 const boxController = {
   // getBoxById,
   getBoxes,
   createBox,
+  updateBox,
+  deleteBox,
 };
 
 module.exports = boxController;

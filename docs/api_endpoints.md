@@ -225,7 +225,7 @@ Operations about boxes
 
 Lists the user's boxes.
 
-``` GET /api/box/getBoxes ```
+``` GET /api/boxes ```
 
 #### Responses <!-- {#getBoxes-section} -->
 
@@ -251,7 +251,7 @@ Remember to look at the backend console for more information.
 
 Create a new box.
 
-``` POST /api/box/createBox ```
+``` POST /api/boxes ```
 
 #### Request body <!-- {#createBox-section} -->
 
@@ -325,6 +325,22 @@ Remember to look at the backend console for more information.
     "errMessage":"A server error occurred when creating the box"
 } 
 ```
+
+### Update Box
+
+Update a box.
+
+``` PUT /api/box/:boxId ```
+
+<!-- TODO Update Box -->
+
+### Delete Box
+
+Delete a box.
+
+``` DELETE /api/box/:boxId ```
+
+<!-- TODO Delete Box -->
 
 ## Card
 

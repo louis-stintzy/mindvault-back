@@ -82,8 +82,20 @@ async function createBox(userId, name, description, boxPicture, color, label, le
   }
 }
 
+// TODO Update Box
+async function updateBox() {
+  console.log('TODO Update Box');
+}
+
+// TODO Delete Box
+async function deleteBox() {
+  console.log('TODO Delete Box');
+}
+
 module.exports = {
   getBoxById,
   getBoxes,
   createBox,
+  updateBox,
+  deleteBox,
 };
