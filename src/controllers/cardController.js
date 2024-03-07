@@ -3,7 +3,7 @@ const cardDataMapper = require('../dataMappers/cardDataMapper');
 
 const getCards = async (req, res) => {
   try {
-    const boxId = req.params.id;
+    const { boxId } = req.params;
     const cards = await cardDataMapper.getCards(boxId);
     return res.status(200).json(cards);
   } catch (error) {
@@ -15,13 +15,13 @@ const getCards = async (req, res) => {
 const createCard = async (req, res) => {
   try {
     const userId = req.user;
-    const boxId = req.params.id;
+    const { boxId } = req.params;
     const { question, answer, attachment } = req.body;
     if (!question || !answer) {
       return res.status(400).json([{ errCode: 53, errMessage: 'Missing required fields' }]);
     }
 
-    // Sanitize user inputs
+    // TODO Sanitize user inputs differement car supprime apostrophes et slashs
     const sanitizedQuestion = validator.escape(question);
     const sanitizedAnswer = validator.escape(answer);
 
