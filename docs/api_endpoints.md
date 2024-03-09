@@ -334,6 +334,14 @@ Update a box.
 
 <!-- TODO Update Box -->
 
+### Update Box "learn it" value
+
+Update the "learn it" value of the box
+
+``` PATCH /api/box/:boxId/learnit ```
+
+<!-- TODO Update Box -->
+
 ### Delete Box
 
 Delete a box.

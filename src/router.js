@@ -21,6 +21,7 @@ router.get('/api/user/validateToken', authenticateToken, authController.validate
 router.get('/api/boxes/', authenticateToken, boxController.getBoxes);
 router.post('/api/boxes/', authenticateToken, boxController.createBox);
 router.put('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.updateBox);
+router.patch('/api/box/:boxId/learnit', authenticateToken, verifyBoxOwner, boxController.updateBoxLearnItValue);
 router.delete('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.deleteBox);
 
 // ------------------- CARDS -------------------

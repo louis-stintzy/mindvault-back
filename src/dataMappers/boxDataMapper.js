@@ -87,6 +87,17 @@ async function updateBox() {
   console.log('TODO Update Box');
 }
 
+async function updateBoxLearnItValue(boxId, learnIt) {
+  try {
+    const query = 'UPDATE "box" SET learn_it = $1 WHERE id = $2 RETURNING learn_it';
+    const { rows } = await pool.query(query, [learnIt, boxId]);
+    return { learn_it: rows[0].learn_it };
+  } catch (error) {
+    console.error('Error during updating Learn it state:', error);
+    throw error;
+  }
+}
+
 async function deleteBox(boxId) {
   try {
     const query = 'DELETE FROM "box" WHERE id = $1';
@@ -102,5 +113,6 @@ module.exports = {
   getBoxes,
   createBox,
   updateBox,
+  updateBoxLearnItValue,
   deleteBox,
 };

@@ -68,6 +68,23 @@ const createBox = async (req, res) => {
 // TODO Update Box
 const updateBox = async () => {};
 
+const updateBoxLearnItValue = async (req, res) => {
+  try {
+    const { boxId } = req.params;
+    const { learnIt } = req.body;
+    if (typeof learnIt !== 'boolean') {
+      return res.status(400).json([{ errCode: 41, errMessage: 'Invalid learnIt value' }]);
+    }
+    const newState = await boxDataMapper.updateBoxLearnItValue(boxId, learnIt);
+    return res.status(200).json(newState);
+  } catch (error) {
+    console.error({ updateBoxLearnItValueError: error });
+    return res
+      .status(500)
+      .json([{ errCode: 42, errMessage: 'A server error occurred when updating "learn it" state' }]);
+  }
+};
+
 const deleteBox = async (req, res) => {
   try {
     const { boxId } = req.params;
@@ -84,6 +101,7 @@ const boxController = {
   getBoxes,
   createBox,
   updateBox,
+  updateBoxLearnItValue,
   deleteBox,
 };
 
