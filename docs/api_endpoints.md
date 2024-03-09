@@ -216,3 +216,369 @@ An error is returned if the token is invalid or expired.
     "errMessage":"Bad token"
 } 
 ```
+
+## Box
+
+Operations about boxes
+
+### Get Boxes
+
+Lists the user's boxes.
+
+``` GET /api/boxes ```
+
+#### Responses <!-- {#getBoxes-section} -->
+
+##### 200 OK <!-- {#getBoxes-section} -->
+
+A list of boxes is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 500 Internal Server Error <!-- {#getBoxes-section} -->
+
+An error is returned if an unexpected server error occurs during the retrieval of the user's boxes.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":31,
+    "errMessage":"A server error occurred when retrieving the boxes"
+} 
+```
+
+### Create Box
+
+Create a new box.
+
+``` POST /api/boxes ```
+
+#### Request body <!-- {#createBox-section} -->
+
+```json
+{
+    "name": "Box name",
+    "description": "Description",
+    "boxPicture": "Path to the box illustration",
+    "color":"Colour associated with the box",
+    "label": "Label (theme) of the box",
+    "level":"Level of difficulty of questions",
+    "learnIt": "Box in training ?",
+    "type":"Type of box, see data_dictionary"
+}
+```
+
+#### Responses <!-- {#createBox-section} -->
+
+##### 201 Created <!-- {#createBox-section} -->
+
+The new box is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#createBox-section} -->
+
+An error message is returned if a field is missing (name, learnIt, type)
+
+```json
+{
+    "errCode":33,
+    "errMessage":"Missing required fields"
+} 
+```
+
+An error is returned if the box type entered is incorrect (is not 1, 2 or 3)
+
+```json
+{
+    "errCode":34,
+    "errMessage":"Invalid box type"
+} 
+```
+
+An error is returned if the box type entered is 1 or 3
+
+```json
+{
+    "errCode":35,
+    "errMessage":"Box type not yet implemented"
+} 
+```
+
+<!-- An error is returned if the learnIt value is not Boolean
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid learnIt value"
+} 
+``` -->
+
+##### 500 Internal Server Error <!-- {#createBox-section} -->
+
+An error is returned if an unexpected server error occurs when creating a box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":32,
+    "errMessage":"A server error occurred when creating the box"
+} 
+```
+
+### Update Box
+
+Update a box.
+
+``` PUT /api/box/:boxId ```
+
+<!-- TODO Update Box -->
+
+### Update Box "learn it" value
+
+Update the "learn it" value of the box
+
+``` PATCH /api/box/:boxId/learnit ```
+
+<!-- TODO Update Box -->
+
+### Delete Box
+
+Delete a box.
+
+``` DELETE /api/box/:boxId ```
+
+<!-- TODO Delete Box -->
+
+## Card
+
+Operations about cards
+
+### Get Cards
+
+Lists the cards in a box.
+
+``` GET /api/box/:boxId/cards ```
+
+#### Responses <!-- {#getCards-section} -->
+
+##### 200 OK <!-- {#getCards-section} -->
+
+A list of cards is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#getCards-section} -->
+
+An error message is returned if the box id is not a number
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid box id"
+} 
+```
+
+##### 403 Forbidden  <!-- {#getCards-section} -->
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":37,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":38,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
+
+##### 500 Internal Server Error <!-- {#getCards-section} -->
+
+An error is returned if an unexpected server error occurs when checking the owner of the box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":39,
+    "errMessage":"A server error occurred when verifying the box owner"
+} 
+```
+
+An error is returned if an unexpected server error occurs during the retrieval of the list of cards.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":51,
+    "errMessage":"A server error occurred when retrieving the cards"
+} 
+```
+
+
+### Create Card
+
+Create a new card.
+
+``` POST /api/box/:boxId/cards ```
+
+#### Request body <!-- {#createCard-section} -->
+
+```json
+{
+    "question": "Question",
+    "answer": "Answer",
+    "attachment": "Illustration of the question",
+}
+```
+
+#### Responses <!-- {#createCard-section} -->
+
+##### 201 OK <!-- {#createCard-section} -->
+
+The new card is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné dans la card -->
+
+##### 400 Bad request <!-- {#createCard-section} -->
+
+An error message is returned if the box id is not a number
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid box id"
+} 
+```
+
+An error message is returned if the card id is not a number
+
+```json
+{
+    "errCode":56,
+    "errMessage":"Invalid card id"
+} 
+```
+
+An error message is returned if a field is missing (question, answer)
+
+```json
+{
+    "errCode":53,
+    "errMessage":"Missing required fields"
+} 
+```
+
+##### 403 Forbidden  <!-- {#createCard-section} -->
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":37,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":38,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
+
+An error message is returned if the card does not exist or is not owned by the user
+
+```json
+{
+    "errCode":57,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the card does not exist or is not owned by the user
+
+```json
+{
+    "errCode":58,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no card, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the card (only the error code differs)
+
+##### 500 Internal Server Error <!-- {#createCard-section} -->
+
+An error is returned if an unexpected server error occurs when checking the owner of the box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":39,
+    "errMessage":"A server error occurred when verifying the box owner"
+} 
+```
+
+An error is returned if an unexpected server error occurs when checking the owner of the card.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":59,
+    "errMessage":"A server error occurred when verifying the card owner"
+} 
+```
+
+An error is returned if an unexpected server error occurs when creating a card.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":52,
+    "errMessage":"A server error occurred when creating the card"
+} 
+```
+
+### Update Card
+
+Update a card.
+
+``` PUT /api/box/:boxId/card/:cardId ```
+
+<!-- TODO Update Card -->
+
+### Delete Card
+
+Delete a card.
+
+``` DELETE /api/box/:boxId/card/:cardId ```
+
+#### Responses <!-- {#deleteCard-section} -->
+
+##### 204 No Content <!-- {#deleteCard-section} -->
+
+Nothing is returned when a card is successfully deleted
+
+##### 500 Internal Server Error <!-- {#deleteCard-section} -->
+
+An error is returned if an unexpected server error occurs when deleting a card.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":55,
+    "errMessage":"A server error occurred when deleting a card"
+} 
+```

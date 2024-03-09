@@ -17,13 +17,12 @@ CREATE TABLE "user" (
 CREATE TABLE "box" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     owner_id INTEGER NOT NULL REFERENCES "user"(id),
-    original_box_id INTEGER NOT NULL,
+    original_box_id INTEGER,
     original_box_creator_id INTEGER NOT NULL,
-    original_box_created_at TIMESTAMPTZ NOT NULL,
+    original_box_created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     copy_box_id INTEGER,
     copy_box_owner_id INTEGER,
     copy_box_created_at TIMESTAMPTZ,
-    history TEXT NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     box_picture VARCHAR(255),
@@ -39,9 +38,22 @@ CREATE TABLE "box" (
     updated_at TIMESTAMPTZ
 );
 
+-- CREATE TABLE duplication_history (
+--     history_id SERIAL PRIMARY KEY,
+--     original_box_id INTEGER NOT NULL,
+--     copied_box_id INTEGER NOT NULL,
+--     new_box_id INTEGER NOT NULL,
+--     duplicator_user_id INTEGER NOT NULL,
+--     duplication_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (original_box_id) REFERENCES box(id),
+--     FOREIGN KEY (copied_box_id) REFERENCES box(id),
+--     FOREIGN KEY (new_box_id) REFERENCES box(id),
+--     FOREIGN KEY (duplicator_user_id) REFERENCES users(id) -- Assurez-vous que la table des utilisateurs correspond à votre schéma.
+-- );
+
 CREATE TABLE "card" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    box_id INTEGER NOT NULL REFERENCES "box"(id),
+    box_id INTEGER NOT NULL REFERENCES "box"(id) ON DELETE CASCADE,
     creator_id INTEGER NOT NULL REFERENCES "user"(id),
     question TEXT NOT NULL,
     answer TEXT NOT NULL,
