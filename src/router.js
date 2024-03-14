@@ -4,6 +4,7 @@ const authenticateToken = require('./middlewares/authenticateToken');
 const authController = require('./controllers/authController');
 const boxController = require('./controllers/boxController');
 const cardController = require('./controllers/cardController');
+const playController = require('./controllers/playController');
 const verifyBoxOwner = require('./middlewares/verifyBoxOwner');
 const verifyCardOwner = require('./middlewares/verifyCardOwner');
 
@@ -41,5 +42,9 @@ router.delete(
   verifyCardOwner,
   cardController.deleteCard
 );
+
+// --------------------- PLAY ---------------------
+router.get('/api/play/box/:boxId', authenticateToken, verifyBoxOwner, playController.getRandomCards);
+router.patch('/api/play/card/:cardId', authenticateToken, verifyCardOwner, playController.updateCardAttributes);
 
 module.exports = router;
