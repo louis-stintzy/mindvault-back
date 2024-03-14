@@ -27,7 +27,7 @@ const updateCardAttributes = async (req, res) => {
     }
     // TODO : Vérifier que nextCompartment soit bien un compartiment valide (à définir : 1 à 7 ?)
     // if (nextCompartment < 1 || nextCompartment > 7) {
-    //   return res.status(400).json([{ errCode: 106, errMessage: 'Invalid compartment' }]);
+    //   return res.status(400).json([{ errCode: 106, errMessage: 'Invalid compartment number }]);
     // }
     const updatedCard = await playDataMapper.updateCardAttributes(cardId, nextDateToAsk, nextCompartment);
     return res.status(200).json(updatedCard);
