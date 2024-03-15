@@ -4,7 +4,7 @@ const playDataMapper = require('../dataMappers/playDataMapper');
 const getRandomCards = async (req, res) => {
   try {
     const { boxId } = req.params;
-    const cards = await playDataMapper.playBox(boxId);
+    const cards = await playDataMapper.getRandomCards(boxId);
     return res.status(200).json(cards);
   } catch (error) {
     console.error({ playBoxError: error });
