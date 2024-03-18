@@ -666,8 +666,9 @@ Update the "date to ask" and "compartment" values of the card
 
 ```json
 {
-    "nextDateToAsk": "Indicates the new date on which the question will be asked again",
-    "nextCompartment": "Indicates the new compartment in which the card will be deposited"
+    "nextCompartment": "Indicates the new compartment in which the card will be deposited",
+    "nextDateToAsk": "Indicates the new date on which the question will be asked again"
+    
 }
 ```
 

@@ -15,21 +15,25 @@ const getRandomCards = async (req, res) => {
 const updateCardAttributes = async (req, res) => {
   try {
     const { cardId } = req.params;
-    const { nextDateToAsk, nextCompartment } = req.body;
+    const { nextCompartment, nextDateToAsk } = req.body;
     if (!nextDateToAsk || !nextCompartment) {
       return res.status(400).json([{ errCode: 103, errMessage: 'Missing required fields' }]);
     }
-    if (!validator.isDate(nextDateToAsk)) {
+    if (!validator.isISO8601(nextDateToAsk)) {
       return res.status(400).json([{ errCode: 104, errMessage: 'Invalid date format' }]);
     }
+    // if (!validator.isDate(nextDateToAsk)) {
+    //   return res.status(400).json([{ errCode: 104, errMessage: 'Invalid date format' }]);
+    // }
     if (Number.isNaN(parseInt(nextCompartment, 10))) {
       return res.status(400).json([{ errCode: 105, errMessage: 'Invalid compartment format' }]);
     }
-    // TODO : Vérifier que nextCompartment soit bien un compartiment valide (à définir : 1 à 7 ?)
-    // if (nextCompartment < 1 || nextCompartment > 7) {
-    //   return res.status(400).json([{ errCode: 106, errMessage: 'Invalid compartment number }]);
-    // }
-    const updatedCard = await playDataMapper.updateCardAttributes(cardId, nextDateToAsk, nextCompartment);
+    // TODO : Documentation pour les numéros de compartiments
+    if (nextCompartment < 1 || nextCompartment > 7) {
+      return res.status(400).json([{ errCode: 106, errMessage: 'Invalid compartment number' }]);
+    }
+    // TODO : prévoir une autre fonctionnalité quand nextCompartment === 8 (connaissance acquise)
+    const updatedCard = await playDataMapper.updateCardAttributes(cardId, nextCompartment, nextDateToAsk);
     return res.status(200).json(updatedCard);
   } catch (error) {
     console.error({ updateCardAttributesError: error });

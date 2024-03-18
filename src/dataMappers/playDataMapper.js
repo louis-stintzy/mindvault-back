@@ -15,7 +15,7 @@ async function getRandomCards(boxId) {
   }
 }
 
-async function updateCardAttributes(cardId, nextDateToAsk, nextCompartment) {
+async function updateCardAttributes(cardId, nextCompartment, nextDateToAsk) {
   try {
     const query = `
                 UPDATE "card"
