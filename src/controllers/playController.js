@@ -22,17 +22,13 @@ const updateCardAttributes = async (req, res) => {
     if (!validator.isISO8601(nextDateToAsk)) {
       return res.status(400).json([{ errCode: 104, errMessage: 'Invalid date format' }]);
     }
-    // if (!validator.isDate(nextDateToAsk)) {
-    //   return res.status(400).json([{ errCode: 104, errMessage: 'Invalid date format' }]);
-    // }
     if (Number.isNaN(parseInt(nextCompartment, 10))) {
       return res.status(400).json([{ errCode: 105, errMessage: 'Invalid compartment format' }]);
     }
-    // TODO : Documentation pour les numéros de compartiments
-    if (nextCompartment < 1 || nextCompartment > 7) {
+    // TODO : Documentation pour les numéros de compartiments (7 compartiment + 1 connaissance acquise)
+    if (nextCompartment < 1 || nextCompartment > 8) {
       return res.status(400).json([{ errCode: 106, errMessage: 'Invalid compartment number' }]);
     }
-    // TODO : prévoir une autre fonctionnalité quand nextCompartment === 8 (connaissance acquise)
     const updatedCard = await playDataMapper.updateCardAttributes(cardId, nextCompartment, nextDateToAsk);
     return res.status(200).json(updatedCard);
   } catch (error) {

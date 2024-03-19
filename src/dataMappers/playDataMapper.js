@@ -4,7 +4,9 @@ async function getRandomCards(boxId) {
   try {
     const query = `
             SELECT * FROM "card"
-            WHERE box_id = $1 AND date_to_ask <= CURRENT_DATE
+            WHERE box_id = $1
+            AND date_to_ask <= CURRENT_DATE
+            AND compartment < 8
             ORDER BY RANDOM() LIMIT 10;
             `;
     const cards = await pool.query(query, [boxId]);
