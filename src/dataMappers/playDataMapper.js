@@ -8,7 +8,11 @@ async function getRandomCards(boxId) {
             ORDER BY RANDOM() LIMIT 10;
             `;
     const cards = await pool.query(query, [boxId]);
-    return cards.rows;
+    const adaptedCards = cards.rows.map((card) => ({
+      ...card,
+      boxId: card.box_id,
+    }));
+    return adaptedCards;
   } catch (error) {
     console.error('Error during cards retrieval:', error);
     throw error;
