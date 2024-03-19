@@ -19,6 +19,7 @@ router.post('/api/user/register', checkRegistrationForm, authController.register
 router.get('/api/user/validateToken', authenticateToken, authController.validateToken);
 
 // ------------------- BOXES -------------------
+router.get('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.getBoxById);
 router.get('/api/boxes/', authenticateToken, boxController.getBoxes);
 router.post('/api/boxes/', authenticateToken, boxController.createBox);
 router.put('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.updateBox);

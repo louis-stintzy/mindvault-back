@@ -1,15 +1,17 @@
 const validator = require('validator');
 const boxDataMapper = require('../dataMappers/boxDataMapper');
 
-// const getBoxById = async (id) => {
-//   try {
-//     const box = await boxDataMapper.getBoxById(id);
-//     return box;
-//   } catch (error) {
-//     console.error({ getBoxByIdError: error });
-//     throw error;
-//   }
-// };
+// TODO : faire la doc endpoint et code erreur
+const getBoxById = async (req, res) => {
+  try {
+    const { boxId } = req.params;
+    const box = await boxDataMapper.getBoxById(boxId);
+    return res.status(200).json(box);
+  } catch (error) {
+    console.error({ getBoxByIdError: error });
+    return res.status(500).json([{ errCode: 30, errMessage: 'A server error occurred when retrieving the box' }]);
+  }
+};
 
 const getBoxes = async (req, res) => {
   try {
@@ -97,7 +99,7 @@ const deleteBox = async (req, res) => {
 };
 
 const boxController = {
-  // getBoxById,
+  getBoxById,
   getBoxes,
   createBox,
   updateBox,
