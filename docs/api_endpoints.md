@@ -582,3 +582,182 @@ Remember to look at the backend console for more information.
     "errMessage":"A server error occurred when deleting a card"
 } 
 ```
+
+## Play
+
+Operations about play
+
+### Get Random Cards
+
+Collect cards from a box whose "date to ask" question is today or in the past. Cards are collected in batches of 10.
+
+``` GET /api/play/box/:boxId ```
+
+#### Responses <!-- {#getRandomCards-section} -->
+
+##### 200 OK <!-- {#getRandomCards-section} -->
+
+A list of boxes is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#getRandomCards-section} -->
+
+An error message is returned if the box id is not a number
+
+```json
+{
+    "errCode":36,
+    "errMessage":"Invalid box id"
+} 
+```
+
+##### 403 Forbidden  <!-- {#getRandomCards-section} -->
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":37,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":38,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
+
+##### 500 Internal Server Error <!-- {#getRandomCards-section} -->
+
+An error is returned if an unexpected server error occurs when checking the owner of the box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":39,
+    "errMessage":"A server error occurred when verifying the box owner"
+} 
+```
+
+An error is returned if an unexpected server error occurs while retrieving cards from the box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":101,
+    "errMessage":"A server error occurred when retrieving cards"
+} 
+```
+
+### Update Card Attributes
+
+Update the "date to ask" and "compartment" values of the card
+
+``` PATCH /api/play/card/:cardId ```
+
+#### Request body <!-- {#updateCardAttributes-section} -->
+
+```json
+{
+    "nextCompartment": "Indicates the new compartment in which the card will be deposited",
+    "nextDateToAsk": "Indicates the new date on which the question will be asked again"
+    
+}
+```
+
+#### Responses <!-- {#updateCardAttributes-section} -->
+
+##### 200 OK <!-- {#updateCardAttributes-section} -->
+
+A list of boxes is returned
+
+<!-- TODO mettre la doc à jour en fonction de ce qui est retourné -->
+
+##### 400 Bad request <!-- {#updateCardAttributes-section} -->
+
+An error message is returned if the card id is not a number
+
+```json
+{
+    "errCode":56,
+    "errMessage":"Invalid card id"
+} 
+```
+
+An error message is returned if a required field is missing
+
+```json
+{
+    "errCode":103,
+    "errMessage":"Missing required field"
+} 
+```
+
+An error message is returned if nextDateToAsk is not an date
+
+```json
+{
+    "errCode":104,
+    "errMessage":"Invalid date format"
+} 
+```
+
+An error message is returned if nextCompartment is not a number
+
+```json
+{
+    "errCode":105,
+    "errMessage":"Invalid compartment format"
+} 
+```
+
+##### 403 Forbidden  <!-- {#updateCardAttributes-section} -->
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":37,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+An error message is returned if the box does not exist or is not owned by the user
+
+```json
+{
+    "errCode":38,
+    "errMessage":"Unauthorised users"
+} 
+```
+
+> **Note**: If no box, we normally return a 404 error. Here we return a 403 error to not give information on the existence or not of the box (only the error code differs)
+
+##### 500 Internal Server Error <!-- {#updateCardAttributes-section} -->
+
+An error is returned if an unexpected server error occurs when checking the owner of the card.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":59,
+    "errMessage":"A server error occurred when verifying the card owner"
+} 
+```
+
+An error is returned if an unexpected server error occurs while updating the card attributes.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":102,
+    "errMessage":"A server error occurred when updating the card attributes"
+} 
+```

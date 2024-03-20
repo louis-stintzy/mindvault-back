@@ -42,9 +42,13 @@ async function createCard(boxId, userId, question, answer, attachment) {
       'INSERT INTO "card" (box_id, creator_id, question, answer, attachment, position, compartment) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
     const insertValues = [boxId, userId, question, answer, attachment, 1, 1];
     const insertResult = await client.query(insertQuery, insertValues);
+    const adaptedCard = {
+      ...insertResult.rows[0],
+      dateToAsk: insertResult.rows[0].date_to_ask,
+    };
     // Valide la transaction si tout est ok et retourne le résultat
     await client.query('COMMIT');
-    return insertResult.rows[0];
+    return adaptedCard;
   } catch (error) {
     console.error('Error during card creation:', error);
     throw error;

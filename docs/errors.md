@@ -26,11 +26,17 @@
 | 40      | A server error occurred when deleting a box              | A server error occurred when deleting a box          |
 | 41      | Invalid learnIt value                                    | learnIt must be a boolean value                      |
 | 42      | A server error occurred when when updating "learn it" state' | A server error occurred when updating "learn it" state'          |
-| 51      | A server error occurred when retrieving the cards        | A server error occurred when retrieving the cards    |
-| 52      | A server error occurred when creating the card           | A server error occurred when creating the card       |
-| 53      | Missing required fields                                  | A field is missing (question, answer)                |
-| 55      | A server error occurred when deleting a card             | A server error occurred when deleting a card         |
-| 56      | Invalid card id                                          | Id format is invalid                                 |
-| 57      | Unauthorised users                                       | The card does not exist or is not owned by the user  |
-| 58      | Unauthorised users                                       | The card does not exist or is not owned by the user  |
-| 59      | A server error occurred when verifying the card owner    | A server error occurred when verifying the card owner|
+| 51      | A server error occurred when retrieving the cards        | A server error occurred when retrieving the cards                    |
+| 52      | A server error occurred when creating the card           | A server error occurred when creating the card                       |
+| 53      | Missing required fields                                  | A field is missing (question, answer)                                |
+| 55      | A server error occurred when deleting a card             | A server error occurred when deleting a card                         |
+| 56      | Invalid card id                                          | Id format is invalid                                                 |
+| 57      | Unauthorised users                                       | The card does not exist or is not owned by the user                  |
+| 58      | Unauthorised users                                       | The card does not exist or is not owned by the user                  |
+| 59      | A server error occurred when verifying the card owner    | A server error occurred when verifying the card owner                |
+| 101     | A server error occurred when retrieving cards            | A server error occurred when retrieving cards                        |
+| 102     | A server error occurred when updating the card attributes| A server error occurred when updating the card attributes            |
+| 103     | Missing required field                                   | Field is missing                                                     |
+| 104     | Invalid date format                                      | Date format is invalid                                               |
+| 105     | Invalid compartment format                               | Compartment format is invalid                                        |
+| 105     | Invalid compartment number                               | Compartment number is invalid                                        |
