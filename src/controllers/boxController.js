@@ -1,4 +1,4 @@
-const validator = require('validator');
+// const validator = require('validator');
 const boxDataMapper = require('../dataMappers/boxDataMapper');
 
 // TODO : faire la doc endpoint et code erreur
@@ -43,20 +43,20 @@ const createBox = async (req, res) => {
     //   return res.status(400).json([{ errCode: 36, errMessage: 'Invalid learnIt value' }]);
     // }
 
-    // Sanitize user inputs
-    const sanitizedName = validator.escape(name);
-    const sanitizedDescription = validator.escape(description);
-    const sanitizedLabel = validator.escape(label);
-    const sanitizedLevel = validator.escape(level);
+    // // Sanitize user inputs
+    // const sanitizedName = validator.escape(name);
+    // const sanitizedDescription = validator.escape(description);
+    // const sanitizedLabel = validator.escape(label);
+    // const sanitizedLevel = validator.escape(level);
 
     const createdBox = await boxDataMapper.createBox(
       userId,
-      sanitizedName,
-      sanitizedDescription,
+      name,
+      description,
       boxPicture,
       color,
-      sanitizedLabel,
-      sanitizedLevel,
+      label,
+      level,
       learnIt,
       type
     );
