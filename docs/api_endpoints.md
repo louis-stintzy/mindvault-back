@@ -212,7 +212,7 @@ An error is returned if the token is invalid or expired.
 
 ```json
 {
-    "errCode":21,
+    "errCode":22,
     "errMessage":"Bad token"
 } 
 ```
