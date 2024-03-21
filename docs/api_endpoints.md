@@ -781,14 +781,16 @@ A JSON object is returned. Below is an example of a returned object
 ```json
 {
   "totalCards": 100,
-  "compartment1": 25,
-  "compartment2": 25,
-  "compartment3": 25,
-  "compartment4": 25,
-  "compartment5": 0,
-  "compartment6": 0,
-  "compartment7": 0,
-  "compartment8": 0
+  "cardsByCompartment": {
+    "compartment1": 25,
+    "compartment2": 25,
+    "compartment3": 25,
+    "compartment4": 25,
+    "compartment5": 0,
+    "compartment6": 0,
+    "compartment7": 0,
+    "compartment8": 0
+  }
 }
 ```
 

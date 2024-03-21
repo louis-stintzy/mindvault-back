@@ -16,8 +16,22 @@ async function getInstantStats(boxId) {
                 FROM "card"
                 WHERE box_id = $1;
                 `;
-    const stats = await pool.query(query, [boxId]);
-    return stats.rows[0];
+    const result = await pool.query(query, [boxId]);
+    const stats = result.rows[0];
+    const cardsByCompartment = {
+      compartment1: stats.compartment1,
+      compartment2: stats.compartment2,
+      compartment3: stats.compartment3,
+      compartment4: stats.compartment4,
+      compartment5: stats.compartment5,
+      compartment6: stats.compartment6,
+      compartment7: stats.compartment7,
+      compartment8: stats.compartment8,
+    };
+    return {
+      totalCards: stats.totalcards,
+      cardsByCompartment,
+    };
   } catch (error) {
     console.error('Error during instant stats retrieval:', error);
     throw error;
