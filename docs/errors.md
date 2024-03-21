@@ -40,3 +40,5 @@
 | 104     | Invalid date format                                      | Date format is invalid                                               |
 | 105     | Invalid compartment format                               | Compartment format is invalid                                        |
 | 105     | Invalid compartment number                               | Compartment number is invalid                                        |
+| 111     | A server error occurred when retrieving instant stats    | A server error occurred when retrieving instant stats                |
+| 112     | A server error occurred when retrieving historical stats | A server error occurred when retrieving historical stats             |

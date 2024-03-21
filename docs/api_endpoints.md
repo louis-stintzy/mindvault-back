@@ -761,3 +761,49 @@ Remember to look at the backend console for more information.
     "errMessage":"A server error occurred when updating the card attributes"
 } 
 ```
+
+## Stats
+
+Obtain instant and historical box statistics
+
+### Get instant statistics for a box
+
+Shows the total number of cards in a box and their distribution by compartment
+
+``` GET //api/stats/instant/box/:boxId ```
+
+#### Responses <!-- {#getInstantStats-section} -->
+
+##### 200 OK <!-- {#getInstantStats-section} -->
+
+A JSON object is returned. Below is an example of a returned object
+
+```json
+{
+  "totalCards": 100,
+  "compartment1": 25,
+  "compartment2": 25,
+  "compartment3": 25,
+  "compartment4": 25,
+  "compartment5": 0,
+  "compartment6": 0,
+  "compartment7": 0,
+  "compartment8": 0
+}
+```
+
+##### 500 Internal Server Error <!-- {#getInstantStats-section} -->
+
+An error is returned if an unexpected server error occurs when retrieving instant stats.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":111,
+    "errMessage":"A server error occurred when retrieving instant stats"
+} 
+```
+
+##### Other possible answers <!-- {#getInstantStats-section} -->
+
+The owner of the box is verified. The following errors may be returned: 10, 36, 37, 38, 39. Please refer to the errors.md file.
