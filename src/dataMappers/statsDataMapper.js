@@ -39,7 +39,42 @@ async function getInstantStats(boxId) {
 }
 
 async function getHistoricalStats(boxId) {
-  console.log('getHistoricalStats boxId:', boxId);
+  try {
+    const query = `
+    SELECT * from "box_historical_stats"
+    WHERE box_id = $1
+    ORDER BY created_at DESC;
+    `;
+    const result = await pool.query(query, [boxId]);
+
+    const historicalStatsArray = result.rows.maps((stats) => {
+      const date = new Date(stats.created_at);
+      const formatedDate = date.toISOString().split('T')[0];
+      return {
+        totalCards: stats.total_cards,
+        cardsByCompartment: {
+          compartment1: stats.compartment1,
+          compartment2: stats.compartment2,
+          compartment3: stats.compartment3,
+          compartment4: stats.compartment4,
+          compartment5: stats.compartment5,
+          compartment6: stats.compartment6,
+          compartment7: stats.compartment7,
+          compartment8: stats.compartment8,
+        },
+        statsDate: {
+          statisticsDay: formatedDate,
+          weekNumber: stats.week_number,
+          year: stats.year,
+        },
+      };
+    });
+
+    return historicalStatsArray;
+  } catch (error) {
+    console.error('Error during historical stats retrieval:', error);
+    throw error;
+  }
 }
 
 module.exports = {
