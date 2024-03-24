@@ -47,7 +47,7 @@ async function getHistoricalStats(boxId) {
     `;
     const result = await pool.query(query, [boxId]);
 
-    const historicalStatsArray = result.rows.maps((stats) => {
+    const historicalStatsArray = result.rows.map((stats) => {
       const date = new Date(stats.created_at);
       const formatedDate = date.toISOString().split('T')[0];
       return {
