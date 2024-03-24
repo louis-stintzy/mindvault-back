@@ -8,18 +8,18 @@
 
 CREATE OR REPLACE FUNCTION collect_historical_stats() RETURNS void AS $$
 BEGIN
-  INSERT INTO box_historical_stats (box_id, total_cards, compartment_1, compartment_2, compartment_3, compartment_4, compartment_5, compartment_6, compartment_7, compartment_8)
+  INSERT INTO box_historical_stats (box_id, total_cards, compartment1, compartment2, compartment3, compartment4, compartment5, compartment6, compartment7, compartment8)
   SELECT
     box_id,
     COUNT(*) AS total_cards,
-    COUNT(*) FILTER (WHERE compartment = 1) AS compartment_1,
-    COUNT(*) FILTER (WHERE compartment = 2) AS compartment_2,
-    COUNT(*) FILTER (WHERE compartment = 3) AS compartment_3,
-    COUNT(*) FILTER (WHERE compartment = 4) AS compartment_4,
-    COUNT(*) FILTER (WHERE compartment = 5) AS compartment_5,
-    COUNT(*) FILTER (WHERE compartment = 6) AS compartment_6,
-    COUNT(*) FILTER (WHERE compartment = 7) AS compartment_7,
-    COUNT(*) FILTER (WHERE compartment = 8) AS compartment_8
+    COUNT(*) FILTER (WHERE compartment = 1) AS compartment1,
+    COUNT(*) FILTER (WHERE compartment = 2) AS compartment2,
+    COUNT(*) FILTER (WHERE compartment = 3) AS compartment3,
+    COUNT(*) FILTER (WHERE compartment = 4) AS compartment4,
+    COUNT(*) FILTER (WHERE compartment = 5) AS compartment5,
+    COUNT(*) FILTER (WHERE compartment = 6) AS compartment6,
+    COUNT(*) FILTER (WHERE compartment = 7) AS compartment7,
+    COUNT(*) FILTER (WHERE compartment = 8) AS compartment8
   FROM card
   GROUP BY box_id;
 END;
@@ -34,6 +34,6 @@ $$ LANGUAGE plpgsql;
 SELECT cron.schedule(
   'weekly-stats-collection',
   --   '0 0 * * 0', -- Chaque dimanche à minuit
-  '0 5 * * 6', -- Test : “At 05:00 on Saturday.”
-  'CALL collect_historical_stats();'
+  '5 14 * * 6', -- Test : “At 14:05 on Saturday.”
+  'SELECT collect_historical_stats();'
 );
