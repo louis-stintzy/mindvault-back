@@ -14,8 +14,15 @@ async function getBoxById(id) {
 
 async function getBoxes(userId) {
   try {
-    // TODO : SELECT * ou SELECT qu'une partie des champs
-    const query = `SELECT * FROM "box" WHERE owner_id = $1 ORDER BY position ASC`;
+    // TODO : Charger boite 5 par 5
+    const query = `
+      SELECT
+      box.*,
+      (SELECT COUNT(*) FROM "card" WHERE "card".box_id = box.id AND "card".date_to_ask::date <= CURRENT_DATE) AS cards_to_review
+      FROM "box"
+      WHERE box.owner_id = $1
+      ORDER BY box.position ASC
+      `;
     const boxesList = await pool.query(query, [userId]);
     return boxesList.rows;
   } catch (error) {

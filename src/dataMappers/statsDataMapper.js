@@ -43,7 +43,7 @@ async function getHistoricalStats(boxId) {
     const query = `
     SELECT * from "box_historical_stats"
     WHERE box_id = $1
-    ORDER BY created_at DESC;
+    ORDER BY created_at ASC;
     `;
     const result = await pool.query(query, [boxId]);
 
