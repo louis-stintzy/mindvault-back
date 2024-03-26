@@ -1,6 +1,6 @@
 # Dictionnaire des données
 
-## Table USER
+## Table "user"
 
 | Nom du champ  | Type           | Contraintes              | Description |
 | :------------ |:---------------| :------------------------|:--------------- |
@@ -14,7 +14,7 @@
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
 
-## Table BOX
+## Table "box"
 
 | Nom du champ           | Type           | Contraintes     | Description |
 | :----------------------|:---------------| :---------------|:--------------- |
@@ -41,12 +41,12 @@
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
 
-## Table CARD
+## Table "card"
 
 | Nom du champ  | Type           | Contraintes              | Description |
 | :------------ |:---------------| :------------------------|:--------------- |
 | id            | int            | PRIMARY KEY              | Identifiant unique de la card |
-| #box_id       | int            | NOT NULL FOREIGN KEY REFERENCES BOX(id)               | Identifiant de la box dans laquelle se situe la card |
+| #box_id       | int            | NOT NULL FOREIGN KEY REFERENCES BOX(id) ON DELETE CASCADE               | Identifiant de la box dans laquelle se situe la card |
 | #creator_id   | int            | NOT NULL FOREIGN KEY REFERENCES USER(id)               | Identifiant du créateur de la card |
 | question      | text           | NOT NULL                 | Question de la card |
 | answer        | text           | NOT NULL                 | Réponse à la question de la card |
@@ -56,3 +56,23 @@
 | date_to_ask   | TIMESTAMPTZ    | NOT NULL DEFAULT ADDDATE(now(), 1)           | Indique la date à laquelle sera posée la question |
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
+
+## Table "box_historical_stats"
+
+| Nom du champ  | Type           | Contraintes              | Description |
+| :------------ |:---------------| :------------------------|:--------------- |
+| id            | INTEGER        | GENERATED ALWAYS AS IDENTITY PRIMARY KEY            | Identifiant unique des statistiques historiques de la box |
+| box_id        | INTEGER        | NOT NULL FOREIGN KEY REFERENCES "box"(id) ON DELETE CASCADE | Identifiant de la box associée aux statistiques |
+| week_number   | INTEGER        | NOT NULL DEFAULT (date_part('week', CURRENT_DATE))  | Numéro de la semaine de l'année pour laquelle les statistiques sont enregistrées |
+| year          | INTEGER        | NOT NULL DEFAULT (date_part('year', CURRENT_DATE))  | Année pour laquelle les statistiques sont enregistrées |
+| total_cards   | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre total de cartes dans la box au moment de l'enregistrement |
+| compartment1  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 1 au moment de l'enregistrement |
+| compartment2  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 2 au moment de l'enregistrement |
+| compartment3  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 3 au moment de l'enregistrement |
+| compartment4  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 4 au moment de l'enregistrement |
+| compartment5  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 5 au moment de l'enregistrement |
+| compartment6  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 6 au moment de l'enregistrement |
+| compartment7  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 7 au moment de l'enregistrement |
+| compartment8  | INTEGER        | NOT NULL DEFAULT 0                                  | Nombre de cartes dans le compartiment 8 au moment de l'enregistrement |
+| created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()                              | Date et heure de création de l'enregistrement des statistiques |
+| updated_at    | TIMESTAMPTZ    |                                                     | Date et heure de la dernière mise à jour de l'enregistrement des statistiques |

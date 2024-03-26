@@ -5,6 +5,7 @@ const authController = require('./controllers/authController');
 const boxController = require('./controllers/boxController');
 const cardController = require('./controllers/cardController');
 const playController = require('./controllers/playController');
+const statsController = require('./controllers/statsController');
 const verifyBoxOwner = require('./middlewares/verifyBoxOwner');
 const verifyCardOwner = require('./middlewares/verifyCardOwner');
 
@@ -47,5 +48,9 @@ router.delete(
 // --------------------- PLAY ---------------------
 router.get('/api/play/box/:boxId', authenticateToken, verifyBoxOwner, playController.getRandomCards);
 router.patch('/api/play/card/:cardId', authenticateToken, verifyCardOwner, playController.updateCardAttributes);
+
+// --------------------- STATS ---------------------
+router.get('/api/stats/instant/box/:boxId', authenticateToken, verifyBoxOwner, statsController.getInstantStats);
+router.get('/api/stats/historical/box/:boxId', authenticateToken, verifyBoxOwner, statsController.getHistoricalStats);
 
 module.exports = router;

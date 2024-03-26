@@ -212,7 +212,7 @@ An error is returned if the token is invalid or expired.
 
 ```json
 {
-    "errCode":21,
+    "errCode":22,
     "errMessage":"Bad token"
 } 
 ```
@@ -761,3 +761,120 @@ Remember to look at the backend console for more information.
     "errMessage":"A server error occurred when updating the card attributes"
 } 
 ```
+
+## Stats
+
+Obtain instant and historical box statistics
+
+### Get instant statistics for a box
+
+Shows the total number of cards in a box and their distribution by compartment
+
+``` GET /api/stats/instant/box/:boxId ```
+
+#### Responses <!-- {#getInstantStats-section} -->
+
+##### 200 OK <!-- {#getInstantStats-section} -->
+
+A JSON object is returned. Below is an example of a returned object
+
+```json
+{
+  "totalCards": 100,
+  "cardsByCompartment": {
+    "compartment1": 25,
+    "compartment2": 25,
+    "compartment3": 25,
+    "compartment4": 25,
+    "compartment5": 0,
+    "compartment6": 0,
+    "compartment7": 0,
+    "compartment8": 0
+  }
+}
+```
+
+##### 500 Internal Server Error <!-- {#getInstantStats-section} -->
+
+An error is returned if an unexpected server error occurs when retrieving instant stats.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":111,
+    "errMessage":"A server error occurred when retrieving instant stats"
+} 
+```
+
+##### Other possible answers <!-- {#getInstantStats-section} -->
+
+The owner of the box is verified. The following errors may be returned: 10, 36, 37, 38, 39. Please refer to the errors.md file.
+
+### Get historical statistics for a box
+
+Shows the total number of cards in a box and their distribution by compartment per week.
+
+``` GET /api/stats/historical/box/:boxId ```
+
+#### Responses <!-- {#getHistoricalStats-section} -->
+
+##### 200 OK <!-- {#getHistoricalStats-section} -->
+
+An array of objects is returned. Each object representing the statistics for a specific week for the box requested. Below is an example of the returned array, containing statistics for two different weeks:
+
+```json
+[
+  {
+    "totalCards": 120,
+    "cardsByCompartment": {
+      "compartment1": 20,
+      "compartment2": 20,
+      "compartment3": 20,
+      "compartment4": 20,
+      "compartment5": 20,
+      "compartment6": 10,
+      "compartment7": 5,
+      "compartment8": 5
+    },
+    "statsDate": {
+      "statisticsDay": "2024-03-14",
+      "weekNumber": 11,
+      "year": 2024
+    }
+  },
+  {
+    "totalCards": 100,
+    "cardsByCompartment": {
+      "compartment1": 25,
+      "compartment2": 25,
+      "compartment3": 25,
+      "compartment4": 15,
+      "compartment5": 5,
+      "compartment6": 3,
+      "compartment7": 1,
+      "compartment8": 1
+    },
+    "statsDate": {
+      "statisticsDay": "2024-03-07",
+      "weekNumber": 10,
+      "year": 2024
+    }
+  }
+]
+```
+
+##### 500 Internal Server Error <!-- {#getHistoricalStats-section} -->
+
+An error is returned if an unexpected server error occurs when retrieving historical stats.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":11,
+    "errMessage":"A server error occurred when retrieving historical stats"
+} 
+```
+
+##### Other possible answers <!-- {#getHistoricalStats-section} -->
+
+The owner of the box is verified. The following errors may be returned: 10, 36, 37, 38, 39. Please refer to the errors.md file.

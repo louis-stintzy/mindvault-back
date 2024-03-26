@@ -5,7 +5,7 @@ async function getRandomCards(boxId) {
     const query = `
             SELECT * FROM "card"
             WHERE box_id = $1
-            AND date_to_ask <= CURRENT_DATE
+            AND date_to_ask::date <= CURRENT_DATE
             AND compartment < 8
             ORDER BY RANDOM() LIMIT 10;
             `;

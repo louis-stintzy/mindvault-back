@@ -1,6 +1,6 @@
 BEGIN;
 
-DROP TABLE IF EXISTS "box", "card", "user";
+DROP TABLE IF EXISTS "box_historical_stats", "box", "card", "user";
 
 CREATE TABLE "user" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -64,5 +64,23 @@ CREATE TABLE "card" (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ
 );
+
+CREATE TABLE "box_historical_stats" (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    box_id INTEGER NOT NULL REFERENCES "box"(id) ON DELETE CASCADE,
+    week_number INTEGER NOT NULL DEFAULT (date_part('week', CURRENT_DATE)),
+    year INTEGER NOT NULL DEFAULT (date_part('year', CURRENT_DATE)),
+    total_cards INTEGER NOT NULL DEFAULT 0,
+    compartment1 INTEGER NOT NULL DEFAULT 0,
+    compartment2 INTEGER NOT NULL DEFAULT 0,
+    compartment3 INTEGER NOT NULL DEFAULT 0,
+    compartment4 INTEGER NOT NULL DEFAULT 0,
+    compartment5 INTEGER NOT NULL DEFAULT 0,
+    compartment6 INTEGER NOT NULL DEFAULT 0,
+    compartment7 INTEGER NOT NULL DEFAULT 0,
+    compartment8 INTEGER NOT NULL DEFAULT 0,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ
+)
 
 COMMIT;
