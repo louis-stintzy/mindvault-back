@@ -263,6 +263,8 @@ Create a new box.
     "color":"Colour associated with the box",
     "label": "Label (theme) of the box",
     "level":"Level of difficulty of questions",
+    "defaultQuestionLanguage":"default question language (speech-to-text)",
+    "defaultAnswerLanguage":"default answer language (speech-to-text)",
     "learnIt": "Box in training ?",
     "type":"Type of box, see data_dictionary"
 }

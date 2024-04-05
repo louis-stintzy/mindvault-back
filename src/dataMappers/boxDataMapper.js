@@ -31,7 +31,19 @@ async function getBoxes(userId) {
   }
 }
 
-async function createBox(userId, name, description, boxPicture, color, label, level, learnIt, type) {
+async function createBox(
+  userId,
+  name,
+  description,
+  boxPicture,
+  color,
+  label,
+  level,
+  defaultQuestionLanguage,
+  defaultAnswerLanguage,
+  learnIt,
+  type
+) {
   const client = await pool.connect();
 
   try {
@@ -52,8 +64,22 @@ async function createBox(userId, name, description, boxPicture, color, label, le
         await client.query(updatePositionQuery, updatePositionValues);
         // ----- 2eme requête : Création de la box
         const insertQuery =
-          'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, position, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *';
-        const insertValues = [userId, userId, name, description, boxPicture, color, label, level, 1, learnIt, type];
+          'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, default_question_language, default_answer_language, position, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *';
+        const insertValues = [
+          userId,
+          userId,
+          name,
+          description,
+          boxPicture,
+          color,
+          label,
+          level,
+          defaultQuestionLanguage,
+          defaultAnswerLanguage,
+          1,
+          learnIt,
+          type,
+        ];
         const insertResult = await client.query(insertQuery, insertValues);
         const newBoxId = insertResult.rows[0].id;
         const newBoxCreatedAt = insertResult.rows[0].created_at;

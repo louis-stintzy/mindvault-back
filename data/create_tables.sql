@@ -29,6 +29,8 @@ CREATE TABLE "box" (
     color VARCHAR(15),
     label VARCHAR(30),
     level VARCHAR(30),
+    default_question_language VARCHAR(10) NOT NULL DEFAULT 'fr-FR',
+    default_answer_language VARCHAR(10) NOT NULL DEFAULT 'fr-FR',
     position INTEGER NOT NULL,
     learn_it BOOLEAN NOT NULL DEFAULT true,
     type INTEGER NOT NULL DEFAULT 2,
