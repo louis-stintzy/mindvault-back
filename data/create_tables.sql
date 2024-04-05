@@ -57,6 +57,8 @@ CREATE TABLE "card" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     box_id INTEGER NOT NULL REFERENCES "box"(id) ON DELETE CASCADE,
     creator_id INTEGER NOT NULL REFERENCES "user"(id),
+    question_language VARCHAR(10) NOT NULL DEFAULT 'fr-FR',
+    answer_language VARCHAR(10) NOT NULL DEFAULT 'fr-FR',
     question TEXT NOT NULL,
     answer TEXT NOT NULL,
     attachment VARCHAR(255),

@@ -436,6 +436,8 @@ Create a new card.
 
 ```json
 {
+    "questionLanguage":"language used for the question",
+    "answerLanguage":"language used for the answer",
     "question": "Question",
     "answer": "Answer",
     "attachment": "Illustration of the question",

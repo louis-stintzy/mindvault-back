@@ -28,7 +28,7 @@ async function getCards(boxId) {
   }
 }
 
-async function createCard(boxId, userId, question, answer, attachment) {
+async function createCard(boxId, userId, questionLanguage, answerLanguage, question, answer, attachment) {
   const client = await pool.connect();
   try {
     // On commence une transaction
@@ -39,8 +39,8 @@ async function createCard(boxId, userId, question, answer, attachment) {
     await client.query(updatePositionQuery, updatePositionValues);
     // ----- 2eme requête : Création de la card
     const insertQuery =
-      'INSERT INTO "card" (box_id, creator_id, question, answer, attachment, position, compartment) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *';
-    const insertValues = [boxId, userId, question, answer, attachment, 1, 1];
+      'INSERT INTO "card" (box_id, creator_id, question_language, answer_language, question, answer, attachment, position, compartment) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *';
+    const insertValues = [boxId, userId, questionLanguage, answerLanguage, question, answer, attachment, 1, 1];
     const insertResult = await client.query(insertQuery, insertValues);
     const adaptedCard = {
       ...insertResult.rows[0],

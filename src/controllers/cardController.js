@@ -16,8 +16,8 @@ const createCard = async (req, res) => {
   try {
     const userId = req.user;
     const { boxId } = req.params;
-    const { question, answer, attachment } = req.body;
-    if (!question || !answer) {
+    const { questionLanguage, answerLanguage, question, answer, attachment } = req.body;
+    if (!questionLanguage || !answerLanguage || !question || !answer) {
       return res.status(400).json([{ errCode: 53, errMessage: 'Missing required fields' }]);
     }
 
@@ -25,7 +25,15 @@ const createCard = async (req, res) => {
     // const sanitizedQuestion = validator.escape(question);
     // const sanitizedAnswer = validator.escape(answer);
 
-    const createdCard = await cardDataMapper.createCard(boxId, userId, question, answer, attachment);
+    const createdCard = await cardDataMapper.createCard(
+      boxId,
+      userId,
+      questionLanguage,
+      answerLanguage,
+      question,
+      answer,
+      attachment
+    );
     return res.status(201).json(createdCard);
   } catch (error) {
     console.log({ createCardError: error });
