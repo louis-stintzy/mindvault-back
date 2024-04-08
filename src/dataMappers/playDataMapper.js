@@ -13,6 +13,8 @@ async function getRandomCards(boxId) {
     const adaptedCards = cards.rows.map((card) => ({
       ...card,
       boxId: card.box_id,
+      questionLanguage: card.question_language,
+      answerLanguage: card.answer_language,
     }));
     return adaptedCards;
   } catch (error) {
