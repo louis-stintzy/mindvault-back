@@ -27,7 +27,7 @@ async function updateCardAttributes(cardId, nextCompartment, nextDateToAsk) {
   try {
     const query = `
                 UPDATE "card"
-                SET date_to_ask = $1, compartment = $2
+                SET date_to_ask = $1, compartment = $2, updated_at = NOW()
                 WHERE id = $3
                 RETURNING *;
                 `;

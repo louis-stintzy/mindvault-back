@@ -64,10 +64,25 @@ CREATE TABLE "card" (
     attachment VARCHAR(255),
     position INTEGER NOT NULL,
     compartment INTEGER NOT NULL,
+    -- compartments_history INTEGER[] DEFAULT ARRAY[]::INTEGER[],
+    -- revision_count INTEGER NOT NULL DEFAULT 0,
     date_to_ask TIMESTAMPTZ NOT NULL DEFAULT now() + INTERVAL '1 day',
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ
 );
+
+-- //todo : table à compléter dans le cadre de la création de partitions + créer tables enfants (cf discussion gpt ExpressJS)
+-- //note : mettre box_id et/ou creator_id en clé étrangère ? partitions sur quelle colonne : année, box_id, creator_id ? => adapter update_card_history.sql
+-- CREATE TABLE "card_history" (
+--     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+--     card_id INTEGER NOT NULL REFERENCES "card"(id) ON DELETE CASCADE,
+--     revision_count INTEGER NOT NULL DEFAULT 0,
+--     compartment_from INTEGER NOT NULL,
+--     compartment_to INTEGER NOT NULL,
+--     action_type VARCHAR(10) NOT NULL,
+--     action_date TIMESTAMPTZ NOT NULL DEFAULT now(),
+--     updated_at TIMESTAMPTZ
+-- );
 
 CREATE TABLE "box_historical_stats" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

@@ -57,6 +57,8 @@
 | attachment    | VARCHAR(255)   |                          | Chemin vers la pièce-jointe    |
 | position      | int            | NOT NULL                 | Position de la card dans la liste de cards|
 | compartment   | int            | NOT NULL                 | Compartiment fictif dans lequelle se situe la card (autrement dit : numéro de l'étape dans l'apprentissage de la card)   |
+<!-- | compartment_history   | INTEGER[]      | DEFAULT ARRAY[]::INTEGER[]           | Stocke la séquence des compartiments   |
+| revision_count| int            | NOT NULL DEFAULT 0       | Compte combien de fois l'utilisateur a révisé la card      | -->
 | date_to_ask   | TIMESTAMPTZ    | NOT NULL DEFAULT ADDDATE(now(), 1)           | Indique la date à laquelle sera posée la question |
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
