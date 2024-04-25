@@ -34,7 +34,9 @@
 | label         | VARCHAR(30)   |                           | Label (thématique) de la box   |
 | level         | VARCHAR(30)   |                           | Niveau de difficulté des questions  |
 | default_question_language      | VARCHAR(10)   | NOT NULL DEFAULT 'fr-FR' | langue par défaut des questions (utilisation du speech-to-text) |
+| default_question_voice         | VARCHAR(255)  |                          | voix par défaut des questions (utilisation du speech-to-text)   |
 | default_answer_language        | VARCHAR(10)   | NOT NULL DEFAULT 'fr-FR' | langue par défaut des réponses (utilisation du speech-to-text)  |
+| default_answer_voice           | VARCHAR(255)  |                          | voix par défaut des réponses (utilisation du speech-to-text)    |
 | position      | int            | NOT NULL                 | Position de la box dans la liste de boxes |
 | learn_it      | BOOLEAN        | NOT NULL DEFAULT true    | Box en cours d'apprentissage  |
 | type          | int            | NOT NULL DEFAULT 2       | 1: Box contenant d'autres box (Niveau 1) ; 2: Box ne contenant pas d'autres box, contenant seulement des cards (Niveau 1) ; 3: Box contenue dans une autre box et contenant des cards (Niveau 2) |

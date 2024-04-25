@@ -37,7 +37,9 @@ const createBox = async (req, res) => {
       label,
       level,
       defaultQuestionLanguage,
+      defaultQuestionVoice,
       defaultAnswerLanguage,
+      defaultAnswerVoice,
       learnIt,
       type,
     } = req.body;
@@ -67,7 +69,9 @@ const createBox = async (req, res) => {
       label,
       level,
       defaultQuestionLanguage,
+      defaultQuestionVoice,
       defaultAnswerLanguage,
+      defaultAnswerVoice,
       learnIt,
       type
     );

@@ -264,7 +264,9 @@ Create a new box.
     "label": "Label (theme) of the box",
     "level":"Level of difficulty of questions",
     "defaultQuestionLanguage":"default question language (speech-to-text)",
+    "defaultQuestionVoice":"default question voice (speech-to-text)",
     "defaultAnswerLanguage":"default answer language (speech-to-text)",
+    "defaultAnswerVoice":"default answer voice (speech-to-text)",
     "learnIt": "Box in training ?",
     "type":"Type of box, see data_dictionary"
 }

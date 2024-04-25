@@ -40,7 +40,9 @@ async function createBox(
   label,
   level,
   defaultQuestionLanguage,
+  defaultQuestionVoice,
   defaultAnswerLanguage,
+  defaultAnswerVoice,
   learnIt,
   type
 ) {
@@ -64,7 +66,7 @@ async function createBox(
         await client.query(updatePositionQuery, updatePositionValues);
         // ----- 2eme requête : Création de la box
         const insertQuery =
-          'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, default_question_language, default_answer_language, position, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *';
+          'INSERT INTO "box" (owner_id, original_box_creator_id, name, description, box_picture, color, label, level, default_question_language, default_question_voice, default_answer_language, default_answer_voice, position, learn_it, type) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15) RETURNING *';
         const insertValues = [
           userId,
           userId,
@@ -75,7 +77,9 @@ async function createBox(
           label,
           level,
           defaultQuestionLanguage,
+          defaultQuestionVoice,
           defaultAnswerLanguage,
+          defaultAnswerVoice,
           1,
           learnIt,
           type,
