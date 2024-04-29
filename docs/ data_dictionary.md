@@ -52,8 +52,10 @@
 | id            | int            | PRIMARY KEY              | Identifiant unique de la card |
 | #box_id       | int            | NOT NULL FOREIGN KEY REFERENCES BOX(id) ON DELETE CASCADE               | Identifiant de la box dans laquelle se situe la card |
 | #creator_id   | int            | NOT NULL FOREIGN KEY REFERENCES USER(id)               | Identifiant du créateur de la card |
-| question_language | VARCHAR(10)| NOT NULL DEFAULT 'fr-FR' | quelle est la langue utilisée pour la question |
-| answer_language   | VARCHAR(10)| NOT NULL DEFAULT 'fr-FR' | quelle est la langue utilisée pour la réponse |
+| question_language | VARCHAR(10)| NOT NULL DEFAULT 'fr-FR' | Langue utilisée pour la question |
+| question_voice| VARCHAR(255)   |                          | Voix utilisée pour la question |
+| answer_language   | VARCHAR(10)| NOT NULL DEFAULT 'fr-FR' | Langue utilisée pour la réponse |
+| answer_voice  | VARCHAR(255)   |                          | Voix utilisée pour la réponse |
 | question      | text           | NOT NULL                 | Question de la card |
 | answer        | text           | NOT NULL                 | Réponse à la question de la card |
 | attachment    | VARCHAR(255)   |                          | Chemin vers la pièce-jointe    |
