@@ -14,7 +14,9 @@ async function getRandomCards(boxId) {
       ...card,
       boxId: card.box_id,
       questionLanguage: card.question_language,
+      questionVoice: card.question_voice,
       answerLanguage: card.answer_language,
+      answerVoice: card.answer_voice,
     }));
     return adaptedCards;
   } catch (error) {
