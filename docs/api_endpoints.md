@@ -263,6 +263,10 @@ Create a new box.
     "color":"Colour associated with the box",
     "label": "Label (theme) of the box",
     "level":"Level of difficulty of questions",
+    "defaultQuestionLanguage":"default question language (speech-to-text)",
+    "defaultQuestionVoice":"default question voice (speech-to-text)",
+    "defaultAnswerLanguage":"default answer language (speech-to-text)",
+    "defaultAnswerVoice":"default answer voice (speech-to-text)",
     "learnIt": "Box in training ?",
     "type":"Type of box, see data_dictionary"
 }
@@ -434,6 +438,10 @@ Create a new card.
 
 ```json
 {
+    "questionLanguage":"language used for the question",
+    "questionVoice":"voice used for the question",
+    "answerLanguage":"language used for the answer",
+    "answerVoice":"voice used for the question",
     "question": "Question",
     "answer": "Answer",
     "attachment": "Illustration of the question",

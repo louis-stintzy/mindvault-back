@@ -29,7 +29,20 @@ const createBox = async (req, res) => {
   try {
     // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
     const userId = req.user;
-    const { name, description, boxPicture, color, label, level, learnIt, type } = req.body;
+    const {
+      name,
+      description,
+      boxPicture,
+      color,
+      label,
+      level,
+      defaultQuestionLanguage,
+      defaultQuestionVoice,
+      defaultAnswerLanguage,
+      defaultAnswerVoice,
+      learnIt,
+      type,
+    } = req.body;
     if (!name || typeof learnIt !== 'boolean' || !type) {
       return res.status(400).json([{ errCode: 33, errMessage: 'Missing required fields' }]);
     }
@@ -39,9 +52,7 @@ const createBox = async (req, res) => {
     if (type === 1 || type === 3) {
       return res.status(400).json([{ errCode: 35, errMessage: 'Box type not yet implemented' }]);
     }
-    // if (typeof learnIt !== 'boolean') {
-    //   return res.status(400).json([{ errCode: 36, errMessage: 'Invalid learnIt value' }]);
-    // }
+    // TODO : Vérifier que les langues par défaut sont bien dans la liste des langues autorisées
 
     // // Sanitize user inputs
     // const sanitizedName = validator.escape(name);
@@ -57,6 +68,10 @@ const createBox = async (req, res) => {
       color,
       label,
       level,
+      defaultQuestionLanguage,
+      defaultQuestionVoice,
+      defaultAnswerLanguage,
+      defaultAnswerVoice,
       learnIt,
       type
     );

@@ -13,6 +13,10 @@ async function getRandomCards(boxId) {
     const adaptedCards = cards.rows.map((card) => ({
       ...card,
       boxId: card.box_id,
+      questionLanguage: card.question_language,
+      questionVoice: card.question_voice,
+      answerLanguage: card.answer_language,
+      answerVoice: card.answer_voice,
     }));
     return adaptedCards;
   } catch (error) {
@@ -25,7 +29,7 @@ async function updateCardAttributes(cardId, nextCompartment, nextDateToAsk) {
   try {
     const query = `
                 UPDATE "card"
-                SET date_to_ask = $1, compartment = $2
+                SET date_to_ask = $1, compartment = $2, updated_at = NOW()
                 WHERE id = $3
                 RETURNING *;
                 `;
