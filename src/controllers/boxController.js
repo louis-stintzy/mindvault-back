@@ -29,10 +29,12 @@ const createBox = async (req, res) => {
   try {
     // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
     const userId = req.user;
+    // Dans le middleware upload, multer a placé le fichier dans req.file
+    const boxPicturePath = req.file ? req.file.location : './media/test.jpeg'; // TODO : changer le path de l'image par défault
+    console.log('boxPicturePath:', boxPicturePath);
     const {
       name,
       description,
-      boxPicture,
       color,
       label,
       level,
@@ -40,9 +42,15 @@ const createBox = async (req, res) => {
       defaultQuestionVoice,
       defaultAnswerLanguage,
       defaultAnswerVoice,
-      learnIt,
-      type,
     } = req.body;
+    // En multipart/form-data, les valeurs des champs sont des strings
+    let { learnIt } = req.body;
+    if (learnIt === 'true') learnIt = true;
+    if (learnIt === 'false') learnIt = false;
+    let { type } = req.body;
+    if (type === '1') type = 1;
+    if (type === '2') type = 2;
+    if (type === '3') type = 3;
     if (!name || typeof learnIt !== 'boolean' || !type) {
       return res.status(400).json([{ errCode: 33, errMessage: 'Missing required fields' }]);
     }
@@ -64,7 +72,7 @@ const createBox = async (req, res) => {
       userId,
       name,
       description,
-      boxPicture,
+      boxPicturePath,
       color,
       label,
       level,

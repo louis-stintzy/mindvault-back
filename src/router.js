@@ -3,7 +3,7 @@ const { checkLoginForm, checkRegistrationForm } = require('./middlewares/signInS
 const authenticateToken = require('./middlewares/authenticateToken');
 const verifyBoxOwner = require('./middlewares/verifyBoxOwner');
 const verifyCardOwner = require('./middlewares/verifyCardOwner');
-const { upload, handleUploadError, checkFileExists } = require('./middlewares/upload');
+const { upload, handleUploadError } = require('./middlewares/upload');
 const authController = require('./controllers/authController');
 const boxController = require('./controllers/boxController');
 const cardController = require('./controllers/cardController');
@@ -23,7 +23,7 @@ router.get('/api/user/validateToken', authenticateToken, authController.validate
 // ------------------- BOXES -------------------
 router.get('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.getBoxById);
 router.get('/api/boxes/', authenticateToken, boxController.getBoxes);
-router.post('/api/boxes/', authenticateToken, boxController.createBox);
+router.post('/api/boxes/', authenticateToken, upload.single('image'), handleUploadError, boxController.createBox);
 router.put('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.updateBox);
 router.patch('/api/box/:boxId/learnit', authenticateToken, verifyBoxOwner, boxController.updateBoxLearnItValue);
 router.delete('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.deleteBox);
