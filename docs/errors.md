@@ -35,6 +35,11 @@
 | 403         | 57      | Unauthorised users                                       | The card does not exist or is not owned by the user                  |
 | 403         | 58      | Unauthorised users                                       | The card does not exist or is not owned by the user                  |
 | 500         | 59      | A server error occurred when verifying the card owner    | A server error occurred when verifying the card owner                |
+| 400         | 60      | No file uploaded                                         | No file uploaded                                                     |
+| 400         | 61      | File too large                                           | File too large (3MB max)                                             |
+| 400         | 62      | Invalid file type                                        | The file type is not allowed (image only)                            |
+| 400         | 63      | File upload error - see the console for more details     | File upload error - see the console for more details                 |
+| 500         | 64      | An unexpected error occurred during file upload          | An unexpected error occurred during file uplo                        |
 | 500         | 101     | A server error occurred when retrieving cards            | A server error occurred when retrieving cards                        |
 | 500         | 102     | A server error occurred when updating the card attributes| A server error occurred when updating the card attributes            |
 | 400         | 103     | Missing required field                                   | Field is missing                                                     |

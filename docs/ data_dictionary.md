@@ -29,7 +29,7 @@
 | history       | text           | NOT NULL                 | Indique en premier : identifiant de la box originale, identifiant du créateur de la box originale, date/heure de création de la box originale puis ajoute à chaque copie de la box (séparé d'un tiret) les identifiants des nouvelles box et des différents possesseurs ainsi que les dates de création des box copiées (IDBOX.IDUSER.CREATEDAT-IDBOX.IDUSER.CREATEDAT) |
 | name          | VARCHAR(255)   | NOT NULL                 | Nom de la box |
 | description   | text           |                          | Descriptif de la box |
-| box_picture   | VARCHAR(255)   |                          | Chemin vers la photo de profil   |
+| box_picture   | VARCHAR(255)   |                          | Chemin vers l'illustration de la box   |
 | color         | VARCHAR(15)   |                           | Couleur associée à la box   |
 | label         | VARCHAR(30)   |                           | Label (thématique) de la box   |
 | level         | VARCHAR(30)   |                           | Niveau de difficulté des questions  |

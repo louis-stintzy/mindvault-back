@@ -1,13 +1,14 @@
 const { Router } = require('express');
 const { checkLoginForm, checkRegistrationForm } = require('./middlewares/signInSignUpFormValidator');
 const authenticateToken = require('./middlewares/authenticateToken');
+const verifyBoxOwner = require('./middlewares/verifyBoxOwner');
+const verifyCardOwner = require('./middlewares/verifyCardOwner');
+const { upload, handleUploadError, checkFileExists } = require('./middlewares/upload');
 const authController = require('./controllers/authController');
 const boxController = require('./controllers/boxController');
 const cardController = require('./controllers/cardController');
 const playController = require('./controllers/playController');
 const statsController = require('./controllers/statsController');
-const verifyBoxOwner = require('./middlewares/verifyBoxOwner');
-const verifyCardOwner = require('./middlewares/verifyCardOwner');
 
 const router = Router();
 
