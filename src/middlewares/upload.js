@@ -17,7 +17,7 @@ const s3 = new S3Client({
 
 const storage = multerS3({
   s3, // Client S3 configuré
-  bucket: process.env.S3_BUCKET_NAME, // Nom du bucket où les fichier seront stockés
+  bucket: process.env.S3_BUCKET_NAME, // Nom du bucket où les fichiers seront stockés
   // acl: 'public-read', // Contrôle d'accès : accès public
   metadata: (req, file, cb) => {
     cb(null, { fieldName: file.fieldname });
@@ -32,20 +32,22 @@ const limits = {
   fileSize: 1024 * 1024 * 3,
 }; // Limite de taille de fichier à 3MB
 
-const fileFilter = (req, res, file, cb) => {
-  console.log('fileFilter called');
-  console.log('file:', file);
-  console.log('originalname:', file.originalname);
-  console.log('mimetype:', file.mimetype);
+const fileFilter = (req, file, cb) => {
+  // console.log('fileFilter called');
+  // console.log('file:', file);
+  // console.log('originalname:', file.originalname);
+  // console.log('mimetype:', file.mimetype);
+
   if (!file) {
     return cb(null, true); // Pas de fichier à vérifier (l'envoi de fichier est facultatif)
   }
+
   const fileTypes = /jpeg|jpg|png|gif/; // Types de fichiers acceptés
   const extname = fileTypes.test(path.extname(file.originalname).toLowerCase()); // Vérifie l'extension
   const mimetype = fileTypes.test(file.mimetype); // Vérifie le type MIME
 
-  console.log('extname:', extname);
-  console.log('mimetype:', mimetype);
+  // console.log('test extname:', extname);
+  // console.log('test mimetype:', mimetype);
 
   if (extname && mimetype) {
     return cb(null, true); // Fichier accepté
@@ -53,7 +55,7 @@ const fileFilter = (req, res, file, cb) => {
   return cb(new Error(JSON.stringify({ errCode: 62, errMessage: 'Invalid file type' }))); // Fichier refusé
 };
 
-const upload = multer({ storage, limits });
+const upload = multer({ storage, limits, fileFilter });
 
 // ----- Middleware de gestion d'erreur d'upload
 
@@ -86,6 +88,7 @@ const handleUploadError = (err, req, res, next) => {
 
 // ----- Middleware vérifiant la présence d'un fichier
 
+// Pas besoin car l'envoi de fichier est facultatif
 // const checkFileExists = (req, res, next) => {
 //   // Quand multer gère un upload de fichier, il place le fichier dans req.file
 //   // Si aucun fichier n'est fourni, req.file sera undefined
