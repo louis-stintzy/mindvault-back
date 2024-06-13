@@ -23,6 +23,7 @@ router.get('/api/user/validateToken', authenticateToken, authController.validate
 // ------------------- BOXES -------------------
 router.get('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.getBoxById);
 router.get('/api/boxes/', authenticateToken, boxController.getBoxes);
+// utiliser sharp ?
 router.post('/api/boxes/', authenticateToken, upload.single('image'), handleUploadError, boxController.createBox);
 router.put('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.updateBox);
 router.patch('/api/box/:boxId/learnit', authenticateToken, verifyBoxOwner, boxController.updateBoxLearnItValue);

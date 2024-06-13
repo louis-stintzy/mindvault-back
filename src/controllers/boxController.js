@@ -30,7 +30,7 @@ const createBox = async (req, res) => {
     // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
     const userId = req.user;
     // Dans le middleware upload, multer a placé le fichier dans req.file
-    const boxPicturePath = req.file ? req.file.location : './media/test.jpeg'; // TODO : changer le path de l'image par défault
+    const boxPicturePath = req.file ? req.file.location : null;
     console.log('boxPicturePath:', boxPicturePath);
     const {
       name,

@@ -268,7 +268,8 @@ Create a new box.
     "defaultAnswerLanguage":"default answer language (speech-to-text)",
     "defaultAnswerVoice":"default answer voice (speech-to-text)",
     "learnIt": "Box in training ?",
-    "type":"Type of box, see data_dictionary"
+    "type":"Type of box, see data_dictionary",
+    "image": "Image file for illustration"
 }
 ```
 
