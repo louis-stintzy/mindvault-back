@@ -23,7 +23,7 @@ const storage = multerS3({
     cb(null, { fieldName: file.fieldname });
   }, // Définit des métadonnées
   key: (req, file, cb) => {
-    console.log('file in key callback:', file);
+    // console.log('file in key callback:', file);
     cb(null, `${Date.now().toString()}-${path.basename(file.originalname)}`);
   }, // Génère une clé unique pour chaque fichier
 });

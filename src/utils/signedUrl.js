@@ -9,9 +9,9 @@ const s3 = new S3Client({
   },
 });
 
-const generateSignedUrl = async (key) => {
+const generateSignedUrl = async (key, ttl) => {
   const command = new GetObjectCommand({ Bucket: process.env.S3_BUCKET_NAME, Key: key });
-  const url = await getSignedUrl(s3, command, { expiresIn: 86400 });
+  const url = await getSignedUrl(s3, command, { expiresIn: ttl });
   return url;
 };
 
