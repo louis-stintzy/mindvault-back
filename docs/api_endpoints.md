@@ -255,23 +255,22 @@ Create a new box.
 
 #### Request body <!-- {#createBox-section} -->
 
-```json
-{
-    "name": "Box name",
-    "description": "Description",
-    "boxPicture": "Path to the box illustration",
-    "color":"Colour associated with the box",
-    "label": "Label (theme) of the box",
-    "level":"Level of difficulty of questions",
-    "defaultQuestionLanguage":"default question language (speech-to-text)",
-    "defaultQuestionVoice":"default question voice (speech-to-text)",
-    "defaultAnswerLanguage":"default answer language (speech-to-text)",
-    "defaultAnswerVoice":"default answer voice (speech-to-text)",
-    "learnIt": "Box in training ?",
-    "type":"Type of box, see data_dictionary",
-    "image": "Image file for illustration"
-}
-```
+The request body should be `multipart/form-data` including the image file and other box details.
+
+| Field                    | Type      | Description                                           |
+|--------------------------|-----------|-------------------------------------------------------|
+| `name`                   | `string`  | Name of the box                                       |
+| `description`            | `string`  | Description of the box                                |
+| `color`                  | `string`  | Colour associated with the box                        |
+| `label`                  | `string`  | Label (theme) of the box                              |
+| `level`                  | `string`  | Level of difficulty of questions                      |
+| `defaultQuestionLanguage`| `string`  | Default question language (speech-to-text)            |
+| `defaultQuestionVoice`   | `string`  | Default question voice (speech-to-text)               |
+| `defaultAnswerLanguage`  | `string`  | Default answer language (speech-to-text)              |
+| `defaultAnswerVoice`     | `string`  | Default answer voice (speech-to-text)                 |
+| `learnIt`                | `boolean` | Indicates if the box is in training                   |
+| `type`                   | `number`  | Type of box, see data dictionary                      |
+| `image`                  | `file`    | Image file for illustration                           |
 
 #### Responses <!-- {#createBox-section} -->
 
@@ -335,7 +334,7 @@ Remember to look at the backend console for more information.
 
 Update a box.
 
-``` PUT /api/box/:boxId ```
+``` PATCH /api/box/:boxId ```
 
 <!-- TODO Update Box -->
 
