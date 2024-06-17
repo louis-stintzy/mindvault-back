@@ -1,6 +1,7 @@
 // const client = require('../database');
 const { pool } = require('../database');
 
+// ----- getBoxById -----
 async function getBoxById(id) {
   try {
     const query = `SELECT * FROM "box" WHERE id = $1`;
@@ -12,6 +13,7 @@ async function getBoxById(id) {
   }
 }
 
+// ----- getBoxes -----
 async function getBoxes(userId) {
   try {
     // TODO : Charger boite 5 par 5
@@ -31,6 +33,7 @@ async function getBoxes(userId) {
   }
 }
 
+// ----- createBox -----
 async function createBox(
   userId,
   name,
@@ -119,11 +122,68 @@ async function createBox(
   }
 }
 
-// TODO Update Box
-async function updateBox() {
-  console.log('TODO Update Box');
+// ----- updateBox -----
+async function updateBox(
+  boxId,
+  {
+    name,
+    description,
+    boxPicturePath,
+    color,
+    label,
+    level,
+    defaultQuestionLanguage,
+    defaultQuestionVoice,
+    defaultAnswerLanguage,
+    defaultAnswerVoice,
+    learnIt,
+    type,
+  }
+) {
+  try {
+    const query = `
+    UPDATE "box"
+    SET
+    name = $1,
+    description = $2,
+    box_picture = $3,
+    color = $4,
+    label = $5,
+    level = $6,
+    default_question_language = $7,
+    default_question_voice = $8,
+    default_answer_language = $9,
+    default_answer_voice = $10,
+    learn_it = $11,
+    type = $12
+    WHERE id = $13
+    RETURNING *
+  `;
+    const values = [
+      name,
+      description,
+      boxPicturePath,
+      color,
+      label,
+      level,
+      defaultQuestionLanguage,
+      defaultQuestionVoice,
+      defaultAnswerLanguage,
+      defaultAnswerVoice,
+      learnIt,
+      type,
+      boxId,
+    ];
+    // todo choisir une seule méthode de retour { rows } ou...
+    const { rows } = await pool.query(query, values);
+    return rows[0];
+  } catch (error) {
+    console.error('Error during box update:', error);
+    throw error;
+  }
 }
 
+// ----- updateBoxLearnItValue -----
 async function updateBoxLearnItValue(boxId, learnIt) {
   try {
     const query = 'UPDATE "box" SET learn_it = $1 WHERE id = $2 RETURNING learn_it';
@@ -135,6 +195,7 @@ async function updateBoxLearnItValue(boxId, learnIt) {
   }
 }
 
+// ----- deleteBox -----
 async function deleteBox(boxId) {
   try {
     const query = 'DELETE FROM "box" WHERE id = $1';

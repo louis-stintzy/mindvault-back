@@ -48,3 +48,4 @@
 | 400         | 106     | Invalid compartment number                               | Compartment number is invalid                                        |
 | 500         | 111     | A server error occurred when retrieving instant stats    | A server error occurred when retrieving instant stats                |
 | 500         | 112     | A server error occurred when retrieving historical stats | A server error occurred when retrieving historical stats             |
+| 500         | 132     | A server error occurred when updating the box            | A server error occurred when updating the box                        |

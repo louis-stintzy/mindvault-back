@@ -334,9 +334,23 @@ Remember to look at the backend console for more information.
 
 Update a box.
 
-``` PATCH /api/box/:boxId ```
+``` PUT /api/box/:boxId ```
 
-<!-- TODO Update Box -->
+#### Request body & Response
+
+See "Create Box"
+
+##### 500 Internal Server Error <!-- {#updateBox-section} -->
+
+An error is returned if an unexpected server error occurs when updating a box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":132,
+    "errMessage":"A server error occurred when updating the box"
+} 
+```
 
 ### Update Box "learn it" value
 

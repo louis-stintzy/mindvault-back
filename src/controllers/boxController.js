@@ -167,7 +167,7 @@ const updateBox = async (req, res) => {
     });
     // Generate signed URL for box picture and save it to cache
     if (updatedBox.box_picture) {
-      // Replace the box_picture with a signed URL and save signed URL to cache
+      // Replace the box_picture with a signed URL and save signed URL to cache (key: box:${boxId}:image)
       updatedBox.box_picture = await generateSignedUrlAndSaveItToCache(
         { boxOrCard: 'box', id: updatedBox.id, infoType: 'image' },
         updatedBox.box_picture,
