@@ -4,12 +4,12 @@
 
 | Endpoint Description                     | Route                    |
 |------------------------------------------|--------------------------|
-| [Login](#login-section-id)                  | POST /api/user/login     |
-| [Register](#register-section)            | POST /api/user/register  |
-| [Validate Token](#validateToken-section) | GET /api/user/validateToken |
-| [Get Box by Id](#getBoxById-section-id)     | GET /api/box/:boxId      |
-| [Get Boxes](#getBoxes-section)           | GET /api/boxes           |
-| [Create Box](#createBox-section)         | POST /api/boxes          |
+| [Login](#login)                  | POST /api/user/login     |
+| [Register](#register)            | POST /api/user/register  |
+| [Validate Token](#validate-token) | GET /api/user/validateToken |
+| [Get Box by Id](#get-box-by-id)     | GET /api/box/:boxId      |
+| [Get Boxes](#get-boxes)           | GET /api/boxes           |
+| [Create Box](#create-box)         | POST /api/boxes          |
 | [Update Box](#updateBox-section)         | PUT /api/box/:boxId      |
 | [Update Box Learn It](#updateBoxLearnIt-section) | PATCH /api/box/:boxId/learnit |
 | [Delete Box](#deleteBox-section)         | DELETE /api/box/:boxId   |
@@ -26,7 +26,7 @@
 
 Operations about user
 
-### Login <!-- {#login-section-id} -->
+### Login
 
 Logs the user to the application
 
@@ -86,6 +86,8 @@ An error is returned if an unexpected server error occurs during the login proce
     "errMessage":"A server error occurred during login"
 } 
 ```
+
+[Table of Contents](#table-of-contents)
 
 ### Register
 
@@ -193,6 +195,8 @@ An error is returned if an unexpected server error occurs during the user verifi
 } 
 ```
 
+[Table of Contents](#table-of-contents)
+
 ### Validate Token
 
 Validates the user's JWT to confirm they are authenticated.
@@ -239,12 +243,14 @@ An error is returned if the token is invalid or expired.
 } 
 ```
 
+[Table of Contents](#table-of-contents)
+
 ## Box
 
 Operations about boxes
 
 
-### Get Box by Id {#getBoxById-section-id}
+### Get Box by Id
 
 <!-- todo : réaliser la doc Get Box by Id -->
 Get a specific box by its id.
