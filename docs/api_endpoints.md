@@ -1,10 +1,32 @@
 # API Endpoints
 
+## Table of Contents
+
+| Endpoint Description                     | Route                    |
+|------------------------------------------|--------------------------|
+| [Login](#login-section-id)                  | POST /api/user/login     |
+| [Register](#register-section)            | POST /api/user/register  |
+| [Validate Token](#validateToken-section) | GET /api/user/validateToken |
+| [Get Box by Id](#getBoxById-section-id)     | GET /api/box/:boxId      |
+| [Get Boxes](#getBoxes-section)           | GET /api/boxes           |
+| [Create Box](#createBox-section)         | POST /api/boxes          |
+| [Update Box](#updateBox-section)         | PUT /api/box/:boxId      |
+| [Update Box Learn It](#updateBoxLearnIt-section) | PATCH /api/box/:boxId/learnit |
+| [Delete Box](#deleteBox-section)         | DELETE /api/box/:boxId   |
+| [Get Cards](#getCards-section)           | GET /api/box/:boxId/cards |
+| [Create Card](#createCard-section)       | POST /api/box/:boxId/cards |
+| [Update Card](#updateCard-section)       | PUT /api/box/:boxId/card/:cardId |
+| [Delete Card](#deleteCard-section)       | DELETE /api/box/:boxId/card/:cardId |
+| [Get Random Cards](#getRandomCards-section) | GET /api/play/box/:boxId |
+| [Update Card Attributes](#updateCardAttributes-section) | PATCH /api/play/card/:cardId |
+| [Get Instant Stats](#getInstantStats-section) | GET /api/stats/instant/box/:boxId |
+| [Get Historical Stats](#getHistoricalStats-section) | GET /api/stats/historical/box/:boxId |
+
 ## User
 
 Operations about user
 
-### Login
+### Login <!-- {#login-section-id} -->
 
 Logs the user to the application
 
@@ -220,6 +242,12 @@ An error is returned if the token is invalid or expired.
 ## Box
 
 Operations about boxes
+
+
+### Get Box by Id {#getBoxById-section-id}
+
+<!-- todo : réaliser la doc Get Box by Id -->
+Get a specific box by its id.
 
 ### Get Boxes
 
