@@ -25,7 +25,16 @@ router.get('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.g
 router.get('/api/boxes/', authenticateToken, boxController.getBoxes);
 // utiliser sharp ?
 router.post('/api/boxes/', authenticateToken, upload.single('image'), handleUploadError, boxController.createBox);
-router.put('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.updateBox);
+
+router.put(
+  '/api/box/:boxId',
+  authenticateToken,
+  verifyBoxOwner,
+  upload.single('image'),
+  handleUploadError,
+  boxController.updateBox
+);
+
 router.patch('/api/box/:boxId/learnit', authenticateToken, verifyBoxOwner, boxController.updateBoxLearnItValue);
 router.delete('/api/box/:boxId', authenticateToken, verifyBoxOwner, boxController.deleteBox);
 

@@ -17,7 +17,8 @@ const getFromCache = async (key) => {
 
 const setToCache = async (key, value, ttl) => {
   try {
-    await redis.set(key, value, { EX: ttl });
+    await redis.set(key, value);
+    await redis.expire(key, ttl);
   } catch (error) {
     console.error('Error setting data to cache', error);
   }

@@ -50,4 +50,4 @@ const extractAndValidateBoxFields = (req) => {
   };
 };
 
-module.exports = extractAndValidateBoxFields;
+module.exports = { extractAndValidateBoxFields };

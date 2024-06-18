@@ -5,7 +5,7 @@ const { generateSignedUrl } = require('../utils/signedUrl');
 const { getFromCache, setToCache } = require('../utils/cache');
 const { generateSignedUrlAndSaveItToCache } = require('../utils/generateSignedUrlAndSaveItToCache');
 
-const ttl = 60 * 60 * 24; // 24 hours
+const ttl = 60 * 60 * 24; // 86400 = 24 hours
 
 // ----- getBoxById -----
 // TODO : faire la doc endpoint et code erreur
@@ -41,7 +41,7 @@ const getBoxes = async (req, res) => {
           const s3Url = box.box_picture;
           const s3ObjectKey = s3Url.split('/').pop(); // la clé de l'objet dans S3 (en fait, le nom du fichier présent dans l'URL)
           // console.log(box.name, " : Oui, il y a une image, je vérifie dans redis si l'url signée est en cache");
-          const cacheKey = `box:${box.id}:imageUrl`;
+          const cacheKey = `box:${box.id}:image`;
           const cachedUrl = await getFromCache(cacheKey);
           if (cachedUrl) {
             // console.log(box.name, ' : Oui, elle y est, cachedUrl est renseignée et la box est renvoyée');
