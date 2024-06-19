@@ -139,7 +139,6 @@ const updateBox = async (req, res) => {
     const {
       name,
       description,
-      boxPicturePath,
       color,
       label,
       level,
@@ -150,6 +149,12 @@ const updateBox = async (req, res) => {
       learnIt,
       type,
     } = fields;
+
+    let { boxPicturePath } = fields;
+    if (!boxPicturePath && req.body.existingImageUrl) {
+      // If no new image is uploaded, we keep the existing image
+      boxPicturePath = req.body.existingImageUrl;
+    }
 
     const updatedBox = await boxDataMapper.updateBox(boxId, {
       name,
