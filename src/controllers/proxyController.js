@@ -38,24 +38,40 @@ const searchUnsplashImages = async (req, res) => {
 
 const getImageProxy = async (req, res) => {
   try {
-    const { imageUrl } = req.query;
-    if (!imageUrl) {
-      return res.status(400).json([{ errCode: 153, errMessage: 'Missing imageUrl query parameter' }]);
+    // Récupère le paramètre de la requête 'url' de la requête
+    const { url, downloadLocation } = req.query;
+    if (!url || !downloadLocation) {
+      return res.status(400).json([{ errCode: 153, errMessage: 'Missing url or downloadLocation parameter' }]);
     }
 
-    const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    // Envoie une requête GET à l'URL fournie et obtient la réponse en tant que 'arraybuffer'.
+    // 'arraybuffer' est utilisé pour manipuler directement les données binaires.
+    const response = await axios.get(url, {
+      // headers: {
+      //   Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+      // },
+      responseType: 'arraybuffer',
+    });
+    // Crée un buffer à partir des données binaires de la réponse
+    // Un buffer est utilisé pour stocker des données binaires
     const buffer = Buffer.from(response.data, 'binary');
+    // " La raison d'utiliser un arrayBuffer et de le convertir en Buffer est que cela permet de manipuler
+    // directement les données binaires de l'image sans les convertir en d'autres formats intermédiaires. "
 
-    res.writeHead(200, {
-      'Content-Type': response.headers['content-type'],
-      'Content-Length': buffer.length,
+    // Notifier Unsplash du téléchargement
+    await axios.get(downloadLocation, {
+      // headers: {
+      //   Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+      // },
     });
 
-    res.end(buffer);
-
-    // const contentType = response.headers['content-type'];
-    // res.setHeader('Content-Type', contentType);
-    // res.send(response.data);
+    // Définit le statut de réponse HTTP et les en-têtes HTTP
+    res.writeHead(200, {
+      'Content-Type': response.headers['content-type'], // ou 'image/jpeg' par exemple
+      'Content-Length': buffer.length,
+    });
+    // Envoie le buffer des données d'image dans le corps de la réponse
+    return res.end(buffer);
   } catch (error) {
     console.error({ getImageProxyError: error });
     return res.status(500).json([{ errCode: 152, errMessage: 'A server error occurred when fetching the image' }]);
