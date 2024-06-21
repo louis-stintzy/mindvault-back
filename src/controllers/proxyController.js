@@ -44,9 +44,18 @@ const getImageProxy = async (req, res) => {
     }
 
     const response = await axios.get(imageUrl, { responseType: 'arraybuffer' });
-    const contentType = response.headers['content-type'];
-    res.setHeader('Content-Type', contentType);
-    res.send(response.data);
+    const buffer = Buffer.from(response.data, 'binary');
+
+    res.writeHead(200, {
+      'Content-Type': response.headers['content-type'],
+      'Content-Length': buffer.length,
+    });
+
+    res.end(buffer);
+
+    // const contentType = response.headers['content-type'];
+    // res.setHeader('Content-Type', contentType);
+    // res.send(response.data);
   } catch (error) {
     console.error({ getImageProxyError: error });
     return res.status(500).json([{ errCode: 152, errMessage: 'A server error occurred when fetching the image' }]);
