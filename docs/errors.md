@@ -49,3 +49,7 @@
 | 500         | 111     | A server error occurred when retrieving instant stats    | A server error occurred when retrieving instant stats                |
 | 500         | 112     | A server error occurred when retrieving historical stats | A server error occurred when retrieving historical stats             |
 | 500         | 132     | A server error occurred when updating the box            | A server error occurred when updating the box                        |
+| 500         | 150     | A server error occurred when searching for images        | A server error occurred when searching for images on Unsplash        |
+| 400         | 151     | Missing query parameter                                  | Missing query parameter in the url                                   |
+| 500         | 152     | A server error occurred when fetching the image          | A server error occurred when fetching the image                      |
+| 400         | 153     | Missing imageUrl query parameter                         | Missing imageUrl query parameter                                     |

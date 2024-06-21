@@ -9,11 +9,12 @@ const boxController = require('./controllers/boxController');
 const cardController = require('./controllers/cardController');
 const playController = require('./controllers/playController');
 const statsController = require('./controllers/statsController');
+const proxyController = require('./controllers/proxyController');
 
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Welcome to the API. Please refer to the documentation for available endpoints.');
 });
 
 router.post('/api/user/login', checkLoginForm, authController.login);
@@ -63,5 +64,9 @@ router.patch('/api/play/card/:cardId', authenticateToken, verifyCardOwner, playC
 // --------------------- STATS ---------------------
 router.get('/api/stats/instant/box/:boxId', authenticateToken, verifyBoxOwner, statsController.getInstantStats);
 router.get('/api/stats/historical/box/:boxId', authenticateToken, verifyBoxOwner, statsController.getHistoricalStats);
+
+// --------------------- PROXY ---------------------
+router.get('/api/proxy/images', authenticateToken, proxyController.searchUnsplashImages);
+router.get('/api/proxy/image', authenticateToken, proxyController.getImageProxy);
 
 module.exports = router;

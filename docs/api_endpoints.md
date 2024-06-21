@@ -21,6 +21,10 @@
 | [Update Card Attributes](#updateCardAttributes-section) | PATCH /api/play/card/:cardId |
 | [Get Instant Stats](#getInstantStats-section) | GET /api/stats/instant/box/:boxId |
 | [Get Historical Stats](#getHistoricalStats-section) | GET /api/stats/historical/box/:boxId |
+| [Search for images on Unsplash](#xxxxxxxxxx-section) | |
+| [Search for an image on Unsplash](#xxxxxxxxxxxx-section) | |
+
+<!-- todo liens vers proxy endpoints -->
 
 ## User
 
@@ -934,3 +938,13 @@ Remember to look at the backend console for more information.
 ##### Other possible answers <!-- {#getHistoricalStats-section} -->
 
 The owner of the box is verified. The following errors may be returned: 10, 36, 37, 38, 39. Please refer to the errors.md file.
+
+## Proxy
+
+<!-- TODO Proxy documentation -->
+
+### Search for images on Unsplash
+
+### Search for an image on Unsplash
+
+[Table of Contents](#table-of-contents)
