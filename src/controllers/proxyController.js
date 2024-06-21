@@ -19,7 +19,10 @@ const searchUnsplashImages = async (req, res) => {
       id: item.id,
       alternative_slugs: item.alternative_slugs,
       altDescription: item.alt_description,
-      urls: { small_s3: item.urls.small_s3 },
+      urls: {
+        small: item.urls.small,
+        small_s3: item.urls.small_s3,
+      },
       links: { download_location: item.links.download_location },
       user: {
         id: item.user.id,
@@ -47,9 +50,9 @@ const getImageProxy = async (req, res) => {
     // Envoie une requête GET à l'URL fournie et obtient la réponse en tant que 'arraybuffer'.
     // 'arraybuffer' est utilisé pour manipuler directement les données binaires.
     const response = await axios.get(url, {
-      // headers: {
-      //   Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
-      // },
+      headers: {
+        Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+      },
       responseType: 'arraybuffer',
     });
     // Crée un buffer à partir des données binaires de la réponse
@@ -60,9 +63,9 @@ const getImageProxy = async (req, res) => {
 
     // Notifier Unsplash du téléchargement
     await axios.get(downloadLocation, {
-      // headers: {
-      //   Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
-      // },
+      headers: {
+        Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+      },
     });
 
     // Définit le statut de réponse HTTP et les en-têtes HTTP
