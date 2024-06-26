@@ -82,7 +82,6 @@ const createBox = async (req, res) => {
       userId,
       name,
       description,
-      boxPicturePath,
       color,
       label,
       level,
@@ -92,13 +91,15 @@ const createBox = async (req, res) => {
       defaultAnswerVoice,
       learnIt,
       type,
+      boxPicturePath,
+      photographer,
+      profileUrl,
     } = fields;
 
     const createdBox = await boxDataMapper.createBox(
       userId,
       name,
       description,
-      boxPicturePath,
       color,
       label,
       level,
@@ -107,18 +108,21 @@ const createBox = async (req, res) => {
       defaultAnswerLanguage,
       defaultAnswerVoice,
       learnIt,
-      type
+      type,
+      boxPicturePath,
+      photographer,
+      profileUrl
     );
     // Generate signed URL for box picture and save it to cache
-    if (createdBox.box_picture) {
+    if (createdBox.picture && createdBox.picture.url) {
       // Replace the box_picture with a signed URL and save signed URL to cache
-      createdBox.box_picture = await generateSignedUrlAndSaveItToCache(
-        { boxOrCard: 'box', id: createdBox.id, infoType: 'image' },
-        createdBox.box_picture,
+      createdBox.picture.url = await generateSignedUrlAndSaveItToCache(
+        { userOrBoxOrCard: 'box', id: createdBox.id, infoType: 'image' },
+        createdBox.picture.url,
         ttl
       );
     } else {
-      createdBox.box_picture = null;
+      createdBox.picture = null;
     }
 
     return res.status(201).json(createdBox);

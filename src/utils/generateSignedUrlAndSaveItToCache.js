@@ -8,11 +8,11 @@ const generateSignedUrlAndSaveItToCache = async (belongsToAndFileType, s3Url, tt
   }
 
   try {
-    const { boxOrCard, id, infoType } = belongsToAndFileType;
+    const { userOrBoxOrCard, id, infoType } = belongsToAndFileType;
     const s3ObjectKey = s3Url.split('/').pop(); // la clé de l'objet dans S3 (en fait, le nom du fichier présent dans l'URL)
     // (aurait pu être ici req.file.key, je garde une cohérence avec le code dans getBoxes)
     const signedUrl = await generateSignedUrl(s3ObjectKey, ttl);
-    const cacheKey = `${boxOrCard}:${id}:${infoType}`;
+    const cacheKey = `${userOrBoxOrCard}:${id}:${infoType}`;
     await setToCache(cacheKey, signedUrl, ttl);
     // TEST CACHE
     // const cachedValue = await getFromCache(cacheKey);

@@ -25,7 +25,7 @@ CREATE TABLE "box" (
     copy_box_created_at TIMESTAMPTZ,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    box_picture VARCHAR(255),
+    picture_id INTEGER UNIQUE REFERENCES "picture"(id) ON DELETE SET NULL,
     color VARCHAR(15),
     label VARCHAR(30),
     level VARCHAR(30),
@@ -41,6 +41,7 @@ CREATE TABLE "box" (
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ
 );
+-- // todo: supprimer box_picture VARCHAR(255),
 
 -- CREATE TABLE duplication_history (
 --     history_id SERIAL PRIMARY KEY,
@@ -71,6 +72,18 @@ CREATE TABLE "card" (
     -- compartments_history INTEGER[] DEFAULT ARRAY[]::INTEGER[],
     -- revision_count INTEGER NOT NULL DEFAULT 0,
     date_to_ask TIMESTAMPTZ NOT NULL DEFAULT now() + INTERVAL '1 day',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ
+);
+
+CREATE TABLE "picture" (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    user_id INTEGER REFERENCES "user"(id) ON DELETE CASCADE,
+    box_id INTEGER REFERENCES "box"(id) ON DELETE CASCADE,
+    card_id INTEGER REFERENCES "card"(id) ON DELETE CASCADE,
+    url TEXT NOT NULL,
+    photographer VARCHAR(255),
+    profile_url VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ
 );

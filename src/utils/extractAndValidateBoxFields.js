@@ -13,6 +13,8 @@ const extractAndValidateBoxFields = (req) => {
     defaultQuestionVoice,
     defaultAnswerLanguage,
     defaultAnswerVoice,
+    photographer,
+    profileUrl,
   } = req.body;
   // En multipart/form-data, les valeurs des champs sont des strings
   let { learnIt } = req.body;
@@ -37,7 +39,6 @@ const extractAndValidateBoxFields = (req) => {
     userId,
     name,
     description,
-    boxPicturePath,
     color,
     label,
     level,
@@ -47,6 +48,9 @@ const extractAndValidateBoxFields = (req) => {
     defaultAnswerVoice,
     learnIt,
     type,
+    boxPicturePath,
+    photographer,
+    profileUrl,
   };
 };
 
