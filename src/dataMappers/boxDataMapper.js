@@ -1,12 +1,42 @@
+// note : pb règles d'endentation entre ES Lint et prettier ?
+/* eslint-disable indent */
+
 // const client = require('../database');
 const { pool } = require('../database');
 
 // ----- getBoxById -----
 async function getBoxById(id) {
   try {
-    const query = `SELECT * FROM "box" WHERE id = $1`;
-    const box = await pool.query(query, [id]);
-    return box.rows[0];
+    const query = `
+    SELECT
+    box.*,
+    picture.picture_url,
+    picture.photographer_name,
+    picture.photographer_profile_url,
+    FROM "box"
+    LEFT JOIN "picture" ON box.picture_id = picture.id
+    WHERE id = $1`;
+    const result = await pool.query(query, [id]);
+    const box = result.rows[0];
+    if (box) {
+      const {
+        picture_url: pictureUrl,
+        photographer_name: photographerName,
+        photographer_profile_url: photographerProfileUrl,
+        ...rest
+      } = box;
+      return {
+        ...rest,
+        picture: pictureUrl
+          ? {
+              pictureUrl,
+              photographerName,
+              photographerProfileUrl,
+            }
+          : null,
+      };
+    }
+    return null;
   } catch (error) {
     console.error('Error during box retrieval:', error);
     throw error;
@@ -20,13 +50,36 @@ async function getBoxes(userId) {
     const query = `
       SELECT
       box.*,
+      picture.picture_url,
+      picture.photographer_name,
+      picture.photographer_profile_url,
       (SELECT COUNT(*) FROM "card" WHERE "card".box_id = box.id AND "card".date_to_ask::date <= CURRENT_DATE) AS cards_to_review
       FROM "box"
+      LEFT JOIN "picture" ON box.picture_id = picture.id
       WHERE box.owner_id = $1
       ORDER BY box.position ASC
       `;
     const boxesList = await pool.query(query, [userId]);
-    return boxesList.rows;
+    return boxesList.rows.map((box) => {
+      // On retire les infos de l'image de l'objet box et on les place dans un objet picture
+      // ...rest collecte toutes les propriétés de box sauf picture_url, photographer_name, et photographer_profile_url dans un nouvel objet nommé rest
+      const {
+        picture_url: pictureUrl,
+        photographer_name: photographerName,
+        photographer_profile_url: photographerProfileUrl,
+        ...rest
+      } = box;
+      return {
+        ...rest,
+        picture: pictureUrl
+          ? {
+              pictureUrl,
+              photographerName,
+              photographerProfileUrl,
+            }
+          : null,
+      };
+    });
   } catch (error) {
     console.error('Error during boxes retrieval:', error);
     throw error;
@@ -47,9 +100,9 @@ async function createBox(
   defaultAnswerVoice,
   learnIt,
   type,
-  boxPicturePath,
-  photographer,
-  profileUrl
+  pictureUrl,
+  photographerName,
+  photographerProfileUrl
 ) {
   const client = await pool.connect();
 
@@ -94,16 +147,16 @@ async function createBox(
         const newBoxId = insertResult.rows[0].id;
         const newBoxCreatedAt = insertResult.rows[0].created_at;
         // ----- 3eme et 4ème requête : Enregistrement de l'image de la box et mise à jour de la box
-        if (boxPicturePath) {
+        if (pictureUrl) {
           const insertPictureQuery =
-            'INSERT INTO "picture" (box_id, url, photographer, profile_url) VALUES ($1, $2, $3, $4) RETURNING *';
-          const insertPictureValues = [newBoxId, boxPicturePath, photographer, profileUrl];
+            'INSERT INTO "picture" (box_id, picture_url, photographer_name, photographer_profile_url) VALUES ($1, $2, $3, $4) RETURNING *';
+          const insertPictureValues = [newBoxId, pictureUrl, photographerName, photographerProfileUrl];
           const insertPictureResult = await client.query(insertPictureQuery, insertPictureValues);
           pictureData = {
             id: insertPictureResult.rows[0].id,
-            url: insertPictureResult.rows[0].url,
-            photographer: insertPictureResult.rows[0].photographer,
-            profileUrl: insertPictureResult.rows[0].profile_url,
+            pictureUrl: insertPictureResult.rows[0].picture_url,
+            photographerName: insertPictureResult.rows[0].photographer_name,
+            photographerProfileUrl: insertPictureResult.rows[0].photographer_profile_url,
           };
           const pictureId = insertPictureResult.rows[0].id;
           // 4ème requête : Mise à jour de la box avec l'id de l'image
@@ -152,7 +205,6 @@ async function updateBox(
   {
     name,
     description,
-    boxPicturePath,
     color,
     label,
     level,
@@ -162,31 +214,35 @@ async function updateBox(
     defaultAnswerVoice,
     learnIt,
     type,
+    pictureUrl,
+    photographerName,
+    photographerProfileUrl,
   }
 ) {
+  const client = await pool.connect();
+  let pictureData = null;
   try {
+    await client.query('BEGIN');
     const query = `
     UPDATE "box"
     SET
     name = $1,
     description = $2,
-    box_picture = $3,
-    color = $4,
-    label = $5,
-    level = $6,
-    default_question_language = $7,
-    default_question_voice = $8,
-    default_answer_language = $9,
-    default_answer_voice = $10,
-    learn_it = $11,
-    type = $12
-    WHERE id = $13
+    color = $3,
+    label = $4,
+    level = $5,
+    default_question_language = $6,
+    default_question_voice = $7,
+    default_answer_language = $8,
+    default_answer_voice = $9,
+    learn_it = $10,
+    type = $11
+    WHERE id = $12
     RETURNING *
   `;
     const values = [
       name,
       description,
-      boxPicturePath,
       color,
       label,
       level,
@@ -200,8 +256,33 @@ async function updateBox(
     ];
     // todo choisir une seule méthode de retour { rows } ou...
     const { rows } = await pool.query(query, values);
-    return rows[0];
+
+    if (pictureUrl) {
+      // Upsert permet de créer une nouvelle ligne si elle n'existe pas, ou de la mettre à jour si elle existe
+      // ON CONFLICT (box_id) DO UPDATE indique que si une ligne avec le même box_id existe déjà, les colonnes url, photographer_name et photographer_profile_url doivent être mises à jour
+      // EXCLUDED fait référence aux valeurs qui auraient été insérées si le conflit n'avait pas eu lieu.
+      const upsertPictureQuery = `
+      INSERT INTO "picture" (box_id, picture_url, photographer_name, photographer_profile_url)
+      VALUES ($1, $2, $3, $4)
+      ON CONFLICT (box_id) DO UPDATE
+      SET picture_url = EXCLUDED.picture_url,
+      photographer_name = EXCLUDED.photographer_name,
+      photographer_profile_url = EXCLUDED.photographer_profile_url
+      RETURNING *
+      `;
+      const pictureValues = [boxId, pictureUrl, photographerName, photographerProfileUrl];
+      const insertPictureResult = await client.query(upsertPictureQuery, pictureValues);
+      pictureData = {
+        id: insertPictureResult.rows[0].id,
+        pictureUrl: insertPictureResult.rows[0].picture_url,
+        photographerName: insertPictureResult.rows[0].photographer_name,
+        photographerProfileUrl: insertPictureResult.rows[0].photographer_profile_url,
+      };
+    }
+    await client.query('COMMIT');
+    return { ...rows[0], picture: pictureData };
   } catch (error) {
+    await client.query('ROLLBACK');
     console.error('Error during box update:', error);
     throw error;
   }

@@ -14,6 +14,7 @@
 | 400         | 18      | Email address or username already used | User already exists (email or username)                                |
 | 401         | 21      | Missing token                          | No token is provided or the token is missing in the request headers    |
 | 403         | 22      | Bad token                              | The token is invalid or expired                                        |
+| 404         | 29      | Box not found                          | Box not found                                                          |
 | 500         | 30      | A server error occurred when retrieving the box          | A server error occurred when retrieving the box      |
 | 500         | 31      | A server error occurred when retrieving the boxes        | A server error occurred when retrieving the boxes    |
 | 500         | 32      | A server error occurred when creating the box            | A server error occurred when creating the box        |

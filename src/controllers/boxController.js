@@ -8,11 +8,32 @@ const { generateSignedUrlAndSaveItToCache } = require('../utils/generateSignedUr
 const ttl = 60 * 60 * 24; // 86400 = 24 hours
 
 // ----- getBoxById -----
+// Voir commentaires dans getBoxes
 // TODO : faire la doc endpoint et code erreur
 const getBoxById = async (req, res) => {
   try {
     const { boxId } = req.params;
     const box = await boxDataMapper.getBoxById(boxId);
+    if (!box) {
+      return res.status(404).json([{ errCode: 29, errMessage: 'Box not found' }]);
+    }
+
+    if (box.picture && box.picture.pictureUrl) {
+      const s3Url = box.picture.pictureUrl;
+      const s3ObjectKey = s3Url.split('/').pop();
+      const cacheKey = `box:${box.id}:picture`;
+      const cachedUrl = await getFromCache(cacheKey);
+      if (cachedUrl) {
+        box.picture.pictureUrl = cachedUrl;
+      } else {
+        const signedUrl = await generateSignedUrl(s3ObjectKey, ttl);
+        await setToCache(cacheKey, signedUrl, ttl);
+        box.picture.pictureUrl = signedUrl;
+      }
+    } else {
+      box.picture = null;
+    }
+
     return res.status(200).json(box);
   } catch (error) {
     console.error({ getBoxByIdError: error });
@@ -37,15 +58,15 @@ const getBoxes = async (req, res) => {
       // console.log('----- Il y a des boxes, je vais vérifier si elles ont une image -----');
       const boxPromises = boxes.map(async (box) => {
         // console.log(box.name, " : je travaille dans cette box et vérifie la présence d'une image");
-        if (box.box_picture) {
-          const s3Url = box.box_picture;
+        if (box.picture && box.picture.pictureUrl) {
+          const s3Url = box.picture.pictureUrl;
           const s3ObjectKey = s3Url.split('/').pop(); // la clé de l'objet dans S3 (en fait, le nom du fichier présent dans l'URL)
           // console.log(box.name, " : Oui, il y a une image, je vérifie dans redis si l'url signée est en cache");
-          const cacheKey = `box:${box.id}:image`;
+          const cacheKey = `box:${box.id}:picture`;
           const cachedUrl = await getFromCache(cacheKey);
           if (cachedUrl) {
             // console.log(box.name, ' : Oui, elle y est, cachedUrl est renseignée et la box est renvoyée');
-            return { ...box, box_picture: cachedUrl };
+            return { ...box, picture: { pictureUrl: cachedUrl } };
           }
           // console.log(
           //   box.name,
@@ -53,10 +74,10 @@ const getBoxes = async (req, res) => {
           // );
           const signedUrl = await generateSignedUrl(s3ObjectKey, ttl);
           await setToCache(cacheKey, signedUrl, ttl);
-          return { ...box, box_picture: signedUrl };
+          return { ...box, picture: { pictureUrl: signedUrl } };
         }
-        // console.log(box.name, " : Non, il n'y a pas d'image, je renvoie la box telle quelle avec box_picture = null");
-        return { ...box, box_picture: null };
+        // console.log(box.name, " : Non, il n'y a pas d'image, je renvoie la box telle quelle avec picture_url = null");
+        return { ...box, picture: { pictureUrl: null } };
       });
       const boxesWithSignedUrls = await Promise.all(boxPromises);
       // Si boxes : on renvoie les boxes avec les liens signés
@@ -91,9 +112,9 @@ const createBox = async (req, res) => {
       defaultAnswerVoice,
       learnIt,
       type,
-      boxPicturePath,
-      photographer,
-      profileUrl,
+      pictureUrl,
+      photographerName,
+      photographerProfileUrl,
     } = fields;
 
     const createdBox = await boxDataMapper.createBox(
@@ -109,16 +130,16 @@ const createBox = async (req, res) => {
       defaultAnswerVoice,
       learnIt,
       type,
-      boxPicturePath,
-      photographer,
-      profileUrl
+      pictureUrl,
+      photographerName,
+      photographerProfileUrl
     );
     // Generate signed URL for box picture and save it to cache
-    if (createdBox.picture && createdBox.picture.url) {
+    if (createdBox.picture && createdBox.picture.pictureUrl) {
       // Replace the box_picture with a signed URL and save signed URL to cache
-      createdBox.picture.url = await generateSignedUrlAndSaveItToCache(
-        { userOrBoxOrCard: 'box', id: createdBox.id, infoType: 'image' },
-        createdBox.picture.url,
+      createdBox.picture.pictureUrl = await generateSignedUrlAndSaveItToCache(
+        { userOrBoxOrCard: 'box', id: createdBox.id, infoType: 'picture' },
+        createdBox.picture.pictureUrl,
         ttl
       );
     } else {
@@ -152,18 +173,19 @@ const updateBox = async (req, res) => {
       defaultAnswerVoice,
       learnIt,
       type,
+      photographerName,
+      photographerProfileUrl,
     } = fields;
 
-    let { boxPicturePath } = fields;
-    if (!boxPicturePath && req.body.existingImageUrl) {
+    let { pictureUrl } = fields;
+    if (!pictureUrl && req.body.existingImageUrl) {
       // If no new image is uploaded, we keep the existing image
-      boxPicturePath = req.body.existingImageUrl;
+      pictureUrl = req.body.existingImageUrl;
     }
 
     const updatedBox = await boxDataMapper.updateBox(boxId, {
       name,
       description,
-      boxPicturePath,
       color,
       label,
       level,
@@ -173,17 +195,20 @@ const updateBox = async (req, res) => {
       defaultAnswerVoice,
       learnIt,
       type,
+      pictureUrl,
+      photographerName,
+      photographerProfileUrl,
     });
     // Generate signed URL for box picture and save it to cache
-    if (updatedBox.box_picture) {
+    if (updatedBox.picture && updatedBox.picture.pictureUrl) {
       // Replace the box_picture with a signed URL and save signed URL to cache (key: box:${boxId}:image)
-      updatedBox.box_picture = await generateSignedUrlAndSaveItToCache(
-        { boxOrCard: 'box', id: updatedBox.id, infoType: 'image' },
-        updatedBox.box_picture,
+      updatedBox.picture.pictureUrl = await generateSignedUrlAndSaveItToCache(
+        { boxOrCard: 'box', id: updatedBox.id, infoType: 'picture' },
+        updatedBox.picture.pictureUrl,
         ttl
       );
     } else {
-      updatedBox.box_picture = null;
+      updatedBox.picture.pictureUrl = null;
     }
     return res.status(200).json(updatedBox);
   } catch (error) {

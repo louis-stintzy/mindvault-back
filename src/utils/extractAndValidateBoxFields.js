@@ -2,7 +2,7 @@ const extractAndValidateBoxFields = (req) => {
   // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
   const userId = req.user;
   // Dans le middleware upload, multer a placé le fichier dans req.file
-  const boxPicturePath = req.file ? req.file.location : null;
+  const pictureUrl = req.file ? req.file.location : null;
   const {
     name,
     description,
@@ -13,8 +13,8 @@ const extractAndValidateBoxFields = (req) => {
     defaultQuestionVoice,
     defaultAnswerLanguage,
     defaultAnswerVoice,
-    photographer,
-    profileUrl,
+    photographerName,
+    photographerProfileUrl,
   } = req.body;
   // En multipart/form-data, les valeurs des champs sont des strings
   let { learnIt } = req.body;
@@ -48,9 +48,9 @@ const extractAndValidateBoxFields = (req) => {
     defaultAnswerVoice,
     learnIt,
     type,
-    boxPicturePath,
-    photographer,
-    profileUrl,
+    pictureUrl,
+    photographerName,
+    photographerProfileUrl,
   };
 };
 

@@ -78,12 +78,12 @@ CREATE TABLE "card" (
 
 CREATE TABLE "picture" (
     id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    user_id INTEGER REFERENCES "user"(id) ON DELETE CASCADE,
-    box_id INTEGER REFERENCES "box"(id) ON DELETE CASCADE,
-    card_id INTEGER REFERENCES "card"(id) ON DELETE CASCADE,
-    url TEXT NOT NULL,
-    photographer VARCHAR(255),
-    profile_url VARCHAR(255),
+    user_id INTEGER UNIQUE REFERENCES "user"(id) ON DELETE CASCADE,
+    box_id INTEGER UNIQUE REFERENCES "box"(id) ON DELETE CASCADE,
+    card_id INTEGER UNIQUE REFERENCES "card"(id) ON DELETE CASCADE,
+    picture_url TEXT NOT NULL,
+    photographer_name VARCHAR(255),
+    photographer_profile_url VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ
 );
