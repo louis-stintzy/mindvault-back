@@ -19,21 +19,23 @@ async function getBoxById(id) {
     const result = await pool.query(query, [id]);
     const box = result.rows[0];
     if (box) {
+      // On retire les infos de l'image de l'objet box et on les place dans un objet picture
+      // 'picture_url: pictureUrl' extrait la propriété picture_url de l'objet box et l'assigne à une nouvelle variable pictureUrl.
+      // pictureUrl = '' assigne la valeur par défaut '' à pictureUrl si box.picture_url est undefined
+      // ...rest collecte toutes les propriétés de box sauf picture_url, photographer_name, et photographer_profile_url dans un nouvel objet nommé rest
       const {
-        picture_url: pictureUrl,
-        photographer_name: photographerName,
-        photographer_profile_url: photographerProfileUrl,
+        picture_url: pictureUrl = '',
+        photographer_name: photographerName = '',
+        photographer_profile_url: photographerProfileUrl = '',
         ...rest
       } = box;
       return {
         ...rest,
-        picture: pictureUrl
-          ? {
-              pictureUrl,
-              photographerName,
-              photographerProfileUrl,
-            }
-          : null,
+        picture: {
+          pictureUrl,
+          photographerName,
+          photographerProfileUrl,
+        },
       };
     }
     return null;
@@ -64,20 +66,18 @@ async function getBoxes(userId) {
       // On retire les infos de l'image de l'objet box et on les place dans un objet picture
       // ...rest collecte toutes les propriétés de box sauf picture_url, photographer_name, et photographer_profile_url dans un nouvel objet nommé rest
       const {
-        picture_url: pictureUrl,
-        photographer_name: photographerName,
-        photographer_profile_url: photographerProfileUrl,
+        picture_url: pictureUrl = '',
+        photographer_name: photographerName = '',
+        photographer_profile_url: photographerProfileUrl = '',
         ...rest
       } = box;
       return {
         ...rest,
-        picture: pictureUrl
-          ? {
-              pictureUrl,
-              photographerName,
-              photographerProfileUrl,
-            }
-          : null,
+        picture: {
+          pictureUrl,
+          photographerName,
+          photographerProfileUrl,
+        },
       };
     });
   } catch (error) {
@@ -153,7 +153,6 @@ async function createBox(
           const insertPictureValues = [newBoxId, pictureUrl, photographerName, photographerProfileUrl];
           const insertPictureResult = await client.query(insertPictureQuery, insertPictureValues);
           pictureData = {
-            id: insertPictureResult.rows[0].id,
             pictureUrl: insertPictureResult.rows[0].picture_url,
             photographerName: insertPictureResult.rows[0].photographer_name,
             photographerProfileUrl: insertPictureResult.rows[0].photographer_profile_url,
@@ -163,7 +162,14 @@ async function createBox(
           const updateBoxQuery = 'UPDATE "box" SET picture_id = $1 WHERE id = $2';
           const updateBoxValues = [pictureId, newBoxId];
           await client.query(updateBoxQuery, updateBoxValues);
+        } else {
+          pictureData = {
+            pictureUrl: '',
+            photographerName: '',
+            photographerProfileUrl: '',
+          };
         }
+
         // ----- 5eme requête : Enregistrement des infos résultant de la création de la box
         const updateQuery =
           'UPDATE "box" SET original_box_id = $1, original_box_created_at = $2 WHERE id=$3 RETURNING *';
@@ -277,6 +283,12 @@ async function updateBox(
         pictureUrl: insertPictureResult.rows[0].picture_url,
         photographerName: insertPictureResult.rows[0].photographer_name,
         photographerProfileUrl: insertPictureResult.rows[0].photographer_profile_url,
+      };
+    } else {
+      pictureData = {
+        pictureUrl: '',
+        photographerName: '',
+        photographerProfileUrl: '',
       };
     }
     await client.query('COMMIT');

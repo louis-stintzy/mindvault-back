@@ -31,7 +31,11 @@ const getBoxById = async (req, res) => {
         box.picture.pictureUrl = signedUrl;
       }
     } else {
-      box.picture = null;
+      box.picture = {
+        pictureUrl: '',
+        photographerName: '',
+        photographerProfileUrl: '',
+      }; // renvoie cet objet plutôt que null pour éviter les erreurs côté client
     }
 
     return res.status(200).json(box);
@@ -143,7 +147,11 @@ const createBox = async (req, res) => {
         ttl
       );
     } else {
-      createdBox.picture = null;
+      createdBox.picture = {
+        pictureUrl: '',
+        photographerName: '',
+        photographerProfileUrl: '',
+      }; // renvoie cet objet plutôt que null pour éviter les erreurs côté client
     }
 
     return res.status(201).json(createdBox);
