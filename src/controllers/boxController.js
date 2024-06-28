@@ -81,7 +81,14 @@ const getBoxes = async (req, res) => {
           return { ...box, picture: { pictureUrl: signedUrl } };
         }
         // console.log(box.name, " : Non, il n'y a pas d'image, je renvoie la box telle quelle avec picture_url = null");
-        return { ...box, picture: { pictureUrl: null } };
+        return {
+          ...box,
+          picture: {
+            pictureUrl: '',
+            photographerName: '',
+            photographerProfileUrl: '',
+          }, // renvoie cet objet plutôt que null pour éviter les erreurs côté client };
+        };
       });
       const boxesWithSignedUrls = await Promise.all(boxPromises);
       // Si boxes : on renvoie les boxes avec les liens signés
@@ -211,7 +218,7 @@ const updateBox = async (req, res) => {
     if (updatedBox.picture && updatedBox.picture.pictureUrl) {
       // Replace the box_picture with a signed URL and save signed URL to cache (key: box:${boxId}:image)
       updatedBox.picture.pictureUrl = await generateSignedUrlAndSaveItToCache(
-        { boxOrCard: 'box', id: updatedBox.id, infoType: 'picture' },
+        { userOrBoxOrCard: 'box', id: updatedBox.id, infoType: 'picture' },
         updatedBox.picture.pictureUrl,
         ttl
       );

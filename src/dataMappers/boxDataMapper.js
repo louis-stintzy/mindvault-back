@@ -12,10 +12,10 @@ async function getBoxById(id) {
     box.*,
     picture.picture_url,
     picture.photographer_name,
-    picture.photographer_profile_url,
+    picture.photographer_profile_url
     FROM "box"
     LEFT JOIN "picture" ON box.picture_id = picture.id
-    WHERE id = $1`;
+    WHERE box.id = $1`;
     const result = await pool.query(query, [id]);
     const box = result.rows[0];
     if (box) {
