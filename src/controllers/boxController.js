@@ -70,7 +70,14 @@ const getBoxes = async (req, res) => {
           const cachedUrl = await getFromCache(cacheKey);
           if (cachedUrl) {
             // console.log(box.name, ' : Oui, elle y est, cachedUrl est renseignée et la box est renvoyée');
-            return { ...box, picture: { pictureUrl: cachedUrl } };
+            return {
+              ...box,
+              picture: {
+                pictureUrl: cachedUrl,
+                photographerName: box.picture.photographerName,
+                photographerProfileUrl: box.picture.photographerProfileUrl,
+              },
+            };
           }
           // console.log(
           //   box.name,
@@ -78,7 +85,14 @@ const getBoxes = async (req, res) => {
           // );
           const signedUrl = await generateSignedUrl(s3ObjectKey, ttl);
           await setToCache(cacheKey, signedUrl, ttl);
-          return { ...box, picture: { pictureUrl: signedUrl } };
+          return {
+            ...box,
+            picture: {
+              pictureUrl: signedUrl,
+              photographerName: box.picture.photographerName,
+              photographerProfileUrl: box.picture.photographerProfileUrl,
+            },
+          };
         }
         // console.log(box.name, " : Non, il n'y a pas d'image, je renvoie la box telle quelle avec picture_url = null");
         return {
@@ -223,7 +237,7 @@ const updateBox = async (req, res) => {
         ttl
       );
     } else {
-      updatedBox.picture.pictureUrl = null;
+      updatedBox.picture.pictureUrl = '';
     }
     return res.status(200).json(updatedBox);
   } catch (error) {
