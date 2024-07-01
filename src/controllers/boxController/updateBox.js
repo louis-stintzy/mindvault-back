@@ -1,4 +1,4 @@
-const boxDataMapper = require('../../dataMappers/boxDataMapper');
+const { updateBoxDM } = require('../../dataMappers/boxDataMapper/index');
 const { extractAndValidateBoxFields } = require('../../utils/extractAndValidateBoxFields');
 const { generateSignedUrlAndSaveItToCache } = require('../../utils/generateSignedUrlAndSaveItToCache');
 
@@ -33,7 +33,7 @@ const updateBox = async (req, res) => {
       pictureUrl = req.body.existingImageUrl;
     }
 
-    const updatedBox = await boxDataMapper.updateBox(boxId, {
+    const updatedBox = await updateBoxDM(boxId, {
       name,
       description,
       color,

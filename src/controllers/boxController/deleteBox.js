@@ -1,9 +1,9 @@
-const boxDataMapper = require('../../dataMappers/boxDataMapper');
+const { deleteBoxDM } = require('../../dataMappers/boxDataMapper/index');
 
 const deleteBox = async (req, res) => {
   try {
     const { boxId } = req.params;
-    await boxDataMapper.deleteBox(boxId);
+    await deleteBoxDM(boxId);
     return res.status(204).end();
   } catch (error) {
     console.error({ deleteBoxError: error });

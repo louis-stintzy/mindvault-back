@@ -1,4 +1,4 @@
-const boxDataMapper = require('../../dataMappers/boxDataMapper');
+const { getBoxByIdDM } = require('../../dataMappers/boxDataMapper/index');
 const { getFromCache, setToCache } = require('../../utils/cache');
 const { generateSignedUrl } = require('../../utils/signedUrl');
 
@@ -10,7 +10,7 @@ const ttl = 60 * 60 * 24; // 86400 = 24 hours
 const getBoxById = async (req, res) => {
   try {
     const { boxId } = req.params;
-    const box = await boxDataMapper.getBoxById(boxId);
+    const box = await getBoxByIdDM(boxId);
     if (!box) {
       return res.status(404).json([{ errCode: 29, errMessage: 'Box not found' }]);
     }

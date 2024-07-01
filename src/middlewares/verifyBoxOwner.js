@@ -1,4 +1,4 @@
-const { getBoxById } = require('../dataMappers/boxDataMapper');
+const { getBoxByIdDM } = require('../dataMappers/boxDataMapper/index');
 
 // eslint-disable-next-line consistent-return
 const verifyBoxOwner = async (req, res, next) => {
@@ -11,7 +11,7 @@ const verifyBoxOwner = async (req, res, next) => {
       return res.status(400).json([{ errCode: 36, errMessage: 'Invalid box id' }]);
     }
 
-    const box = await getBoxById(boxId);
+    const box = await getBoxByIdDM(boxId);
 
     // Vérifier que la box soit bien possédée par l'utilisateur
     // Si pas de box : Retourner normalement une erreur 404

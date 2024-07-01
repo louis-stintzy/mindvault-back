@@ -1,4 +1,4 @@
-const boxDataMapper = require('../../dataMappers/boxDataMapper');
+const { createBoxDM } = require('../../dataMappers/boxDataMapper/index');
 const { extractAndValidateBoxFields } = require('../../utils/extractAndValidateBoxFields');
 const { generateSignedUrlAndSaveItToCache } = require('../../utils/generateSignedUrlAndSaveItToCache');
 
@@ -29,7 +29,7 @@ const createBox = async (req, res) => {
       photographerProfileUrl,
     } = fields;
 
-    const createdBox = await boxDataMapper.createBox(
+    const createdBox = await createBoxDM(
       userId,
       name,
       description,

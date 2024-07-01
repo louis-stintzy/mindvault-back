@@ -1,4 +1,4 @@
-const boxDataMapper = require('../../dataMappers/boxDataMapper');
+const { updateBoxLearnItValueDM } = require('../../dataMappers/boxDataMapper/index');
 
 const updateBoxLearnItValue = async (req, res) => {
   try {
@@ -7,7 +7,7 @@ const updateBoxLearnItValue = async (req, res) => {
     if (typeof learnIt !== 'boolean') {
       return res.status(400).json([{ errCode: 41, errMessage: 'Invalid learnIt value' }]);
     }
-    const newState = await boxDataMapper.updateBoxLearnItValue(boxId, learnIt);
+    const newState = await updateBoxLearnItValueDM(boxId, learnIt);
     return res.status(200).json(newState);
   } catch (error) {
     console.error({ updateBoxLearnItValueError: error });

@@ -1,4 +1,4 @@
-const boxDataMapper = require('../../dataMappers/boxDataMapper');
+const { getBoxesDM } = require('../../dataMappers/boxDataMapper/index');
 const { getFromCache, setToCache } = require('../../utils/cache');
 const { generateSignedUrl } = require('../../utils/signedUrl');
 
@@ -8,7 +8,7 @@ const getBoxes = async (req, res) => {
   try {
     // Dans le middleware authenticateToken, on a ajouté les infos utilisateur à l'objet req
     const userId = req.user;
-    const boxes = await boxDataMapper.getBoxes(userId);
+    const boxes = await getBoxesDM(userId);
 
     // Si il y a des boxes, on va vérifier pour chacune d'elles si elles ont une image.
     // Si oui : on vérifie si un lien signé est présent en cache :

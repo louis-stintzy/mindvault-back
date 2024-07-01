@@ -1,5 +1,5 @@
 // const client = require('../database');
-const { pool } = require('../database');
+const { pool } = require('./database');
 
 async function getUserViaField(field, value) {
   try {
