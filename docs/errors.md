@@ -14,6 +14,7 @@
 | 400         | 18      | Email address or username already used | User already exists (email or username)                                |
 | 401         | 21      | Missing token                          | No token is provided or the token is missing in the request headers    |
 | 403         | 22      | Bad token                              | The token is invalid or expired                                        |
+| 404         | 29      | Box not found                          | Box not found                                                          |
 | 500         | 30      | A server error occurred when retrieving the box          | A server error occurred when retrieving the box      |
 | 500         | 31      | A server error occurred when retrieving the boxes        | A server error occurred when retrieving the boxes    |
 | 500         | 32      | A server error occurred when creating the box            | A server error occurred when creating the box        |
@@ -35,6 +36,11 @@
 | 403         | 57      | Unauthorised users                                       | The card does not exist or is not owned by the user                  |
 | 403         | 58      | Unauthorised users                                       | The card does not exist or is not owned by the user                  |
 | 500         | 59      | A server error occurred when verifying the card owner    | A server error occurred when verifying the card owner                |
+<!-- | 400         | 60      | No file uploaded                                         | No file uploaded                                                     | -->
+| 400         | 61      | File too large                                           | File too large (3MB max)                                             |
+| 400         | 62      | Invalid file type                                        | The file type is not allowed (image only)                            |
+| 400         | 63      | File upload error - see the console for more details     | File upload error - see the console for more details                 |
+| 500         | 64      | An unexpected error occurred during file upload          | An unexpected error occurred during file uplo                        |
 | 500         | 101     | A server error occurred when retrieving cards            | A server error occurred when retrieving cards                        |
 | 500         | 102     | A server error occurred when updating the card attributes| A server error occurred when updating the card attributes            |
 | 400         | 103     | Missing required field                                   | Field is missing                                                     |
@@ -43,3 +49,8 @@
 | 400         | 106     | Invalid compartment number                               | Compartment number is invalid                                        |
 | 500         | 111     | A server error occurred when retrieving instant stats    | A server error occurred when retrieving instant stats                |
 | 500         | 112     | A server error occurred when retrieving historical stats | A server error occurred when retrieving historical stats             |
+| 500         | 132     | A server error occurred when updating the box            | A server error occurred when updating the box                        |
+| 500         | 150     | A server error occurred when searching for images        | A server error occurred when searching for images on Unsplash        |
+| 400         | 151     | Missing query parameter                                  | Missing query parameter in the url                                   |
+| 500         | 152     | A server error occurred when fetching the image          | A server error occurred when fetching the image                      |
+| 400         | 153     | Missing url or downloadLocation parameter                | Missing url or downloadLocation parameter                            |

@@ -29,7 +29,7 @@
 | history       | text           | NOT NULL                 | Indique en premier : identifiant de la box originale, identifiant du créateur de la box originale, date/heure de création de la box originale puis ajoute à chaque copie de la box (séparé d'un tiret) les identifiants des nouvelles box et des différents possesseurs ainsi que les dates de création des box copiées (IDBOX.IDUSER.CREATEDAT-IDBOX.IDUSER.CREATEDAT) |
 | name          | VARCHAR(255)   | NOT NULL                 | Nom de la box |
 | description   | text           |                          | Descriptif de la box |
-| box_picture   | VARCHAR(255)   |                          | Chemin vers la photo de profil   |
+| #picture_id    | int            |UNIQUE REFERENCES "picture"(id) ON DELETE SET NULL                          | Identifiant de l'illustration  |
 | color         | VARCHAR(15)   |                           | Couleur associée à la box   |
 | label         | VARCHAR(30)   |                           | Label (thématique) de la box   |
 | level         | VARCHAR(30)   |                           | Niveau de difficulté des questions  |
@@ -44,6 +44,7 @@
 | on_store   | int            | NOT NULL DEFAULT 0       | 0: privée, seul l'utilisateur possède la box, il peut la consulter ou la modifier; 1: public et non modifiable, l'utilisateur partage sa box en la dupliquant sur le store, les autres utilisateurs peuvent la récupérer en dupliquant la box du store (et bénéficier de mises à jour ?), ils ne peuvent pas la modifier ; 2: public et modifiable, l'utilisateur partage sa box en la dupliquant sur le store, les autres utilisateurs peuvent la dupliquer puis modifier leur nouvelle box |
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
+<!-- //todo: supprimer | box_picture   | VARCHAR(255)   |                          | Chemin vers l'illustration de la box   | -->
 
 ## Table "card"
 
@@ -61,11 +62,26 @@
 | attachment    | VARCHAR(255)   |                          | Chemin vers la pièce-jointe    |
 | position      | int            | NOT NULL                 | Position de la card dans la liste de cards|
 | compartment   | int            | NOT NULL                 | Compartiment fictif dans lequelle se situe la card (autrement dit : numéro de l'étape dans l'apprentissage de la card)   |
-<!-- | compartment_history   | INTEGER[]      | DEFAULT ARRAY[]::INTEGER[]           | Stocke la séquence des compartiments   |
-| revision_count| int            | NOT NULL DEFAULT 0       | Compte combien de fois l'utilisateur a révisé la card      | -->
 | date_to_ask   | TIMESTAMPTZ    | NOT NULL DEFAULT ADDDATE(now(), 1)           | Indique la date à laquelle sera posée la question |
 | created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()   | date/heure de création |
 | updated_at    | TIMESTAMPTZ    |                          | date/heure de la dernière mise à jour |
+
+<!-- | compartment_history   | INTEGER[]      | DEFAULT ARRAY[]::INTEGER[]           | Stocke la séquence des compartiments   |
+| revision_count| int            | NOT NULL DEFAULT 0       | Compte combien de fois l'utilisateur a révisé la card      | -->
+
+## Table "picture"
+
+| Nom du champ  | Type           | Contraintes                                          | Description                             |
+| :------------ |:---------------| :----------------------------------------------------|:----------------------------------------|
+| id            | INTEGER        | GENERATED ALWAYS AS IDENTITY PRIMARY KEY             | Identifiant unique de l'illustration    |
+| #user_id      | int            | FOREIGN KEY UNIQUE REFERENCES "user"(id) ON DELETE CASCADE   | Identifiant du user rattachée à la picture    |
+| #box_id       | int            | FOREIGN KEY UNIQUE REFERENCES "box"(id) ON DELETE CASCADE    | Identifiant de la box rattachée à la picture  |
+| #card_id      | int            | FOREIGN KEY UNIQUE REFERENCES "card""(id) ON DELETE CASCADE  | Identifiant de la card rattachée à la picture |
+| picture_url                 | Text           | NOT NULL                                             | URL de l'image sur AWS S3               |
+| photographer_name           | VARCHAR(255)   |                                                      | Nom du photographe                      |
+| photographer_profile_url    | VARCHAR(255)   |                                                      | URL du profil du photographe            |
+| created_at    | TIMESTAMPTZ    | NOT NULL DEFAULT now()                               | date/heure de création                  |
+| updated_at    | TIMESTAMPTZ    |                                                      | date/heure de la dernière mise à jour   |
 
 ## Table "box_historical_stats"
 

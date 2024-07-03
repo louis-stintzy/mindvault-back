@@ -1,5 +1,31 @@
 # API Endpoints
 
+## Table of Contents
+
+| Endpoint Description                     | Route                    |
+|------------------------------------------|--------------------------|
+| [Login](#login)                  | POST /api/user/login     |
+| [Register](#register)            | POST /api/user/register  |
+| [Validate Token](#validate-token) | GET /api/user/validateToken |
+| [Get Box by Id](#get-box-by-id)     | GET /api/box/:boxId      |
+| [Get Boxes](#get-boxes)           | GET /api/boxes           |
+| [Create Box](#create-box)         | POST /api/boxes          |
+| [Update Box](#updateBox-section)         | PUT /api/box/:boxId      |
+| [Update Box Learn It](#updateBoxLearnIt-section) | PATCH /api/box/:boxId/learnit |
+| [Delete Box](#deleteBox-section)         | DELETE /api/box/:boxId   |
+| [Get Cards](#getCards-section)           | GET /api/box/:boxId/cards |
+| [Create Card](#createCard-section)       | POST /api/box/:boxId/cards |
+| [Update Card](#updateCard-section)       | PUT /api/box/:boxId/card/:cardId |
+| [Delete Card](#deleteCard-section)       | DELETE /api/box/:boxId/card/:cardId |
+| [Get Random Cards](#getRandomCards-section) | GET /api/play/box/:boxId |
+| [Update Card Attributes](#updateCardAttributes-section) | PATCH /api/play/card/:cardId |
+| [Get Instant Stats](#getInstantStats-section) | GET /api/stats/instant/box/:boxId |
+| [Get Historical Stats](#getHistoricalStats-section) | GET /api/stats/historical/box/:boxId |
+| [Search for images on Unsplash](#xxxxxxxxxx-section) | |
+| [Search for an image on Unsplash](#xxxxxxxxxxxx-section) | |
+
+<!-- todo liens vers proxy endpoints -->
+
 ## User
 
 Operations about user
@@ -64,6 +90,8 @@ An error is returned if an unexpected server error occurs during the login proce
     "errMessage":"A server error occurred during login"
 } 
 ```
+
+[Table of Contents](#table-of-contents)
 
 ### Register
 
@@ -171,6 +199,8 @@ An error is returned if an unexpected server error occurs during the user verifi
 } 
 ```
 
+[Table of Contents](#table-of-contents)
+
 ### Validate Token
 
 Validates the user's JWT to confirm they are authenticated.
@@ -217,9 +247,17 @@ An error is returned if the token is invalid or expired.
 } 
 ```
 
+[Table of Contents](#table-of-contents)
+
 ## Box
 
 Operations about boxes
+
+
+### Get Box by Id
+
+<!-- todo : réaliser la doc Get Box by Id -->
+Get a specific box by its id.
 
 ### Get Boxes
 
@@ -255,22 +293,22 @@ Create a new box.
 
 #### Request body <!-- {#createBox-section} -->
 
-```json
-{
-    "name": "Box name",
-    "description": "Description",
-    "boxPicture": "Path to the box illustration",
-    "color":"Colour associated with the box",
-    "label": "Label (theme) of the box",
-    "level":"Level of difficulty of questions",
-    "defaultQuestionLanguage":"default question language (speech-to-text)",
-    "defaultQuestionVoice":"default question voice (speech-to-text)",
-    "defaultAnswerLanguage":"default answer language (speech-to-text)",
-    "defaultAnswerVoice":"default answer voice (speech-to-text)",
-    "learnIt": "Box in training ?",
-    "type":"Type of box, see data_dictionary"
-}
-```
+The request body should be `multipart/form-data` including the image file and other box details.
+
+| Field                    | Type      | Description                                           |
+|--------------------------|-----------|-------------------------------------------------------|
+| `name`                   | `string`  | Name of the box                                       |
+| `description`            | `string`  | Description of the box                                |
+| `color`                  | `string`  | Colour associated with the box                        |
+| `label`                  | `string`  | Label (theme) of the box                              |
+| `level`                  | `string`  | Level of difficulty of questions                      |
+| `defaultQuestionLanguage`| `string`  | Default question language (speech-to-text)            |
+| `defaultQuestionVoice`   | `string`  | Default question voice (speech-to-text)               |
+| `defaultAnswerLanguage`  | `string`  | Default answer language (speech-to-text)              |
+| `defaultAnswerVoice`     | `string`  | Default answer voice (speech-to-text)                 |
+| `learnIt`                | `boolean` | Indicates if the box is in training                   |
+| `type`                   | `number`  | Type of box, see data dictionary                      |
+| `image`                  | `file`    | Image file for illustration                           |
 
 #### Responses <!-- {#createBox-section} -->
 
@@ -336,7 +374,21 @@ Update a box.
 
 ``` PUT /api/box/:boxId ```
 
-<!-- TODO Update Box -->
+#### Request body & Response
+
+See "Create Box"
+
+##### 500 Internal Server Error <!-- {#updateBox-section} -->
+
+An error is returned if an unexpected server error occurs when updating a box.
+Remember to look at the backend console for more information.
+
+```json
+{
+    "errCode":132,
+    "errMessage":"A server error occurred when updating the box"
+} 
+```
 
 ### Update Box "learn it" value
 
@@ -886,3 +938,13 @@ Remember to look at the backend console for more information.
 ##### Other possible answers <!-- {#getHistoricalStats-section} -->
 
 The owner of the box is verified. The following errors may be returned: 10, 36, 37, 38, 39. Please refer to the errors.md file.
+
+## Proxy
+
+<!-- TODO Proxy documentation -->
+
+### Search for images on Unsplash
+
+### Search for an image on Unsplash
+
+[Table of Contents](#table-of-contents)

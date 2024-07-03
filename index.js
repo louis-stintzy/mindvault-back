@@ -26,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/media', express.static('media'));
 
 // Utiliser le routeur défini dans le fichier router.js
-app.use(router);
+app.use('/api', router);
 
 // Gérer les routes non définies
 app.use((_, res) => {

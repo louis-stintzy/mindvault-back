@@ -14,6 +14,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.583.0",
+    "@aws-sdk/lib-storage": "^3.583.0",
+    "@aws-sdk/s3-request-presigner": "^3.596.0",
+    "@upstash/redis": "^1.31.5",
+    "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
@@ -21,6 +26,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
     "pg": "^8.11.3",
     "validator": "^13.11.0"
   },
