@@ -39,7 +39,9 @@ const updateCardAttributes = async (req, res) => {
   }
 };
 
-module.exports = {
+const playController = {
   getRandomCards,
   updateCardAttributes,
 };
+
+module.exports = playController;

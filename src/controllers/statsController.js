@@ -26,7 +26,9 @@ const getHistoricalStats = async (req, res) => {
   }
 };
 
-module.exports = {
+const statsController = {
   getInstantStats,
   getHistoricalStats,
 };
+
+module.exports = statsController;
