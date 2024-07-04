@@ -1,4 +1,4 @@
-const { getBoxByIdDM } = require('../../dataMappers/boxDataMapper/index');
+const { getBoxByIdDM } = require('../../dataMappers/boxDataMapper');
 const { getFromCache, setToCache } = require('../../utils/cache');
 const { generateSignedUrl } = require('../../utils/signedUrl');
 

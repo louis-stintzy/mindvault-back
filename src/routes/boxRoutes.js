@@ -10,7 +10,7 @@ const {
   updateBox,
   updateBoxLearnItValue,
   deleteBox,
-} = require('../controllers/boxController/index');
+} = require('../controllers/boxController');
 
 const router = Router();
 

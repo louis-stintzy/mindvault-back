@@ -1,4 +1,4 @@
-const { updateBoxLearnItValueDM } = require('../../dataMappers/boxDataMapper/index');
+const { updateBoxLearnItValueDM } = require('../../dataMappers/boxDataMapper');
 
 const updateBoxLearnItValue = async (req, res) => {
   try {

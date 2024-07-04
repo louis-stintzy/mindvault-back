@@ -1,4 +1,4 @@
-const { createBoxDM } = require('../../dataMappers/boxDataMapper/index');
+const { createBoxDM } = require('../../dataMappers/boxDataMapper');
 const { extractAndValidateBoxFields } = require('../../utils/extractAndValidateBoxFields');
 const { generateSignedUrlAndSaveItToCache } = require('../../utils/generateSignedUrlAndSaveItToCache');
 

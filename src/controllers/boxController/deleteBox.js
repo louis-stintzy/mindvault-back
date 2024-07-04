@@ -1,4 +1,4 @@
-const { deleteBoxDM } = require('../../dataMappers/boxDataMapper/index');
+const { deleteBoxDM } = require('../../dataMappers/boxDataMapper');
 
 const deleteBox = async (req, res) => {
   try {

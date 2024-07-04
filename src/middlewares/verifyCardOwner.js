@@ -1,4 +1,4 @@
-const { getCardById } = require('../dataMappers/cardDataMapper');
+const { getCardByIdDM } = require('../dataMappers/cardDataMapper');
 
 // eslint-disable-next-line consistent-return
 const verifyCardOwner = async (req, res, next) => {
@@ -8,7 +8,7 @@ const verifyCardOwner = async (req, res, next) => {
     if (Number.isNaN(cardId)) {
       return res.status(400).json([{ errCode: 56, errMessage: 'Invalid card id' }]);
     }
-    const card = await getCardById(cardId);
+    const card = await getCardByIdDM(cardId);
     if (!card) {
       return res.status(403).json([{ errCode: 57, errMessage: 'Unauthorised users' }]);
     }
