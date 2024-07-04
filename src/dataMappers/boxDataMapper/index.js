@@ -1,9 +1,9 @@
-const getBoxByIdDM = require('./getBoxById');
-const getBoxesDM = require('./getBoxes');
-const createBoxDM = require('./createBox');
-const updateBoxDM = require('./updateBox');
-const updateBoxLearnItValueDM = require('./updateBoxLearnItValue');
-const deleteBoxDM = require('./deleteBox');
+const getBoxByIdDM = require('./getBoxByIdDM');
+const getBoxesDM = require('./getBoxesDM');
+const createBoxDM = require('./createBoxDM');
+const updateBoxDM = require('./updateBoxDM');
+const updateBoxLearnItValueDM = require('./updateBoxLearnItValueDM');
+const deleteBoxDM = require('./deleteBoxDM');
 
 module.exports = {
   getBoxByIdDM,
