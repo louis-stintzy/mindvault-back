@@ -72,10 +72,15 @@ const validateToken = (req, res) => {
   res.status(200).json({ message: 'Token is valid' });
 };
 
+const logout = (req, res) => {
+  res.status(200).json({ message: 'Logout feature : to be implemented' });
+};
+
 const authController = {
   login,
   register,
   validateToken,
+  logout,
 };
 
 module.exports = authController;

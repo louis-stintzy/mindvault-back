@@ -81,4 +81,6 @@ const getImageProxy = async (req, res) => {
   }
 };
 
-module.exports = { searchUnsplashImages, getImageProxy };
+const proxyController = { searchUnsplashImages, getImageProxy };
+
+module.exports = proxyController;

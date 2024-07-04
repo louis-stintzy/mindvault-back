@@ -5,7 +5,7 @@ const verifyCardOwner = require('../middlewares/verifyCardOwner');
 
 const cardController = require('../controllers/cardController');
 
-const router = Router();
+const router = Router({ mergeParams: true }); // mergeParams: true allows us to access the boxId parameter from the parent router
 
 router.get('/', authenticateToken, verifyBoxOwner, cardController.getCards);
 router.post('/', authenticateToken, verifyBoxOwner, cardController.createCard);

@@ -4,7 +4,7 @@ require('dotenv').config();
 // Importer les dependances
 const express = require('express');
 const cors = require('cors');
-const router = require('./src/router');
+const router = require('./src/routes/index');
 
 // Création de l'application Express
 const app = express();
@@ -25,10 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 // Servir les fichiers statiques du dossier "media"
 app.use('/media', express.static('media'));
 
-// Utiliser le routeur défini dans le fichier router.js
+// Utiliser le routeur défini dans le dossier 'routes'
 app.use('/api', router);
 
-// Gérer les routes non définies
+// Gérer les routes non définies en dehors de '/api'
 app.use((_, res) => {
   res.status(404).json({ error: 'route not defined' });
 });
